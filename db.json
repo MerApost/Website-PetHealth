@@ -1,0 +1,6 @@
+{
+ "users": [
+ { "id": 1, "user": "Alice", "body": "Hello world!" },
+ { "id": 2, "user": "Bob", "body": "Second comment" }
+ ]
+} 
