@@ -1,56 +1,51 @@
 import './Navigation_bar.css';
-import logo from "../../pics/logo.png"
-import dropdown_arrow from "../../pics/dropdown_arrow.png"
+import logo from "../../pics/logo.png";
+import Dropdown from './Dropdown';
 
-function Navigationbar(){
-  return(
+function Navigationbar() {
+  return (
     <nav className='navigation_bar'>
       <div className='logo-container'>
-        <img 
-          src={logo} 
-          alt='logo' 
+        <img
+          src={logo}
+          alt='logo'
           className='logo-image'
         />
       </div>
 
       <div className='nav_bar_links'>
-        <a href='/main_page' className='nav_bar_link'> Αρχική </a>
+        <a href='/main_page' className='nav_bar_link'>Αρχική</a>
 
-        {/* Ιδιοκτήτης - hover μόνο στο βέλος */}
-        <div className='dropdown'>
-          <div className='dropdown-header'>
-            <span className='dropdown-text'>Ιδιοκτήτης</span>
-            <span className='dropdown-arrow-container'>
-              <img src={dropdown_arrow} alt='dropdown_arrow' className='dropdown_arrow-image'/>
-            </span>
-          </div>
-          <div className='dropdown-content'>
-            <a href='/owner/profile' className='dropdown-link'>Προφίλ</a>
-            <a href='/owner/pets' className='dropdown-link'>Κατοικίδια</a>
-            <a href='/owner/appointments' className='dropdown-link'>Ραντεβού</a>
-            <a href='/owner/history' className='dropdown-link'>Ιστορικό</a>
-          </div>
-        </div>
+        <Dropdown
+          title="Ιδιοκτήτης"
+          items={[
+            { label: 'Βιβλιάριο Υγείας', href: '/owner/bibl_ygeias' },
+            { label: 'Δήλωση Απώλειας', href: '/owner/lost_stat' },
+            { label: 'Δήλωση Εύρεσης', href: '/owner/found_stat' },
+            { label: 'Εύρεση Κτηνίατρου', href: '/owner/find_vet' },
+            { label: 'Ραντεβού', href: '/owner/appointment' }
+          ]}
+        />
 
-        {/* Κτηνίατρος - ίδια δομή με hover μόνο στο βέλος */}
-        <div className='dropdown'>
-          <div className='dropdown-header'>
-            <span className='dropdown-text'>Κτηνίατρος</span>
-            <span className='dropdown-arrow-container'>
-              <img src={dropdown_arrow} alt='dropdown_arrow' className='dropdown_arrow-image'/>
-            </span>
-          </div>
-          <div className='dropdown-content'>
-            <a href='/vet/profile' className='dropdown-link'>Προφίλ</a>
-            <a href='/vet/clinic' className='dropdown-link'>Κλινική</a>
-            <a href='/vet/appointments' className='dropdown-link'>Ραντεβού</a>
-            <a href='/vet/patients' className='dropdown-link'>Ασθενείς</a>
-          </div>
-        </div>
-        
+        <Dropdown
+          title="Κτηνίατρος"
+          items={[
+            { label: 'Διαχείριση Ραντεβού', href: '/vet/arrange_appointment' },
+            { label: 'Διαθεσιμότητα', href: '/vet/availability' },
+            {
+              label: 'Καταγραφή',
+              children: [
+                { label: 'Ταυτότητα Κατοικιδίου', href: '/vet/register/pet_id' },
+                { label: 'Ιατρικών Πράξεων', href: '/vet/register/med_procedures' },
+                { label: 'Συμβάντος', href: '/vet/register/incident' }
+              ]
+            }
+          ]}
+        />
+
         <div className='button-container'>
-          <button className='login-button'> Είσοδος </button>
-          <button className='signin-button'> Εγγραφή </button>
+          <button className='login-button'>Είσοδος</button>
+          <button className='signin-button'>Εγγραφή</button>
         </div>
       </div>
     </nav>
