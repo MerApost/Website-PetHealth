@@ -136,11 +136,9 @@
   padding: 8px 10px;
   border-radius: 10px;
   transition: all 0.3s ease;
-}
-
-.nav_bar_link:hover {
-  background-color: rgba(76, 175, 80, 0.1);
-  color: #4CAF50;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
 }
 
 .login-button {
