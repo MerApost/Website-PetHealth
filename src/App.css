@@ -2,6 +2,65 @@
   text-align: center;
 }
 
+/*αρχική σελίδα*/
+.Dog{ /*για την εικονα της αρχικης σελιδας*/
+  height: 731px;
+  width: 1536px;
+  object-fit: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: rgba(215, 211, 203, 0.079);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: black;
+  padding: 20px; /* Προσθήκη padding στα αριστερά */
+  position: relative;
+  z-index: 1;
+}
+
+.app-description{
+  font-size: 50px !important; /* Μεγαλύτερο */
+  font-weight: bold; /* Bold */
+  max-width: 800px;
+  margin: 0; /* Αφαίρεση auto για να μείνει αριστερά */
+  margin-top: 80px;
+  line-height: 1.6;
+  color: black;
+  text-shadow: 2px 2px 4px rgb(0, 0, 0, 0.3);
+}
+
+@media(max-width: 1536px){
+  .Dog{
+    height: 731px;
+    width: 1536px;
+  }
+
+  .App-header h1{
+    font-size: 1.5rem;
+  }
+
+  .app-description{
+    font-size: 1rem;
+    padding: 0 15px;
+  }
+}
+
+/* .App {
+  text-align: center;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +94,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

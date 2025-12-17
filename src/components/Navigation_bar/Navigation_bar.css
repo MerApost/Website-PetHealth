@@ -1,0 +1,204 @@
+/* navigation bar */
+.navigation_bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.920);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 8px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.nav_bar_links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  gap: 15px;
+  margin-left: 20px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Κοινό στυλ για dropdown headers */
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.dropdown-text {
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 50;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.dropdown-text:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+}
+
+/* Βέλος - μόνο εδώ ενεργοποιείται το dropdown */
+.dropdown-arrow-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  pointer-events: none; 
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Να μείνει ανοιχτό όταν hover στο dropdown content */
+.dropdown-content:hover .dropdown_arrow-image{
+  display: block;
+}
+
+.dropdown_arrow-image {
+  height: 18px;
+  width: 18px;
+  border-radius: 0%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  pointer-events: all; /* Το ίδιο το image δεν πρέπει να μπλοκάρει events */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  min-width: 180px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  padding: 10px 0;
+  margin-top: 5px;
+}
+
+.dropdown-link {
+  color: #ffffff;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.dropdown-link:hover {
+  background-color: rgba(215, 211, 203, 0.299);
+  color: white;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-image {
+  height: 50px;
+  width: 70px;
+  border-radius: 0%;
+  object-fit: cover;
+}
+
+.nav_bar_link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 50;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.nav_bar_link:hover {
+  background-color: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+}
+
+.login-button {
+  background-color: #8E5539;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 100;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.signin-button {
+  background-color: #E6E6E6;
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 100;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover,
+.signin-button:hover {
+  transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+  .navigation_bar {
+    padding: 10px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .logo-container {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .nav_bar_links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .nav_bar_link,
+  .dropdown-text {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+  
+  .login-button,
+  .signin-button {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+  }
+}
