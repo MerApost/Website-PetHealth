@@ -65,6 +65,7 @@
   transition: transform 0.3s ease;
 }
 
+
 .signin-button{
   background-color: #E6E6E6;
   color: black;
@@ -74,6 +75,14 @@
   border-radius: 10px;
   cursor: pointer;
   transition: transform 0.3s ease;
+}
+
+.login-button,
+.signin-button{
+  text-decoration: none;   /* ⬅️ σημαντικό */
+  display: inline-flex;    /* ⬅️ για σωστό κεντράρισμα */
+  align-items: center;
+  justify-content: center;
 }
 
 .login-button:hover,

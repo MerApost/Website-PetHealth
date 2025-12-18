@@ -1,6 +1,7 @@
 import './Navigation_bar.css';
 import logo from "../../pics/logo.png";
 import Dropdown from './Dropdown';
+import { Link } from 'react-router-dom';
 
 function Navigationbar() {
   return (
@@ -44,8 +45,15 @@ function Navigationbar() {
         />
 
         <div className='button-container'>
-          <button className='login-button'>Είσοδος</button>
-          <button className='signin-button'>Εγγραφή</button>
+            {/* <button className='login-button'>Είσοδος</button>
+            <button className='signin-button'>Εγγραφή</button> */}
+            <Link to="/login" className="login-button">
+                Είσοδος
+            </Link>
+
+          <Link to="/register" className="signin-button">
+            Εγγραφή
+          </Link>
         </div>
       </div>
     </nav>
