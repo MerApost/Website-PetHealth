@@ -79,8 +79,8 @@
 
 .login-button,
 .signin-button{
-  text-decoration: none;   /* ⬅️ σημαντικό */
-  display: inline-flex;    /* ⬅️ για σωστό κεντράρισμα */
+  text-decoration: none;   /* σημαντικό */
+  display: inline-flex;    /* για σωστό κεντράρισμα */
   align-items: center;
   justify-content: center;
 }

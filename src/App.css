@@ -5,12 +5,12 @@
 /*αρχική σελίδα*/
 .Dog{ /*για την εικονα της αρχικης σελιδας*/
   height: 731px;
-  width: 1536px;
+  width: 100%;
   object-fit: cover;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -1;
+  z-index: 0;
   border-radius: 0;
   box-shadow: none;
   margin: 0;
@@ -28,6 +28,7 @@
   padding: 20px; /* Προσθήκη padding στα αριστερά */
   position: relative;
   z-index: 1;
+  overflow: hidden; 
 }
 
 .app-description{
@@ -39,6 +40,8 @@
   line-height: 1.6;
   color: black;
   text-shadow: 2px 2px 4px rgb(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;  
 }
 
 @media(max-width: 1536px){
@@ -52,8 +55,7 @@
   }
 
   .app-description{
-    font-size: 1rem;
-    padding: 0 15px;
+    font-size:  50px !important;
   }
 }
 
