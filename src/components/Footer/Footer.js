@@ -63,7 +63,7 @@
 //                 </Link>
 //               </Box>
 //               <Box component="li">
-//                 <Link href="/register" underline="hover" sx={{ color: "white", opacity: 0.9 }}>
+//                 <Link href="/registration" underline="hover" sx={{ color: "white", opacity: 0.9 }}>
 //                   Κτηνίατροι
 //                 </Link>
 //               </Box>
@@ -205,7 +205,7 @@ export default function Footer() {
               </Link>
               </Box>
               <Box component="li">
-                <Link component={RouterLink} to="/register" underline="hover" className="link" color="inherit">
+                <Link component={RouterLink} to="/registration" underline="hover" className="link" color="inherit">
                   Κτηνίατροι
                 </Link>
               </Box>
