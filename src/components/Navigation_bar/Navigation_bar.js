@@ -37,6 +37,7 @@ export default function Navigationbar() {
 
   // Έλεγχος αν είμαστε στη σελίδα owner ή σε υποσελίδες του owner
   const isOwnerPage = location.pathname.startsWith('/owner');
+  const isVetPage = location.pathname.startsWith('/vet');
 
   return (
     <AppBar position="fixed" sx={{ bgcolor: "rgba(0,0,0,0.92)", backdropFilter: "blur(10px)" }}>
@@ -126,7 +127,7 @@ export default function Navigationbar() {
                 minWidth: "auto",
                 padding: "6px 0 6px 16px",
                 textTransform: "none",
-                textDecoration: location.pathname.startsWith('/vet') ? "underline" : "none",
+                textDecoration: isVetPage ? "underline" : "none", // Υπογράμμιση αν είμαστε σε owner page
                 textUnderlineOffset: "3px"
               }}
             >
