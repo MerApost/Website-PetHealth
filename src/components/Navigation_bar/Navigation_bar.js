@@ -7,8 +7,8 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+// import IconButton from "@mui/material/IconButton";
+// import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
@@ -71,7 +71,7 @@ export default function Navigationbar() {
             anchorEl={ownerAnchor}
             open={ownerOpen}
             onClose={closeAll}
-            MenuListProps={{ "aria-labelledby": "owner-button" }}
+            // MenuListProps={{ "aria-labelledby": "owner-button" }}
           >
             <MenuItem component={RouterLink} to="/owner/bibl_ygeias" onClick={closeAll}>
               Βιβλιάριο Υγείας
