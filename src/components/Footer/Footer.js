@@ -173,16 +173,16 @@ export default function Footer() {
               <Typography variant="body2" className="findUsText">
                 Βρείτε μας:
               </Typography>
-              <IconButton aria-label="facebook" className="socialIcon">
+              <IconButton aria-label="facebook" className="socialIcon" color='inherit'>
                 <FacebookIcon fontSize="small" />
               </IconButton>
-              <IconButton aria-label="linkedin" className="socialIcon">
+              <IconButton aria-label="linkedin" className="socialIcon" color='inherit'>
                 <LinkedInIcon fontSize="small" />
               </IconButton>
-              <IconButton aria-label="youtube" className="socialIcon">
+              <IconButton aria-label="youtube" className="socialIcon" color='inherit'>
                 <YouTubeIcon fontSize="small" />
               </IconButton>
-              <IconButton aria-label="instagram" className="socialIcon">
+              <IconButton aria-label="instagram" className="socialIcon" color='inherit'>
                 <InstagramIcon fontSize="small" />
               </IconButton>
             </Box>
@@ -196,17 +196,17 @@ export default function Footer() {
 
             <Box component="ul" className="linksList">
               <Box component="li">
-                <Link href="/login" underline="hover" className="link">
+                <Link href="/login" underline="hover" className="link" color='inherit'>
                   Ιδιοκτήτες Κατοικιδίου
                 </Link>
               </Box>
               <Box component="li">
-                <Link href="/register" underline="hover" className="link">
+                <Link href="/register" underline="hover" className="link" color='inherit'>
                   Κτηνίατροι
                 </Link>
               </Box>
               <Box component="li">
-                <Link href="/owner/bibl_ygeias" underline="hover" className="link">
+                <Link href="/owner/bibl_ygeias" underline="hover" className="link" color='inherit'>
                   Συχνές Ερωτήσεις
                 </Link>
               </Box>
@@ -252,10 +252,10 @@ export default function Footer() {
           </Typography>
 
           <Box className="legalLinks">
-            <Link href="/privacy" underline="hover" className="legalLink">
+            <Link href="/privacy" underline="hover" className="legalLink" color='inherit'>
               Πολιτική Απορρήτου
             </Link>
-            <Link href="/terms" underline="hover" className="legalLink">
+            <Link href="/terms" underline="hover" className="legalLink" color='inherit'>
               Όροι Χρήσης
             </Link>
           </Box>
