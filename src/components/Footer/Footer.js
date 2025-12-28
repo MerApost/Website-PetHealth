@@ -63,7 +63,7 @@
 //                 </Link>
 //               </Box>
 //               <Box component="li">
-//                 <Link href="/register" underline="hover" sx={{ color: "white", opacity: 0.9 }}>
+//                 <Link href="/registration" underline="hover" sx={{ color: "white", opacity: 0.9 }}>
 //                   Κτηνίατροι
 //                 </Link>
 //               </Box>
@@ -151,6 +151,8 @@ import PlaceIcon from "@mui/icons-material/Place";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
+import { Link as RouterLink } from "react-router-dom";
+
 export default function Footer() {
   const year = new Date().getFullYear();
 
@@ -198,17 +200,17 @@ export default function Footer() {
             
             <Box component="ul" className="linksList">
               <Box component="li">
-                <Link href="/login" underline="hover" className="link" color='inherit'>
-                  Ιδιοκτήτες Κατοικιδίου
-                </Link>
+                <Link component={RouterLink} to="/login" underline="hover" className="link" color="inherit">
+                Ιδιοκτήτες Κατοικιδίου
+              </Link>
               </Box>
               <Box component="li">
-                <Link href="/register" underline="hover" className="link" color='inherit'>
+                <Link component={RouterLink} to="/registration" underline="hover" className="link" color="inherit">
                   Κτηνίατροι
                 </Link>
               </Box>
               <Box component="li">
-                <Link href="/owner/bibl_ygeias" underline="hover" className="link" color='inherit'>
+                <Link component={RouterLink} to="/faq" underline="hover" className="link" color="inherit">
                   Συχνές Ερωτήσεις
                 </Link>
               </Box>
@@ -254,10 +256,10 @@ export default function Footer() {
           </Typography>
 
           <Box className="legalLinks">
-            <Link href="/privacy" underline="hover" className="legalLink" color='inherit'>
+            <Link component={RouterLink} to="/privacy" underline="hover" className="legalLink" color="inherit">
               Πολιτική Απορρήτου
             </Link>
-            <Link href="/terms" underline="hover" className="legalLink" color='inherit'>
+            <Link component={RouterLink} to="/terms" underline="hover" className="legalLink" color="inherit">
               Όροι Χρήσης
             </Link>
           </Box>
