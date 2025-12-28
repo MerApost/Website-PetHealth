@@ -5,81 +5,161 @@
   z-index: 2000;
   border-top: 1px solid rgba(255,255,255,0.12);
   box-shadow: 0 -8px 24px rgba(0,0,0,0.35);
+  width: 100%;
 }
 
 .container {
-  padding-top: 24px;
+  padding-top: 32px;
   padding-bottom: 24px;
+  width: 100%;
+  max-width: 1200px !important;
 }
 
+/* Κύριο layout */
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  padding: 0 15px;
+}
+
+/* Αριστερή στήλη - τερμα αριστερά */
+.left-column {
+  margin-right: auto;
+  text-align: left;
+}
+
+/* Κεντρική στήλη - στο κέντρο */
+.center-column {
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Δεξιά στήλη - τερμα δεξιά, κείμενο αριστερά */
+.right-column {
+  margin-left: auto;
+  text-align: left; /* Το κείμενο μέσα στη στήλη είναι αριστερά */
+}
+
+.right-column-content {
+  text-align: left;
+  width: 100%;
+}
+
+/* Titles */
 .title {
   font-weight: 800;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+  width: 100%;
+  display: block;
+}
+
+.left-column .title,
+.center-column .title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.right-column .title{
+    text-align: left;
+    padding-left: 40px;
+    font-weight: bold;
 }
 
 .description {
   color: white;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
 }
 
-.socialContainer {
-  margin-top: 16px;
-  display: flex;
-  gap: 8px;
-  align-items: center;
+/* Social section */
+.social-section {
+  margin-top: 8px;
 }
 
 .findUsText {
   opacity: 0.8;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.social-icons {
+  display: flex;
+  gap: 8px;
 }
 
 .socialIcon {
   color: white;
+  padding: 4px;
 }
 
 .socialIcon:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Links */
 .linksList {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .link {
   color: white;
   opacity: 0.9;
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: inline-block;
 }
 
 .link:hover {
   opacity: 1;
+  text-decoration: underline;
 }
 
+/* Contact - στοιχίζονται αριστερά μέσα στη δεξιά στήλη */
 .contactContainer {
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 10px;
+  text-align: left;
 }
 
 .contactItem {
   display: flex;
   align-items: center;
   gap: 8px;
+  justify-content: flex-start; /* Αριστερά μέσα στη στήλη */
 }
 
 .contactIcon {
   opacity: 0.9;
+  flex-shrink: 0;
 }
 
 .contactText {
   opacity: 0.8;
+  line-height: 1.4;
+  font-size: 0.9rem;
+  text-align: left;
 }
 
+/* Divider & Bottom section */
 .divider {
-  margin-top: 20px;
+  margin-top: 32px;
   margin-bottom: 20px;
   border-color: rgba(255,255,255,0.12);
 }
@@ -89,24 +169,86 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 16px;
+  width: 100%;
 }
 
 .copyright {
   opacity: 0.7;
+  font-size: 0.8rem;
 }
 
 .legalLinks {
   display: flex;
-  gap: 16px;
+  gap: 24px;
 }
 
 .legalLink {
   color: white;
   opacity: 0.7;
-  font-size: 12px;
+  font-size: 0.8rem;
+  text-decoration: none;
 }
 
 .legalLink:hover {
   opacity: 1;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-main {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  
+  .footer-column {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 !important;
+    text-align: center !important;
+    padding: 0;
+  }
+  
+  .right-column-content {
+    text-align: center;
+  }
+  
+  .title,
+  .left-column .title,
+  .center-column .title,
+  .right-column .title {
+    text-align: center !important;
+  }
+  
+  .description {
+    text-align: center;
+  }
+  
+  .social-section {
+    text-align: center;
+  }
+  
+  .findUsText {
+    text-align: center;
+  }
+  
+  .social-icons {
+    justify-content: center;
+  }
+  
+  .contactItem {
+    justify-content: center !important;
+  }
+  
+  .contactText {
+    text-align: center !important;
+  }
+  
+  .bottomContainer {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
 }

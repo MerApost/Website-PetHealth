@@ -138,7 +138,6 @@
 import './Footer.css';
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Divider from "@mui/material/Divider";
@@ -158,42 +157,45 @@ export default function Footer() {
   return (
     <Box component="footer" className="footer">
       <Container maxWidth="lg" className="container">
-        <Grid container spacing={4}>
-          {/* Εθνική Πλατφόρμα Κατοικιδίων Section */}
-          <Grid item xs={12} md={3}>
+        {/* Κύριο μέρος footer - 3 στήλες */}
+        <Box className="footer-main">
+          {/* Αριστερή στήλη */}
+          <Box className="footer-column left-column">
             <Typography variant="subtitle1" className="title">
               Εθνική Πλατφόρμα Κατοικιδίων
             </Typography>
-
+            
             <Typography variant="body2" className="description">
               Μία πλατφόρμα για την υγεία και ευημερία των κατοικιδίων στην Ελλάδα. 
             </Typography>
-
-            <Box className="socialContainer">
+            
+            <Box className="social-section">
               <Typography variant="body2" className="findUsText">
                 Βρείτε μας:
               </Typography>
-              <IconButton aria-label="facebook" className="socialIcon" color='inherit'>
-                <FacebookIcon fontSize="small" />
-              </IconButton>
-              <IconButton aria-label="linkedin" className="socialIcon" color='inherit'>
-                <LinkedInIcon fontSize="small" />
-              </IconButton>
-              <IconButton aria-label="youtube" className="socialIcon" color='inherit'>
-                <YouTubeIcon fontSize="small" />
-              </IconButton>
-              <IconButton aria-label="instagram" className="socialIcon" color='inherit'>
-                <InstagramIcon fontSize="small" />
-              </IconButton>
+              <Box className="social-icons">
+                <IconButton aria-label="facebook" className="socialIcon" color='inherit' size="small">
+                  <FacebookIcon fontSize="small" />
+                </IconButton>
+                <IconButton aria-label="linkedin" className="socialIcon" color='inherit' size="small">
+                  <LinkedInIcon fontSize="small" />
+                </IconButton>
+                <IconButton aria-label="youtube" className="socialIcon" color='inherit' size="small">
+                  <YouTubeIcon fontSize="small" />
+                </IconButton>
+                <IconButton aria-label="instagram" className="socialIcon" color='inherit' size="small">
+                  <InstagramIcon fontSize="small" />
+                </IconButton>
+              </Box>
             </Box>
-          </Grid>
-
-          {/* Links Section */}
-          <Grid item xs={12} sm={6} md={5}>
+          </Box>
+          
+          {/* Κεντρική στήλη */}
+          <Box className="footer-column center-column">
             <Typography variant="subtitle1" className="title">
               Σύνδεσμοι
             </Typography>
-
+            
             <Box component="ul" className="linksList">
               <Box component="li">
                 <Link href="/login" underline="hover" className="link" color='inherit'>
@@ -211,14 +213,14 @@ export default function Footer() {
                 </Link>
               </Box>
             </Box>
-          </Grid>
-
-          {/* Contact Section */}
-          <Grid item xs={12} sm={6} md={4}>
+          </Box>
+          
+          {/* Δεξιά στήλη */}
+          <Box className="footer-column right-column">
             <Typography variant="subtitle1" className="title">
               Επικοινωνία
             </Typography>
-
+            
             <Box className="contactContainer">
               <Box className="contactItem">
                 <PlaceIcon fontSize="small" className="contactIcon" />
@@ -226,14 +228,14 @@ export default function Footer() {
                   Οδός Πατησίων 1, Αθήνα
                 </Typography>
               </Box>
-
+              
               <Box className="contactItem">
                 <PhoneIcon fontSize="small" className="contactIcon" />
                 <Typography variant="body2" className="contactText">
                   +30 210 123 1234
                 </Typography>
               </Box>
-
+              
               <Box className="contactItem">
                 <EmailIcon fontSize="small" className="contactIcon" />
                 <Typography variant="body2" className="contactText">
@@ -241,8 +243,8 @@ export default function Footer() {
                 </Typography>
               </Box>
             </Box>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
 
         <Divider className="divider" />
 
