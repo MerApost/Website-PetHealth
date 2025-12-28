@@ -55,7 +55,7 @@ export default function Navigationbar() {
             to="/main_page"
             sx={{ color: "white", textDecoration: "underline", textUnderlineOffset: "3px" }}
           >
-            Αρχική
+            Αρχικη    
           </Button>
 
           {/* Owner dropdown */}
@@ -64,7 +64,7 @@ export default function Navigationbar() {
             endIcon={<KeyboardArrowDownIcon />}
             sx={{ color: "white" }}
           >
-            Ιδιοκτήτης
+            Ιδιοκτητης
           </Button>
 
           <Menu
