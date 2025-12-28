@@ -26,6 +26,17 @@ function OwnerMainPage() {
   );
 }
 
+// Προσθήκη του OwnerMainPage component
+function VetMainPage() {
+  return (
+    <div style={{ paddingTop: 90, padding: 20 }}>
+      <h1>Κύρια Σελίδα Κτηνίατρου</h1>
+      <p>Αυτή είναι η κύρια σελίδα για τους κτηνίατρους.</p>
+      {/* Εδώ μπορείς να προσθέσεις περισσότερο περιεχόμενο */}
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <div className="App" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
@@ -35,7 +46,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/main_page" replace />} />
           <Route path="/main_page" element={<MainPage />} />
-          <Route path="/owner" element={<OwnerMainPage />} /> {/* ΔΙΟΡΘΩΣΗ ΕΔΩ */}
+          <Route path="/owner" element={<OwnerMainPage />} />
+          <Route path="/vet" element={<VetMainPage />} /> 
           <Route path="/login" element={<div style={{ paddingTop: 90 }}>σελίδα login</div>} />
           <Route path="/register" element={<div style={{ paddingTop: 90 }}>σελίδα εγγραφή</div>} />
         </Routes>
