@@ -1,22 +1,22 @@
 import './Navigation_bar.css';
 import logo from "../../pics/logo.png";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-// import IconButton from "@mui/material/IconButton";
-// import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
+import IconButton from "@mui/material/IconButton";
 
 export default function Navigationbar() {
+  const location = useLocation(); // Για να ελέγξουμε το current path
+  
   // Owner menu
   const [ownerAnchor, setOwnerAnchor] = React.useState(null);
   const ownerOpen = Boolean(ownerAnchor);
@@ -34,6 +34,9 @@ export default function Navigationbar() {
     setVetAnchor(null);
     setRegisterAnchor(null);
   };
+
+  // Έλεγχος αν είμαστε στη σελίδα owner ή σε υποσελίδες του owner
+  const isOwnerPage = location.pathname.startsWith('/owner');
 
   return (
     <AppBar position="fixed" sx={{ bgcolor: "rgba(0,0,0,0.92)", backdropFilter: "blur(10px)" }}>
@@ -53,25 +56,48 @@ export default function Navigationbar() {
           <Button
             component={RouterLink}
             to="/main_page"
-            sx={{ color: "white", textDecoration: "underline", textUnderlineOffset: "3px" }}
+            sx={{ 
+              color: "white", 
+              textDecoration: location.pathname === "/main_page" ? "underline" : "none",
+              textUnderlineOffset: "3px"
+            }}
           >
-            Αρχικη    
+            ΑΡΧΙΚΗ    
           </Button>
 
           {/* Owner dropdown */}
-          <Button
-            onClick={(e) => setOwnerAnchor(e.currentTarget)}
-            endIcon={<KeyboardArrowDownIcon />}
-            sx={{ color: "white" }}
-          >
-            Ιδιοκτητης
-          </Button>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Button
+              component={RouterLink}
+              to="/owner"
+              sx={{ 
+                color: "white",
+                minWidth: "auto",
+                padding: "6px 0 6px 16px",
+                textTransform: "none",
+                textDecoration: isOwnerPage ? "underline" : "none", // Υπογράμμιση αν είμαστε σε owner page
+                textUnderlineOffset: "3px"
+              }}
+            >
+              ΙΔΙΟΚΤΗΤΗΣ
+            </Button>
+            
+            <IconButton
+              onClick={(e) => setOwnerAnchor(e.currentTarget)}
+              sx={{ 
+                color: "white", 
+                padding: "6px",
+                marginLeft: "-8px"
+              }}
+            >
+              <KeyboardArrowDownIcon />
+            </IconButton>
+          </Box>
 
           <Menu
             anchorEl={ownerAnchor}
             open={ownerOpen}
             onClose={closeAll}
-            // MenuListProps={{ "aria-labelledby": "owner-button" }}
           >
             <MenuItem component={RouterLink} to="/owner/bibl_ygeias" onClick={closeAll}>
               Βιβλιάριο Υγείας
@@ -91,13 +117,33 @@ export default function Navigationbar() {
           </Menu>
 
           {/* Vet dropdown */}
-          <Button
-            onClick={(e) => setVetAnchor(e.currentTarget)}
-            endIcon={<KeyboardArrowDownIcon />}
-            sx={{ color: "white" }}
-          >
-            Κτηνiατρος
-          </Button>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Button
+              component={RouterLink}
+              to="/vet"
+              sx={{ 
+                color: "white",
+                minWidth: "auto",
+                padding: "6px 0 6px 16px",
+                textTransform: "none",
+                textDecoration: location.pathname.startsWith('/vet') ? "underline" : "none",
+                textUnderlineOffset: "3px"
+              }}
+            >
+              ΚΤΗΝΙΑΤΡΟΣ
+            </Button>
+            
+            <IconButton
+              onClick={(e) => setVetAnchor(e.currentTarget)}
+              sx={{ 
+                color: "white", 
+                padding: "6px",
+                marginLeft: "-8px"
+              }}
+            >
+              <KeyboardArrowDownIcon />
+            </IconButton>
+          </Box>
 
           <Menu anchorEl={vetAnchor} open={vetOpen} onClose={closeAll}>
             <MenuItem component={RouterLink} to="/vet/arrange_appointment" onClick={closeAll}>
