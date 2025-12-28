@@ -44,12 +44,23 @@ export default function Navigationbar() {
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         {/* Logo */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Box
-            component="img"
-            src={logo}
-            alt="logo"
-            sx={{ height: 50, width: 70, objectFit: "cover" }}
-          />
+          <IconButton
+            component={RouterLink}
+            to="/main_page"
+            sx={{ 
+              padding: 0,           // Αφαίρεση default padding του IconButton
+              '&:hover': {
+                backgroundColor: 'transparent' // Αφαίρεση hover background
+              }
+            }}
+          >
+            <Box
+              component="img"
+              src={logo}
+              alt="logo"
+              sx={{ height: 50, width: 70, objectFit: "cover" }}
+            />
+          </IconButton>
         </Box>
 
         {/* Links / Menus */}
