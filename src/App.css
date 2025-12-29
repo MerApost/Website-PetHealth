@@ -4,7 +4,7 @@
 
 /*αρχική σελίδα*/
 .Dog{ /*για την εικονα της αρχικης σελιδας*/
-  height: 731px;
+  height: 100%;
   width: 100%;
   object-fit: cover;
   position: fixed;
@@ -44,10 +44,10 @@
   z-index: 1;  
 }
 
-@media(max-width: 1536px){
+@media(max-width: 100%){
   .Dog{
-    height: 731px;
-    width: 1536px;
+    height: 100%;
+    width: 100%;
   }
 
   .App-header h1{

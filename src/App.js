@@ -3,6 +3,13 @@ import dog_main_page from "./pics/dog_main_page.png";
 import Toolbar from "@mui/material/Toolbar";
 import Navigationbar from "./components/Navigation_bar/Navigation_bar";
 import Footer from "./components/Footer/Footer";
+import Terms from "./pages/Terms";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Faq from "./pages/Faq";
+import Login from "./pages/Login";
+import Registration from "./pages/Registration";
+
+
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 
@@ -48,8 +55,11 @@ export default function App() {
           <Route path="/main_page" element={<MainPage />} />
           <Route path="/owner" element={<OwnerMainPage />} />
           <Route path="/vet" element={<VetMainPage />} /> 
-          <Route path="/login" element={<div style={{ paddingTop: 90 }}>σελίδα login</div>} />
-          <Route path="/register" element={<div style={{ paddingTop: 90 }}>σελίδα εγγραφή</div>} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
         </Routes>
       </div>
 
