@@ -200,12 +200,12 @@ export default function Footer() {
             
             <Box component="ul" className="linksList">
               <Box component="li">
-                <Link component={RouterLink} to="/login" underline="hover" className="link" color="inherit">
+                <Link component={RouterLink} to="/owner" underline="hover" className="link" color="inherit">
                 Ιδιοκτήτες Κατοικιδίου
               </Link>
               </Box>
               <Box component="li">
-                <Link component={RouterLink} to="/registration" underline="hover" className="link" color="inherit">
+                <Link component={RouterLink} to="/vet" underline="hover" className="link" color="inherit">
                   Κτηνίατροι
                 </Link>
               </Box>
