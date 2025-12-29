@@ -3,13 +3,14 @@ import dog_main_page from "./pics/dog_main_page.png";
 import Toolbar from "@mui/material/Toolbar";
 import Navigationbar from "./components/Navigation_bar/Navigation_bar";
 import Footer from "./components/Footer/Footer";
+
+import OwnerMainPage from "./components/Owner/OwnerMainPage";
+import VetMainPage from "./components/Vet/VetMainPage";
 import Terms from "./pages/Terms";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Faq from "./pages/Faq";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
-
-
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 
@@ -22,27 +23,6 @@ function MainPage() {
   );
 }
 
-// Προσθήκη του OwnerMainPage component
-function OwnerMainPage() {
-  return (
-    <div style={{ paddingTop: 90, padding: 20 }}>
-      <h1>Κύρια Σελίδα Ιδιοκτήτη</h1>
-      <p>Αυτή είναι η κύρια σελίδα για τους ιδιοκτήτες κατοικιδίων.</p>
-      {/* Εδώ μπορείς να προσθέσεις περισσότερο περιεχόμενο */}
-    </div>
-  );
-}
-
-// Προσθήκη του OwnerMainPage component
-function VetMainPage() {
-  return (
-    <div style={{ paddingTop: 90, padding: 20 }}>
-      <h1>Κύρια Σελίδα Κτηνίατρου</h1>
-      <p>Αυτή είναι η κύρια σελίδα για τους κτηνίατρους.</p>
-      {/* Εδώ μπορείς να προσθέσεις περισσότερο περιεχόμενο */}
-    </div>
-  );
-}
 
 export default function App() {
   return (
@@ -60,6 +40,7 @@ export default function App() {
           <Route path="/faq" element={<Faq />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
+          <Route path="/terms" element={<Terms />} />
         </Routes>
       </div>
 

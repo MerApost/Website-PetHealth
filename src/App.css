@@ -10,7 +10,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 0;
+  z-index: -1;
   border-radius: 0;
   box-shadow: none;
   margin: 0;
@@ -28,7 +28,6 @@
   padding: 20px; /* Προσθήκη padding στα αριστερά */
   position: relative;
   z-index: 1;
-  overflow: hidden; 
 }
 
 .app-description{
@@ -40,8 +39,6 @@
   line-height: 1.6;
   color: black;
   text-shadow: 2px 2px 4px rgb(0, 0, 0, 0.3);
-  position: relative;
-  z-index: 1;  
 }
 
 @media(max-width: 100%){
@@ -55,7 +52,8 @@
   }
 
   .app-description{
-    font-size:  50px !important;
+    font-size: 1rem;
+    padding: 0 15px;
   }
 }
 
