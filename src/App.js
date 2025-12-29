@@ -4,8 +4,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Navigationbar from "./components/Navigation_bar/Navigation_bar";
 import Footer from "./components/Footer/Footer";
 
-import OwnerMainPage from "./components/Owner/OwnerMainPage";
-import VetMainPage from "./components/Vet/VetMainPage";
+import OwnerMainPage from "./pages/Owner/OwnerMainPage";
+import VetMainPage from "./pages/Vet/VetMainPage";
 import Terms from "./pages/Terms";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Faq from "./pages/Faq";
