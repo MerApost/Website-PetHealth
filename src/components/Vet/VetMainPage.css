@@ -1,0 +1,151 @@
+.find_vet-vet{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 30px auto 50px auto;
+  min-width: 450px;
+  padding: 20px;
+  background-color: rgba(150, 145, 145, 0.714);
+  border-radius: 10px;
+}
+
+.input_group_vet{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.input_field_vet{
+  height: 56px;
+  min-width: 400px;
+  background-color: rgba(241, 237, 237, 0.726);
+  border-radius: 2px;
+}
+
+.input_field_vet .MuiInputLabel-root.Mui-focused {
+  color: #a56312 !important;
+}
+
+
+/* ΝΕΑ CSS ΓΙΑ ΤΙΣ ΓΡΗΓΟΡΕΣ ΕΠΙΛΟΓΕΣ */
+.quick-selection-container-vet {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 60px auto 0 auto;
+  align-items: center;
+}
+
+.quick-selection-row-vet {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+}
+
+/* Πρώτη γραμμή - 2 κουτάκια */
+.quick-selection-row-vet:first-child {
+  justify-content: space-around; /* Διανεμημένα ομοιόμορφα */
+}
+
+/* Δεύτερη γραμμή - 2 κουτάκια */
+.quick-selection-row-vet:last-child {
+  justify-content: space-around; /* Διανεμημένα ομοιόμορφα */
+}
+
+.selections-vet{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  background-color: rgb(255, 255, 255);
+  padding: 25px;
+  border-radius: 8px;
+  border: 2px solid #000000;
+  width: 400px; /* Σταθερό πλάτος */
+  min-height: 220px; /* Ελάχιστο ύψος */
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.selections-title-vet {
+  font-weight: 650;
+  font-size: 1.5rem;
+  text-decoration-line: underline;
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.elements-vet{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 5px 0;
+}
+
+.enum-selections-vet{
+  height: 20px;
+  width: auto;
+  color: #000000;
+  mix-blend-mode: multiply;
+}
+
+.selection-text-vet{
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .quick-selection-container {
+    max-width: 900px;
+  }
+  
+  .selections-vet {
+    width: 280px;
+  }
+}
+
+/* ΣΗΜΑΝΤΙΚΟ: Αλλαγή για tablet */
+@media (max-width: 900px) {
+  .quick-selection-row-vet {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .selections-vet {
+    width: 45%; /* 2 κουτάκια στη σειρά */
+    min-width: 280px;
+  }
+  
+  .input_group_vet {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .input_field_vet{
+    width: 100%;
+  }
+}
+
+/* ΣΗΜΑΝΤΙΚΟ: Αλλαγή για κινητά */
+@media (max-width: 768px) {
+  .quick-selection-row-vet{
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .selections-vet{
+    width: 90%;
+    max-width: 400px;
+  }
+}
