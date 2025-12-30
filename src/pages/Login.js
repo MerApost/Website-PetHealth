@@ -12,7 +12,9 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 
-export default function Login() {
+
+
+export default function Logi({ setIsLoggedIn }) {
   const navigate = useNavigate();
 
   const [role, setRole] = React.useState("owner");
@@ -20,7 +22,9 @@ export default function Login() {
   const [password, setPassword] = React.useState("");
 
   const onSubmit = (e) => {
+    e.preventDefault();
     // ΠΡΟΣΩΡΙΝΟ: μέχρι να βάλουμε JSON Server 
+    setIsLoggedIn(true);
     console.log({ role, afm, password });
 
     if (role === "owner") navigate("/owner");
@@ -82,8 +86,7 @@ export default function Login() {
                 type="button"
                 variant="text"
                 className="auth-link-btn"
-                onClick={() => {navigate("/registration");}}
-            >
+                onClick={() => {navigate("/registration");}}>
             Εγγραφή
             </Button>
 

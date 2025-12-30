@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import "./LogoutSuccess.css";
 
+
 export default function LogoutSuccess() {
   const navigate = useNavigate();
 
@@ -46,6 +47,7 @@ export default function LogoutSuccess() {
           Αν χρειάζεστε βοήθεια, επικοινωνήστε μαζί μας
         </Typography>
       </Paper>
+
     </div>
   );
 }

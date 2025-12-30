@@ -1,6 +1,8 @@
 import './Navigation_bar.css';
 import logo from "../../pics/logo.png";
 import { Link as RouterLink, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -13,8 +15,10 @@ import Divider from "@mui/material/Divider";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import IconButton from "@mui/material/IconButton";
+import PersonIcon from '@mui/icons-material/Person';
 
-export default function Navigationbar() {
+export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
+  const navigate = useNavigate();
   const location = useLocation(); // Για να ελέγξουμε το current path
   
   // Owner menu
@@ -198,6 +202,8 @@ export default function Navigationbar() {
 
           {/* Right buttons */}
           <Box sx={{ display: "flex", gap: 1, ml: 2 }}>
+             {!isLoggedIn ? (
+            <>
             <Button
               component={RouterLink}
               to="/login"
@@ -226,7 +232,35 @@ export default function Navigationbar() {
             >
               Εγγραφή
             </Button>
-          </Box>
+          </>
+        ) : (
+          <>
+            <Button
+              component={RouterLink}
+              to="/profile"
+              startIcon={<PersonIcon />}
+              sx={{ color: "white", textTransform: "none" }}
+            >
+              Προφίλ
+            </Button>
+
+            <Button
+              component={RouterLink}
+              to="/logout-success"
+              color="error"
+              variant="contained"
+              onClick={() => {
+                localStorage.removeItem("loggedIn");
+                setIsLoggedIn(false);
+                navigate("/logout-success");
+              }}
+              sx={{ textTransform: "none" }}
+            >
+              Αποσύνδεση
+            </Button>
+          </>
+        )}
+      </Box>
         </Box>
       </Toolbar>
     </AppBar>
