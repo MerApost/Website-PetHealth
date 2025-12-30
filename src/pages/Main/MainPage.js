@@ -10,11 +10,16 @@ import location_icon from "./../../pics/location_icon.png"
 import search_location from "./../../pics/search_location.png"
 import calendar_time from "./../../pics/calendar_time.png"
 import health_file from "./../../pics/health_file.png"
+import hasan from "./../../pics/hasan.png"
+import frixos from "./../../pics/frixos.png"
+import frank from "./../../pics/frank.png"
 
 import Athens_areas from './../Owner/Athens_areas';
 import Pet_Types from './Pet_Types';
 
 import SearchIcon from '@mui/icons-material/Search';
+import PlaceIcon from '@mui/icons-material/Place';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import {
   TextField,
@@ -38,7 +43,7 @@ export default function MainPage(){
         Αναζήτηση Απολεσθέντων Κατοικιδίων
       </span>
       <Box className="find_pet">
-        {/* Είδος Κατοιιδίου */}
+        {/* Είδος Κατοιδίου */}
         <Box className="input_group-main">
           <Autocomplete
             disablePortal
@@ -257,6 +262,79 @@ export default function MainPage(){
           </Box>
         </Box>
       </div>
+
+      <span style={{display: 'block', marginTop: '1px', fontSize: '28px', fontWeight: 'bold', textAlign: 'center', width: '100%', color: 'black'}}>
+        Μήπως τα είδατε;
+      </span>
+      <Box className='quick-details'>
+          {/* Αριστερό κουτάκι */}
+          <Box className='selections'>
+            <div className='box-details-text vertical'>
+              <img src={hasan} className="box-details-pics" alt="Hasan Pic"/>
+              <span style={{display: 'block', marginTop: '-30px', fontSize: '25px', fontWeight: 'bold', textAlign: 'left', width: '100%', color: 'black'}}>
+                Χασάν
+              </span>
+              <span style={{display: 'block', marginTop: '-28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                Beagle, Αρσενικό
+              </span>
+              <span style={{display: 'block', marginTop: '28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                <PlaceIcon sx={{color: '#67A3B8', width: 20, height: 20, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
+                Αμπελόκηποι, Αθήνα
+              </span>
+              <span style={{display: 'block', marginTop: '3px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                <AccessTimeIcon sx={{color: '#67A3B8', width: 20, height: 18, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
+                Πριν 8 ημέρες
+              </span>
+            </div>
+          </Box>
+
+          {/* Κεντρικό κουτάκι */}
+          <Box className='selections'>
+            <div className='box-details-text vertical'>
+              <img src={frixos} className="box-details-pics" alt="Frixos Pic"/>
+              <span style={{display: 'block', marginTop: '-30px', fontSize: '25px', fontWeight: 'bold', textAlign: 'left', width: '100%', color: 'black'}}>
+                Φρίξος
+              </span>
+              <span style={{display: 'block', marginTop: '-28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                Maine Coon, Αρσενικό
+              </span>
+              <span style={{display: 'block', marginTop: '28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                <PlaceIcon sx={{color: '#67A3B8', width: 20, height: 20, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
+                Ψυχικό, Αθήνα
+              </span>
+              <span style={{display: 'block', marginTop: '3px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                <AccessTimeIcon sx={{color: '#67A3B8', width: 20, height: 18, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
+                Πριν 2 ημέρες
+              </span>
+            </div>
+          </Box>
+
+          {/* Δεξί κουτάκι */}
+          <Box className='selections'>
+            <div className='box-details-text vertical'>
+              <img src={frank} className="box-details-pics" alt="Frank Pic"/>
+              <span style={{display: 'block', marginTop: '-30px', fontSize: '25px', fontWeight: 'bold', textAlign: 'left', width: '100%', color: 'black'}}>
+                Φρανκ
+              </span>
+              <span style={{display: 'block', marginTop: '-28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                Chameleon, Αρσενικό
+              </span>
+              <span style={{display: 'block', marginTop: '28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                <PlaceIcon sx={{color: '#67A3B8', width: 20, height: 20, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
+                Κηφισιά, Αθήνα
+              </span>
+              <span style={{display: 'block', marginTop: '3px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                <AccessTimeIcon sx={{color: '#67A3B8', width: 20, height: 18, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
+                Πριν 5 ημέρες
+              </span>
+            </div>
+          </Box>
+        </Box>
+        <Button className='lost-pet-button'>
+          <span style={{display: 'block', marginTop: '3px', fontSize: '20px', textAlign: 'left', width: '100%', color: 'white'}}>
+            Δείτε όλα τα απολεσθέντα κατοικίδια
+          </span>
+        </Button>
     </header>
   );
 }
