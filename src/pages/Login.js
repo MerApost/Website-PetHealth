@@ -78,14 +78,18 @@ export default function Login() {
 
           <div className="auth-register">
             <span className="auth-register-text">Δεν έχετε λογαριασμό;</span>
-            <Link
-                component="button"
-                variant="body2"
-                className="auth-link"
-                onClick={() => navigate("/register")}
-            >
-                Εγγραφή
-            </Link>
+            <Button
+                type="button"
+                variant="text"
+                className="auth-link-btn"
+                onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/registration");
+                }}
+                >
+            Εγγραφή
+            </Button>
+
             </div>
 
           <div className="auth-links">

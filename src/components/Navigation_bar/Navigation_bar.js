@@ -184,13 +184,13 @@ export default function Navigationbar() {
               anchorOrigin={{ vertical: "top", horizontal: "right" }}
               transformOrigin={{ vertical: "top", horizontal: "left" }}
             >
-              <MenuItem component={RouterLink} to="/vet/register/pet_id" onClick={closeAll}>
+              <MenuItem component={RouterLink} to="/vet/registration/pet_id" onClick={closeAll}>
                 Ταυτότητα Κατοικιδίου
               </MenuItem>
-              <MenuItem component={RouterLink} to="/vet/register/med_procedures" onClick={closeAll}>
+              <MenuItem component={RouterLink} to="/vet/registration/med_procedures" onClick={closeAll}>
                 Ιατρικών Πράξεων
               </MenuItem>
-              <MenuItem component={RouterLink} to="/vet/register/incident" onClick={closeAll}>
+              <MenuItem component={RouterLink} to="/vet/registration/incident" onClick={closeAll}>
                 Συμβάντος
               </MenuItem>
             </Menu>
@@ -214,7 +214,7 @@ export default function Navigationbar() {
 
             <Button
               component={RouterLink}
-              to="/register"
+              to="/registration"
               variant="contained"
               sx={{
                 bgcolor: "#E6E6E6",
