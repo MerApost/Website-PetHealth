@@ -20,8 +20,6 @@ export default function Login() {
   const [password, setPassword] = React.useState("");
 
   const onSubmit = (e) => {
-    e.preventDefault();
-
     // ΠΡΟΣΩΡΙΝΟ: μέχρι να βάλουμε JSON Server 
     console.log({ role, afm, password });
 
@@ -57,6 +55,7 @@ export default function Login() {
         <Box component="form" onSubmit={onSubmit} className="auth-form">
           <TextField
             label="ΑΦΜ:"
+            required
             value={afm}
             onChange={(e) => setAfm(e.target.value)}
             fullWidth
@@ -65,6 +64,7 @@ export default function Login() {
 
           <TextField
             label="Κωδικός Πρόσβασης:"
+            required
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -82,11 +82,8 @@ export default function Login() {
                 type="button"
                 variant="text"
                 className="auth-link-btn"
-                onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/registration");
-                }}
-                >
+                onClick={() => {navigate("/registration");}}
+            >
             Εγγραφή
             </Button>
 
