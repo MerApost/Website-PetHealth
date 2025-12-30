@@ -1,9 +1,9 @@
 import './App.css';
-import dog_main_page from "./pics/dog_main_page.png";
 import Toolbar from "@mui/material/Toolbar";
 import Navigationbar from "./components/Navigation_bar/Navigation_bar";
 import Footer from "./components/Footer/Footer";
 
+import MainPage from "./pages/Main/MainPage";
 import OwnerMainPage from "./pages/Owner/OwnerMainPage";
 import VetMainPage from "./pages/Vet/VetMainPage";
 import Terms from "./pages/Terms";
@@ -13,16 +13,6 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 
 import { Routes, Route, Navigate } from 'react-router-dom';
-
-function MainPage() {
-  return (
-    <header className="App-header">
-      <img src={dog_main_page} className="Dog" alt="Main Page" />
-      <p className="app-description">Εθνική Πλατφόρμα Κατοικιδίων</p>
-    </header>
-  );
-}
-
 
 export default function App() {
   return (
