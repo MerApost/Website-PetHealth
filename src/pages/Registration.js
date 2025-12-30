@@ -106,11 +106,11 @@ export default function Registration() {
 
         <form onSubmit={onSubmit} className="reg-form">
           <div className="reg-grid">
-            <TextField label="Όνομα:" value={form.name} onChange={setField("name")} size="small" fullWidth />
-            <TextField label="Επίθετο:" value={form.surname} onChange={setField("surname")} size="small" fullWidth />
+            <TextField label="Όνομα:" required value={form.name} onChange={setField("name")} size="small" fullWidth />
+            <TextField label="Επίθετο:" required value={form.surname} onChange={setField("surname")} size="small" fullWidth />
 
-            <TextField label="E-mail:" value={form.email} onChange={setField("email")} size="small" fullWidth />
-            <TextField label="Τηλέφωνο:" value={form.phone} onChange={setField("phone")} size="small" fullWidth />
+            <TextField label="E-mail:" type="email" required value={form.email} onChange={setField("email")} size="small" fullWidth />
+            <TextField label="Τηλέφωνο:" type="number" required value={form.phone} onChange={setField("phone")} size="small" fullWidth />
 
             {/* ιδιοκτιτης */}
 
@@ -118,6 +118,7 @@ export default function Registration() {
               <>
                 <TextField
                   label="Δημιουργία Κωδικού Πρόσβασης:"
+                  required
                   type="password"
                   value={form.password}
                   onChange={setField("password")}
@@ -126,6 +127,8 @@ export default function Registration() {
                 />
                 <TextField
                   label="Αριθμός Κατοικιδίων:"
+                  type="number"
+                  required
                   value={form.petsCount}
                   onChange={setField("petsCount")}
                   size="small"
@@ -133,25 +136,27 @@ export default function Registration() {
                 />
                 <TextField
                   label="Επαλήθευση Κωδικού:"
+                  required
                   type="password"
                   value={form.confirmPassword}
                   onChange={setField("confirmPassword")}
                   size="small"
                   fullWidth
                 />
-                <TextField label="ΑΦΜ:" value={form.afm} onChange={setField("afm")} size="small" fullWidth />
+                <TextField label="ΑΦΜ:" required value={form.afm} onChange={setField("afm")} size="small" fullWidth />
               </>
             )}
 
             {/* κτηνιατροσ */}
             {isVet && (
               <>
-                <TextField label="ΑΦΜ:" value={form.afm} onChange={setField("afm")} size="small" fullWidth />
-                <TextField label="Φύλο:" value={form.gender} onChange={setField("gender")} size="small" fullWidth />
+                <TextField label="ΑΦΜ:" type="number" required value={form.afm} onChange={setField("afm")} size="small" fullWidth />
+                <TextField label="Φύλο:" required value={form.gender} onChange={setField("gender")} size="small" fullWidth />
 
-                <TextField label="Εμπειρία:" value={form.experience} onChange={setField("experience")} size="small" fullWidth />
+                <TextField label="Έτη εμπειρίας:" type="number" required value={form.experience} onChange={setField("experience")} size="small" fullWidth />
                 <TextField
                   label="Επίπεδο Σπουδών:"
+                  required
                   value={form.studiesLevel}
                   onChange={setField("studiesLevel")}
                   size="small"
@@ -160,15 +165,18 @@ export default function Registration() {
 
                 <TextField
                   label="Διεύθυνση Ιατρείου:"
+                  required
                   value={form.clinicAddress}
                   onChange={setField("clinicAddress")}
                   size="small"
                   fullWidth
                 />
-                <TextField label="Ειδικότητα:" value={form.specialty} onChange={setField("specialty")} size="small" fullWidth />
+                <TextField label="Ειδικότητα:" required value={form.specialty} onChange={setField("specialty")} size="small" fullWidth />
 
                 <TextField
                   label="Αριθμός Άδειας Ασκήσεως:"
+                  type="number"
+                  required
                   value={form.licenseNumber}
                   onChange={setField("licenseNumber")}
                   size="small"
@@ -176,6 +184,7 @@ export default function Registration() {
                 />
                 <TextField
                   label="Επάγγελμα:"
+                  required
                   value={form.profession}
                   onChange={setField("profession")}
                   size="small"
@@ -184,6 +193,7 @@ export default function Registration() {
 
                 <TextField
                   label="Δημιουργία Κωδικού Πρόσβασης:"
+                  required
                   type="password"
                   value={form.password}
                   onChange={setField("password")}
@@ -194,6 +204,7 @@ export default function Registration() {
 
                 <TextField
                   label="Επιβεβαίωση Κωδικού:"
+                  required
                   type="password"
                   value={form.confirmPassword}
                   onChange={setField("confirmPassword")}
