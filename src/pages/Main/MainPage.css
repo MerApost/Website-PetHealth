@@ -1,263 +1,285 @@
-  .app-descr{
-    font-size: 50px !important; /* Μεγαλύτερο */
-    font-weight: bold; /* Bold */
-    max-width: 800px;
-    margin: 0; /* Αφαίρεση auto για να μείνει αριστερά */
-    margin-top: 30px;
-    line-height: 1.6;
-    color: black;
-    text-shadow: 2px 2px 4px rgb(0, 0, 0, 0.3);
-  }
+.app-descr{
+  font-size: 50px !important; /* Μεγαλύτερο */
+  font-weight: bold; /* Bold */
+  max-width: 800px;
+  margin: 0; /* Αφαίρεση auto για να μείνει αριστερά */
+  margin-top: 30px;
+  line-height: 1.6;
+  color: black;
+  text-shadow: 2px 2px 4px rgb(0, 0, 0, 0.3);
+}
 
-  .descr-text{
-    text-align: left;
-    color: #2c3e50;
-    font-size: 18px;
-    line-height: 1.7;
-    max-width: 1000px;
-    margin: 0; /* Αφαίρεσε το auto */
-    padding: 0;
-    font-weight: 400;
-  }
+.descr-text{
+  text-align: left;
+  color: #2c3e50;
+  font-size: 18px;
+  line-height: 1.7;
+  max-width: 1000px;
+  margin: 0; /* Αφαίρεσε το auto */
+  padding: 0;
+  font-weight: 400;
+}
 
-  .find_pet{
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin: 0;
-    margin-top: 10px;
-    max-width: 1200px;
-    padding: 20px;
-    background-color: rgba(150, 145, 145, 0.714);
-    border-radius: 10px;
-  }
+.find_pet{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 0;
+  margin-top: 10px;
+  max-width: 1200px;
+  padding: 20px;
+  background-color: rgba(150, 145, 145, 0.714);
+  border-radius: 10px;
+}
 
-  .input_group-main{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
+.input_group-main{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 
-  .input_field {
-    height: 48px;
-    min-width: 220px;
-    background-color: rgba(206, 201, 201, 0.618);
-    border-radius: 2px;
-  }
+.input_field {
+  height: 48px;
+  min-width: 220px;
+  background-color: rgba(206, 201, 201, 0.618);
+  border-radius: 2px;
+}
 
-  .input_field .MuiInputLabel-root.Mui-focused {
-    color: #a56312 !important;
-  }
+.input_field .MuiInputLabel-root.Mui-focused {
+  color: #a56312 !important;
+}
 
+.quick-details{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 60px auto 0 auto;
+  align-items: strech;
+}
+
+.selections{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  background-color: rgb(255, 255, 255);
+  padding: 25px;
+  border-radius: 8px;
+  border: 2px solid #000000;
+  width: 320px; /* Σταθερό πλάτος */
+  min-height: 220px; /* Ελάχιστο ύψος */
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.box-details-title{
+  font-weight: 650;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.box-details-pics {
+  width: 200px; /* Μπορείς να αλλάξεις το μέγεθος */
+  height: 200px; /* Μπορείς να αλλάξεις το μέγεθος */
+  object-fit: contain; /* Για να διατηρήσει τις αναλογίες */
+  margin: 0 auto 15px auto; /* Κεντράρισμα και απόσταση από το κείμενο */
+  display: block; /* Για να εφαρμοστεί το margin auto */
+}
+
+.box-details-text {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 5px 0;
+}
+
+.box-details-text.vertical {
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 20px; /* Απόσταση εικόνας-κειμένου */
+}
+
+.box-details-text.vertical .box-details-pics {
+  margin-bottom: 0; /* Αφαίρεσε το margin-bottom που είχαμε πριν */
+}
+
+.selection-text {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.selection-text.with-bullet {
+  position: relative;
+  padding-left: 15px; /* Χώρος για το bullet */
+  text-align: center;
+}
+
+.selection-text.with-bullet::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  font-size: 1.5rem;
+  color: black; /* Χρώμα που ταιριάζει με το theme */
+  top: -4.5px; /* Προσαρμογή της θέσης */
+}
+
+.arrow-pic{
+  opacity: 0.9;
+  flex-shrink: 0;
+  height: 60px;
+  width: 60px;
+  width: auto;
+  mix-blend-mode: multiply;
+  margin-right: -0.5em;
+  margin-top: 6em;
+  /* margin-bottom: 15em; */
+}
+
+.citizen-details-pics{
+  width: 100px; /* Μπορείς να αλλάξεις το μέγεθος */
+  height: 100px; /* Μπορείς να αλλάξεις το μέγεθος */
+  object-fit: contain; /* Για να διατηρήσει τις αναλογίες */
+  margin: 0 auto 15px auto; /* Κεντράρισμα και απόσταση από το κείμενο */
+  display: block; /* Για να εφαρμοστεί το margin auto */
+  mix-blend-mode: multiply;
+}
+
+.citizen-details-text{
+  font-weight: 400;
+  font-size: 1.0rem;
+  color: black;
+  text-align: center;
+}
+
+.frame{
+  background-color: #B7B4AD; 
+  border: 1px solid #B7B4AD; 
+  border-radius: 0; /* ή 8px αν θες στρογγυλεμένες γωνίες */
+  padding: 20px;
+  margin: 60px 0;
+  font-family: sans-serif;
+  color: #333;
+  
+  /* Για πλήρες πλάτος */
+  width: 100vw; /* 100% του viewport width */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.frame-boxes{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  background-color: #B7B4AD;
+  padding: 25px;
+  border-radius: 8px;
+  border: 2px solid #B7B4AD;
+  width: 320px; /* Σταθερό πλάτος */
+  min-height: 150px; /* Ελάχιστο ύψος */
+  box-sizing: border-box;
+}
+
+.frame-boxes-imgs{
+  width: 150px; /* Μπορείς να αλλάξεις το μέγεθος */
+  height: 150px; /* Μπορείς να αλλάξεις το μέγεθος */
+  object-fit: contain; /* Για να διατηρήσει τις αναλογίες */
+  margin: 0 auto 0 auto; /* Κεντράρισμα και απόσταση από το κείμενο */
+  display: block; /* Για να εφαρμοστεί το margin auto */
+  mix-blend-mode: multiply;
+}
+
+.lost-pet-button {
+  color: rgb(0, 0, 0) !important;
+  background-color: #AD653A !important;
+  height: 80px !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  text-transform: none !important;
+  transition: all 0.3s ease !important;
+  min-width: 150px !important;
+  
+  /* Κεντράρισμα και απόσταση */
+  display: block !important;
+  margin: 40px auto !important; /* 40px πάνω/κάτω, auto για κέντρο */
+  padding: 0 24px !important;
+}
+
+.lost-pet-button:hover {
+  background-color: #AD653A !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
   .quick-details{
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    gap: 40px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 60px auto 0 auto;
-    align-items: strech;
+    max-width: 900px;
   }
+  
+  .selections {
+    width: 250px;
+  }
+}
 
-  .selections{
-    display: flex;
+@media (max-width: 900px) { 
+  .selections {
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  .find_vet {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    background-color: rgb(255, 255, 255);
-    padding: 25px;
-    border-radius: 8px;
-    border: 2px solid #000000;
-    width: 320px; /* Σταθερό πλάτος */
-    min-height: 220px; /* Ελάχιστο ύψος */
-    box-sizing: border-box;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-
-  .box-details-title{
-    font-weight: 650;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    width: 100%;
-    text-align: center;
-  }
-
-  .box-details-pics {
-    width: 200px; /* Μπορείς να αλλάξεις το μέγεθος */
-    height: 200px; /* Μπορείς να αλλάξεις το μέγεθος */
-    object-fit: contain; /* Για να διατηρήσει τις αναλογίες */
-    margin: 0 auto 15px auto; /* Κεντράρισμα και απόσταση από το κείμενο */
-    display: block; /* Για να εφαρμοστεί το margin auto */
-  }
-
-  .box-details-text {
-    display: flex;
     align-items: center;
-    gap: 15px;
+    padding: 15px;
+  }
+  
+  .input_group {
     width: 100%;
-    padding: 5px 0;
+    max-width: 300px;
   }
+  
+  .input_field {
+    width: 100%;
+  }
+}
 
-  .box-details-text.vertical {
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    gap: 20px; /* Απόσταση εικόνας-κειμένου */
+@media (max-width: 768px) {
+  .search_vet {
+    font-size: 35px !important;
   }
+  
+  .page-descr {
+    font-size: 30px !important;
+  }
+  
+  .search {
+    margin: 70px auto 50px auto;
+  }
+}
 
-  .box-details-text.vertical .box-details-pics {
-    margin-bottom: 0; /* Αφαίρεσε το margin-bottom που είχαμε πριν */
+@media (max-width: 480px) {
+  .search_vet {
+    font-size: 28px !important;
   }
-
-  .selection-text {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #333;
+  
+  .page-descr {
+    font-size: 24px !important;
   }
-
-  .selection-text.with-bullet {
-    position: relative;
-    padding-left: 15px; /* Χώρος για το bullet */
-    text-align: center;
+  
+  .pic {
+    height: 35px;
   }
-
-  .selection-text.with-bullet::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    font-size: 1.5rem;
-    color: black; /* Χρώμα που ταιριάζει με το theme */
-    top: -4.5px; /* Προσαρμογή της θέσης */
-  }
-
-  .arrow-pic{
-    opacity: 0.9;
-    flex-shrink: 0;
-    height: 60px;
-    width: 60px;
-    width: auto;
-    mix-blend-mode: multiply;
-    margin-right: -0.5em;
-    margin-top: 6em;
-    /* margin-bottom: 15em; */
-  }
-
-  .citizen-details-pics{
-    width: 100px; /* Μπορείς να αλλάξεις το μέγεθος */
-    height: 100px; /* Μπορείς να αλλάξεις το μέγεθος */
-    object-fit: contain; /* Για να διατηρήσει τις αναλογίες */
-    margin: 0 auto 15px auto; /* Κεντράρισμα και απόσταση από το κείμενο */
-    display: block; /* Για να εφαρμοστεί το margin auto */
-    mix-blend-mode: multiply;
-  }
-
-  .citizen-details-text{
-    font-weight: 400;
-    font-size: 1.0rem;
-    color: black;
-    text-align: center;
-  }
-
-  .frame{
-    background-color: #B7B4AD; 
-    border: 1px solid #B7B4AD; 
-    border-radius: 0; /* ή 8px αν θες στρογγυλεμένες γωνίες */
-    padding: 20px;
-    margin: 60px 0;
-    font-family: sans-serif;
-    color: #333;
-    
-    /* Για πλήρες πλάτος */
-    width: 100vw; /* 100% του viewport width */
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-  }
-
-  .frame-boxes{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    background-color: #B7B4AD;
-    padding: 25px;
-    border-radius: 8px;
-    border: 2px solid #B7B4AD;
-    width: 320px; /* Σταθερό πλάτος */
-    min-height: 150px; /* Ελάχιστο ύψος */
-    box-sizing: border-box;
-  }
-
-  .frame-boxes-imgs{
-    width: 150px; /* Μπορείς να αλλάξεις το μέγεθος */
-    height: 150px; /* Μπορείς να αλλάξεις το μέγεθος */
-    object-fit: contain; /* Για να διατηρήσει τις αναλογίες */
-    margin: 0 auto 0 auto; /* Κεντράρισμα και απόσταση από το κείμενο */
-    display: block; /* Για να εφαρμοστεί το margin auto */
-    mix-blend-mode: multiply;
-  }
-
-  /* Responsive Design */
-  @media (max-width: 1200px) {
-    .quick-details{
-      max-width: 900px;
-    }
-    
-    .selections {
-      width: 250px;
-    }
-  }
-
-  @media (max-width: 900px) { 
-    .selections {
-      width: 90%;
-      max-width: 400px;
-    }
-    
-    .find_vet {
-      flex-direction: column;
-      align-items: center;
-      padding: 15px;
-    }
-    
-    .input_group {
-      width: 100%;
-      max-width: 300px;
-    }
-    
-    .input_field {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .search_vet {
-      font-size: 35px !important;
-    }
-    
-    .page-descr {
-      font-size: 30px !important;
-    }
-    
-    .search {
-      margin: 70px auto 50px auto;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .search_vet {
-      font-size: 28px !important;
-    }
-    
-    .page-descr {
-      font-size: 24px !important;
-    }
-    
-    .pic {
-      height: 35px;
-    }
-  }
+}
