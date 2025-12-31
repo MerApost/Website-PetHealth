@@ -1,6 +1,69 @@
 {
- "users": [
- { "id": 1, "user": "Alice", "body": "Hello world!" },
- { "id": 2, "user": "Bob", "body": "Second comment" }
- ]
-} 
+  "users": [
+    {
+      "id": 1,
+      "role": "owner",
+      "name": "Ελένη",
+      "surname": "Αποστολάκη",
+      "email": "eleni@gmail.com",
+      "phone": "6912345678",
+      "afm": "123456789",
+      "password": "12345678Aa!",
+      "petsCount": 1,
+      "gender": "",
+      "experience": "",
+      "studiesLevel": "",
+      "clinicAddress": "",
+      "specialty": "",
+      "licenseNumber": "",
+      "profession": ""
+    },
+    {
+      "id": 2,
+      "role": "owner",
+      "name": "Μερόπη",
+      "surname": "Παπαθανασίου",
+      "email": "meropi@gmail.com",
+      "phone": "6900000000",
+      "afm": "123412345",
+      "petsCount": 3,
+      "password": "12345678Aa!",
+      "gender": "",
+      "experience": "",
+      "studiesLevel": "",
+      "clinicAddress": "",
+      "specialty": "",
+      "licenseNumber": "",
+      "profession": ""
+    },
+    {
+      "id": 3,
+      "role": "vet",
+      "name": "Σταμάτης",
+      "surname": "Σταμάτης",
+      "email": "stamatis@gmail.com",
+      "phone": "6988888888",
+      "afm": "987654321",
+      "petsCount": "",
+      "password": "12345678Aa!",
+      "gender": "Άρρεν",
+      "experience": "20",
+      "studiesLevel": "Πτυχίο",
+      "clinicAddress": "Κίσσαμος, Χανίων",
+      "specialty": "Παθολογία",
+      "licenseNumber": "VET-2025-001",
+      "profession": "Κτηνίατρος"
+    },
+    {
+      "id": "af6c",
+      "role": "owner",
+      "name": "μαιρη",
+      "surname": "μαιρουλα",
+      "email": "mair@gmail.com",
+      "phone": "691111111",
+      "afm": "12341234",
+      "password": "12345678Aa!",
+      "petsCount": "1"
+    }
+  ]
+}

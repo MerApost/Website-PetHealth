@@ -63,14 +63,54 @@ export default function Registration() {
   const allGood = Object.values(rules).every(Boolean);
   const match = form.password.length > 0 && form.password === form.confirmPassword;
 
-  const onSubmit = (e) => {
-    e.preventDefault();  // κατι για να μην χανεις τα δεδομενα
+  const onSubmit = async (e) => {
+    e.preventDefault();
 
-    // ΠΡΟΣΩΡΙΝΟ: μέχρι JSON Server
-    console.log({ role, ...form });
+    const newUser = {
+      role: role,
+      name: form.name,
+      surname: form.surname,
+      email: form.email,
+      phone: form.phone,
+      afm: form.afm,
+      password: form.password
+    };
 
+    if (role === "owner") {
+      newUser.petsCount = form.petsCount;
+    } else {
+      newUser.gender = form.gender;
+      newUser.experience = form.experience;
+      newUser.studiesLevel = form.studiesLevel;
+      newUser.clinicAddress = form.clinicAddress;
+      newUser.specialty = form.specialty;
+      newUser.licenseNumber = form.licenseNumber;
+      newUser.profession = form.profession;
+    }
+
+    try {
+    const checkRes = await fetch(
+      `http://localhost:3004/users?role=${role}&afm=${form.afm}`
+    );
+    const exists = await checkRes.json();
+    if (exists.length > 0) {
+      alert("Υπάρχει ήδη χρήστης με αυτό το ΑΦΜ.");
+      return;
+    }
+
+    await fetch("http://localhost:3004/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newUser)
+    });
+
+    alert("Η εγγραφή ολοκληρώθηκε!");
     navigate("/login");
-
+  } catch (err) {
+    alert("Σφάλμα σύνδεσης με τον server. Είναι ανοιχτός ο json-server;");
+    console.log(err);
+  }
+   
   };
 
   const RuleItem = ({ ok, text }) => (

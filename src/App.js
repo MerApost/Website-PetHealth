@@ -11,13 +11,21 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Faq from "./pages/Faq";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
+import LogoutSuccess from "./pages/LogoutSuccess"; //
+import PasswordRecovery from "./pages/PasswordRecovery"; //
+import { useState } from "react";
+import OwnerProfileView from "./pages/Owner/OwnerProfileView";
+import OwnerProfileEdit from "./pages/Owner/OwnerProfileEdit";
+
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("loggedIn") === "true");
+  const [role, setRole] = useState(localStorage.getItem("role") || "guest");
   return (
     <div className="App" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <Navigationbar />
+      <Navigationbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} role={role} setRole={setRole}/>
       <Toolbar />
       <div style={{ flex: 1 }}>
         <Routes>
@@ -25,12 +33,18 @@ export default function App() {
           <Route path="/main_page" element={<MainPage />} />
           <Route path="/owner" element={<OwnerMainPage />} />
           <Route path="/vet" element={<VetMainPage />} /> 
-          <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/faq" element={<Faq />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setRole={setRole} />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/logout-success" element={<LogoutSuccess />} />
+          <Route path="/forgot-password" element={<PasswordRecovery />} />
+          <Route path="/owner/profile" element={<OwnerProfileView />} />
+          <Route path="/owner/profile/edit" element={<OwnerProfileEdit />} />
+
+
+
         </Routes>
       </div>
 

@@ -14,21 +14,42 @@ import Link from "@mui/material/Link";
 
 
 
-export default function Logi({ setIsLoggedIn }) {
+export default function Login({ setIsLoggedIn, setRole }) {
   const navigate = useNavigate();
 
-  const [role, setRole] = React.useState("owner");
+  const [role, setSelectedRole] = React.useState("owner");
   const [afm, setAfm] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    // ΠΡΟΣΩΡΙΝΟ: μέχρι να βάλουμε JSON Server 
-    setIsLoggedIn(true);
-    console.log({ role, afm, password });
+    
+    try {
+      const res = await fetch(
+        `http://localhost:3004/users?role=${role}&afm=${afm}&password=${password}`
+      );
+      const users = await res.json();
 
-    if (role === "owner") navigate("/owner");
-    else navigate("/vet");
+      if (users.length === 0) {
+        alert("Λάθος στοιχεία σύνδεσης.");
+        return;
+      }
+
+      const user = users[0];
+
+      localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("role", user.role);
+
+      setIsLoggedIn(true);
+      setRole(user.role);
+
+      if (user.role === "owner") navigate("/owner");
+        else navigate("/vet");
+      } catch (err) {
+        alert("Σφάλμα σύνδεσης με τον server. Είναι ανοιχτός ο json-server;");
+        console.log(err);
+      }
+
   };
 
   return (
@@ -45,7 +66,7 @@ export default function Logi({ setIsLoggedIn }) {
         <ToggleButtonGroup
         exclusive
         value={role}
-        onChange={(_e, val) => val && setRole(val)}
+        onChange={(_e, val) => val && setSelectedRole(val)}
         className="auth-toggle"
         >
         <ToggleButton value="owner" className="auth-toggle-btn">

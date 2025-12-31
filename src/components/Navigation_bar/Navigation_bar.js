@@ -43,6 +43,8 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
   const isOwnerPage = location.pathname.startsWith('/owner');
   const isVetPage = location.pathname.startsWith('/vet');
 
+  const role = localStorage.getItem("role");
+
   return (
     <AppBar position="fixed" sx={{ bgcolor: "rgba(0,0,0,0.92)", backdropFilter: "blur(10px)" }}>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -237,7 +239,7 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
           <>
             <Button
               component={RouterLink}
-              to="/profile"
+              to={role === "vet" ? "/vet/profile" : "/owner/profile"}
               startIcon={<PersonIcon />}
               sx={{ color: "white", textTransform: "none" }}
             >
@@ -251,6 +253,7 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
               variant="contained"
               onClick={() => {
                 localStorage.removeItem("loggedIn");
+                localStorage.removeItem("role");
                 setIsLoggedIn(false);
                 navigate("/logout-success");
               }}
