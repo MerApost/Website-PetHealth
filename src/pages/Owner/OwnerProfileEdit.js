@@ -81,8 +81,8 @@ export default function OwnerProfileEdit() {
 
   return (
     <div className="profile-page">
+    <Typography className="profile-title">Προβολή Προφίλ</Typography>
       <Paper elevation={0} className="profile-card">
-        <Typography className="profile-title">Προβολή Προφίλ</Typography>
 
         <Box className="profile-top edit-top">
           <Typography className="profile-section-title">Προσωπικά Στοιχεία</Typography>
@@ -159,11 +159,11 @@ export default function OwnerProfileEdit() {
             </Card>
           ))}
         </div>
-
-        <div className="profile-back">
+        
+      </Paper>
+      <div className="profile-back">
           <BackButton />
         </div>
-      </Paper>
     </div>
   );
 }

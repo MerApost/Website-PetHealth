@@ -38,7 +38,7 @@ export default function OwnerProfileView() {
       .then((data) => setOwner(data))
       .catch(() => alert("Σφάλμα φόρτωσης προφίλ"));
   }, [navigate]);
-  
+
   if (!owner) {
     return <div style={{ paddingTop: 120, textAlign: "center" }}>Φόρτωση...</div>;
   }
@@ -50,9 +50,8 @@ export default function OwnerProfileView() {
 
   return (
     <div className="profile-page">
+    <Typography className="profile-title">Προβολή Προφίλ</Typography>
       <Paper elevation={0} className="profile-card">
-        <Typography className="profile-title">Προβολή Προφίλ</Typography>
-
         <Box className="profile-top">
           <Typography className="profile-section-title">Προσωπικά Στοιχεία</Typography>
 
@@ -106,11 +105,10 @@ export default function OwnerProfileView() {
             </Card>
           ))}
         </div>
-
-        <div className="profile-back">
-          <BackButton />
-        </div>
       </Paper>
+        <div className="profile-back">
+            <BackButton />
+        </div>
     </div>
   );
 }

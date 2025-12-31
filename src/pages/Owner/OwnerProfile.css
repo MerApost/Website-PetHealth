@@ -1,25 +1,27 @@
 .profile-page{
   min-height: 100vh;
   background: #d7d3cb;
-  padding: 100px 16px 40px;
+  padding: 70px 16px 40px;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
 }
 
 .profile-card{
   width: 980px;
+  max-width: 100%;
   background: #fff;
   border: 2px solid rgba(0,0,0,0.25);
   border-radius: 12px;
   padding: 18px 18px 26px;
+  text-align: left; 
 }
 
 .profile-title{
-  font-weight: 800;
+  font-weight: 900;
   text-align: center;
-  margin: 6px 0 14px;
-  font-size: 20px;
+  margin: 0 0 14px;
+  font-size: 22px;
 }
 
 .profile-top{
@@ -32,6 +34,7 @@
 .profile-section-title{
   font-weight: 800;
   font-size: 14px;
+  text-align: left;
 }
 
 .profile-edit-btn{
@@ -111,17 +114,19 @@
 .pet-content{
   position: relative;
   padding: 12px 14px !important;
+  text-align: left;
 }
 
 .pet-row{
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 10px;
   margin: 2px 0;
 }
 
 .pet-row span{
   opacity: 0.8;
+  min-width: 110px;
 }
 
 .pet-delete{
@@ -131,7 +136,10 @@
 }
 
 .profile-back{
-  margin-top: 22px;
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .edit-top{
