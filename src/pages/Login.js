@@ -24,31 +24,27 @@ export default function Login({ setIsLoggedIn, setRole }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     
-    try {
-      const res = await fetch(
-        `http://localhost:3004/users?role=${role}&afm=${afm}&password=${password}`
-      );
-      const users = await res.json();
+    const res = await fetch(
+      `http://localhost:3004/users?role=${role}&afm=${afm}&password=${password}`
+    );
+    const users = await res.json();
 
-      if (users.length === 0) {
-        alert("Λάθος στοιχεία σύνδεσης.");
-        return;
-      }
+    if (users.length === 0) {
+      alert("Λάθος στοιχεία σύνδεσης.");
+      return;
+    }
 
-      const user = users[0];
+    const user = users[0];
 
-      localStorage.setItem("loggedIn", "true");
-      localStorage.setItem("role", user.role);
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("role", user.role);
+    localStorage.setItem("userId", String(user.id));
 
-      setIsLoggedIn(true);
-      setRole(user.role);
+    setIsLoggedIn(true);
+    setRole(user.role);
 
-      if (user.role === "owner") navigate("/owner");
-        else navigate("/vet");
-      } catch (err) {
-        alert("Σφάλμα σύνδεσης με τον server. Είναι ανοιχτός ο json-server;");
-        console.log(err);
-      }
+    if (user.role === "owner") navigate("/owner");
+      else navigate("/vet");
 
   };
 

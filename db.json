@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "role": "owner",
       "name": "Ελένη",
       "surname": "Αποστολάκη",
@@ -10,16 +10,20 @@
       "afm": "123456789",
       "password": "12345678Aa!",
       "petsCount": 1,
-      "gender": "",
-      "experience": "",
-      "studiesLevel": "",
-      "clinicAddress": "",
-      "specialty": "",
-      "licenseNumber": "",
-      "profession": ""
+      "pets": [
+        {
+          "id": 1,
+          "name": "Μπιχλίτσα",
+          "microchip": "147258369",
+          "gender": "Θηλυκό",
+          "age": "6",
+          "breed": ";;",
+          "photo": ""
+        }
+      ]
     },
     {
-      "id": 2,
+      "id": "2",
       "role": "owner",
       "name": "Μερόπη",
       "surname": "Παπαθανασίου",
@@ -28,16 +32,20 @@
       "afm": "123412345",
       "petsCount": 3,
       "password": "12345678Aa!",
-      "gender": "",
-      "experience": "",
-      "studiesLevel": "",
-      "clinicAddress": "",
-      "specialty": "",
-      "licenseNumber": "",
-      "profession": ""
+      "pets": [
+        {
+          "id": 1,
+          "name": "Μπιχλίτσα",
+          "microchip": "147258369",
+          "gender": "Θηλυκό",
+          "age": "6",
+          "breed": ";;",
+          "photo": ""
+        }
+      ]
     },
     {
-      "id": 3,
+      "id": "3",
       "role": "vet",
       "name": "Σταμάτης",
       "surname": "Σταμάτης",
@@ -55,15 +63,16 @@
       "profession": "Κτηνίατρος"
     },
     {
-      "id": "af6c",
+      "id": "4",
       "role": "owner",
       "name": "μαιρη",
-      "surname": "μαιρουλα",
+      "surname": "μαιρουλακι",
       "email": "mair@gmail.com",
       "phone": "691111111",
       "afm": "12341234",
       "password": "12345678Aa!",
-      "petsCount": "1"
+      "petsCount": 1,
+      "pets": []
     }
   ]
 }
