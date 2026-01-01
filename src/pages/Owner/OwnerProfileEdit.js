@@ -43,6 +43,7 @@ export default function OwnerProfileEdit() {
                 phone: u.phone || "",
                 afm: u.afm || "",
                 petsCount: String(u.petsCount ?? ""),
+                photo: u.photo || "",
             });
             setPets(u.pets || []);
         })
@@ -56,18 +57,29 @@ export default function OwnerProfileEdit() {
     const onDeletePet = (id) => setPets((prev) => prev.filter((p) => p.id !== id));
 
     const onPetPhotoChange = (petId) => (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+        const base64 = String(reader.result || "");
+        setPets((prev) =>
+            prev.map((p) => (p.id === petId ? { ...p, photo: base64 } : p))
+        );
+        };
+        reader.readAsDataURL(file);
+    };
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64 = String(reader.result || "");
-      setPets((prev) =>
-        prev.map((p) => (p.id === petId ? { ...p, photo: base64 } : p))
-      );
-    };
-    reader.readAsDataURL(file);
-    };
+    const onOwnerPhotoChange = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            const base64 = String(reader.result || "");
+            setForm((prev) => ({ ...prev, photo: base64 }));
+            };
+        reader.readAsDataURL(file);
+        };
 
     const onSave = async (e) => {
         e.preventDefault();
@@ -99,8 +111,6 @@ export default function OwnerProfileEdit() {
       <Paper elevation={0} className="profile-card">
 
         <Box className="profile-top edit-top">
-          <Typography className="profile-section-title">Προσωπικά Στοιχεία</Typography>
-
           <Box className="edit-actions">
             <Button
               variant="contained"
@@ -111,14 +121,26 @@ export default function OwnerProfileEdit() {
               Διαγραφή Λογαριασμού
             </Button>
 
-            <Button variant="contained" className="save-btn" onClick={onSave}>
-              Αποθήκευση Αλλαγών
-            </Button>
+            <Box className="edit-actions-right">
+                <Button
+                variant="outlined"
+                className="cancel-btn"
+                onClick={() => navigate("/owner/profile")}
+                >
+                Ακύρωση
+                </Button>
 
-            <Button variant="outlined" className="cancel-btn" onClick={() => navigate("/owner/profile")}>
-              Ακύρωση
-            </Button>
-          </Box>
+                <Button
+                variant="contained"
+                className="save-btn"
+                onClick={onSave}
+                >
+                Αποθήκευση Αλλαγών
+                </Button>
+            </Box>
+        </Box>
+        <Typography className="profile-section-title">Προσωπικά Στοιχεία</Typography>
+
         </Box>
 
         <Divider className="profile-divider" />
@@ -143,9 +165,21 @@ export default function OwnerProfileEdit() {
 
           <Grid item xs={12} md={4} className="profile-photo-box">
             <div className="profile-photo-placeholder">
-              <InsertPhotoIcon fontSize="large" />
-            </div>
-          </Grid>
+                {form.photo && form.photo.trim() !== "" ? (
+            <img
+                src={form.photo}
+                alt="Owner"
+                style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 10 }}
+            />
+            ) : (
+            <InsertPhotoIcon fontSize="large" />
+            )}
+        </div>
+
+        <div style={{ marginTop: 10 }}>
+            <input type="file" accept="image/*" onChange={onOwnerPhotoChange} />
+        </div>
+        </Grid>
         </Grid>
 
         <Typography className="profile-section-title pets-title">Κατοικίδια</Typography>

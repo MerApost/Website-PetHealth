@@ -23,7 +23,6 @@ export default function OwnerProfileView() {
 
   React.useEffect(() => {
     const id = localStorage.getItem("userId");
-    console.log("PROFILE userId:", id);
 
     if (!id) {
       navigate("/login");
@@ -57,6 +56,7 @@ export default function OwnerProfileView() {
 
           <Button
             variant="outlined"
+            size="small"
             className="profile-edit-btn"
             onClick={() => navigate("/owner/profile/edit")}
           >
@@ -79,7 +79,15 @@ export default function OwnerProfileView() {
 
           <Grid item xs={12} md={4} className="profile-photo-box">
             <div className="profile-photo-placeholder">
-              <InsertPhotoIcon fontSize="large" />
+                {owner.photo && owner.photo.trim() !== "" ? (
+                <img
+                    src={owner.photo}
+                    alt="Owner"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 10 }}
+                />
+                ) : (
+                <InsertPhotoIcon fontSize="large" />
+                )}
             </div>
           </Grid>
         </Grid>
