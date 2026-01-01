@@ -1,0 +1,58 @@
+.Lost-pets-header{
+  background-color: #D7D3CB;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Αλλαγή: από flex-start σε center */
+  font-size: calc(10px + 2vmin);
+  color: black;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden; /* Προσθήκη για horizontal scroll */
+}
+
+.frame-lost_pets {
+  background-color: #B7B4AD; 
+  border: 1px solid #B7B4AD; 
+  border-radius: 0;
+  padding: 20px;
+  font-family: sans-serif;
+  color: #333;
+
+  /* Για πλήρες πλάτος */
+  width: 100vw; /* 100% του viewport width */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  /* Προσθήκη: */
+  text-align: left; /* Για κείμενο αριστερά */
+}
+
+.find_pet-lost_pets {
+  display: flex;
+  flex-direction: row; /* Αλλαγή από column σε row */
+  align-items: flex-start; /* Αριστερά στοίχιση */
+  gap: 20px; /* Αφαιρούμε το κενό */
+  margin-top: 20px;
+  margin-left: 80px;
+  margin-bottom: 40px;
+  width: 100%;
+  flex-wrap: nowrap; /* Για να μη σπάσει σε νέα γραμμή */
+}
+
+.input_group-lost_pets{
+  /* width: 100%; */
+  display: flex;
+  justify-content: flex-start; /* Αριστερά στοίχιση */
+}
+
+.frame-lost_pets > span {
+  display: block;
+  margin-top: 40px;
+  font-size: 24px;
+  text-align: left; /* Αριστερά στοίχιση τίτλου */
+  width: 100%;
+}

@@ -7,7 +7,8 @@ import left_arrow from "../../pics/left_arrow.png"
 import Athens_areas from './Athens_areas';
 import VetSpecialties from './VetSpecialties';
 
-// import React, { useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import {
   TextField,
@@ -27,6 +28,48 @@ import { el } from 'date-fns/locale';
 
 // Προσθήκη του OwnerMainPage component
 export default function OwnerMainPage(){
+  const location = useLocation();
+  const hasScrolled = useRef(false);
+  
+  // ΧΡΗΣΗ useLayoutEffect - τρέχει ΠΡΙΝ από το render
+  useLayoutEffect(() => {
+    // Ελέγχουμε αν αλλάξαμε location
+    console.log('OwnerMainPage: Location changed', location.pathname);
+    
+    // Αμέσως scroll στην αρχή
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant' // 'instant' αντί για 'auto' ή 'smooth'
+    });
+    
+    // Κρατάμε ότι έχουμε κάνει scroll
+    hasScrolled.current = true;
+    
+    // Extra insurance - μετά από μικρή καθυστέρηση
+    const timer1 = setTimeout(() => {
+      if (window.scrollY !== 0) {
+        console.log('First scroll failed, trying again...');
+        window.scrollTo(0, 0);
+      }
+    }, 10);
+    
+    const timer2 = setTimeout(() => {
+      if (window.scrollY !== 0) {
+        console.log('Second scroll failed, using documentElement...');
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }
+    }, 50);
+    
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      // Reset για επόμενη επίσκεψη
+      hasScrolled.current = false;
+    };
+  }, [location.pathname]); // Μόνο το pathname
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={el}>
     <header className="Owner-main-header">  

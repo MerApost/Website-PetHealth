@@ -29,7 +29,96 @@ import {
   Button
 } from '@mui/material';
 
+import { useNavigate, useLocation } from 'react-router-dom'; // ΠΡΟΣΘΗΚΗ useLocation
+import { useLayoutEffect, useRef } from 'react'; // ΠΡΟΣΘΗΚΗ useLayoutEffect και useRef
+
 export default function MainPage(){
+  const location = useLocation(); // ΠΡΟΣΘΗΚΗ
+  const hasScrolled = useRef(false); // ΠΡΟΣΘΗΚΗ
+  
+  // ΠΡΟΣΘΗΚΗ useLayoutEffect για scroll στην αρχή
+  useLayoutEffect(() => {
+    console.log('MainPage: Location changed', location.pathname);
+    
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+    
+    hasScrolled.current = true;
+    
+    const timer1 = setTimeout(() => {
+      if (window.scrollY !== 0) {
+        console.log('First scroll failed, trying again...');
+        window.scrollTo(0, 0);
+      }
+    }, 10);
+    
+    const timer2 = setTimeout(() => {
+      if (window.scrollY !== 0) {
+        console.log('Second scroll failed, using documentElement...');
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }
+    }, 50);
+    
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      hasScrolled.current = false;
+    };
+  }, [location.pathname]);
+  
+  const navigate = useNavigate();
+  
+  // Βελτιωμένη συνάρτηση navigation
+  const navigateToOwner = () => {
+    console.log('Navigating to owner...');
+    
+    window.scrollTo(0, 0);
+    navigate('/owner');
+    
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+    }, 100);
+  };
+
+  const navigateToVet = () => {
+    console.log('Navigating to vet...');
+    
+    window.scrollTo(0, 0);
+    navigate('/vet');
+    
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+    }, 100);
+  };
+
+  const navigateToLostPets = () => {
+    console.log('Navigating to lost pets...');
+    
+    window.scrollTo(0, 0);
+    navigate('/lost_pets');
+    
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+    }, 100);
+  };
+  
+
   return (
     <header className="App-header">
       <img src={dog_main_page} className="Dog" alt="Main Page" />
@@ -102,7 +191,13 @@ export default function MainPage(){
             Ιδιοκτήτης/τρια  
           </span>
           <div className='box-details-text vertical'>
-            <img src={owner_main} className="box-details-pics" alt="Owner Main Pic"/>
+            <img 
+              src={owner_main} 
+              className="box-details-pics" 
+              alt="Owner Main Pic"
+              onClick={navigateToOwner}
+              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+            />
             <span className="selection-text with-bullet">
               Διαχειριστείτε τα στοιχεία του κατοικιδίου σας
             </span>
@@ -127,7 +222,14 @@ export default function MainPage(){
             Κτηνίατρος  
           </span>
           <div className='box-details-text vertical'>
-            <img src={vet_main} className="box-details-pics" alt="Vet Main Pic"/>
+            {/* <img src={vet_main} className="box-details-pics" alt="Vet Main Pic"/> */}
+            <img 
+              src={vet_main} 
+              className="box-details-pics" 
+              alt="Owner Main Pic"
+              onClick={navigateToVet}
+              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+            />
             <span className="selection-text with-bullet">
               Καταγραφή ταυτότητας κατοικιδίων
             </span>
@@ -149,7 +251,13 @@ export default function MainPage(){
             Πολίτης  
           </span>
           <div className='box-details-text vertical'>
-            <img src={citizen_main} className="box-details-pics" alt="Citizen Main Pic"/>
+            <img 
+              src={citizen_main} 
+              className="box-details-pics" 
+              alt="Citizen Main Pic"
+              onClick={navigateToLostPets}
+              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+            />
             <span className="selection-text with-bullet">
               Αναζήτηση χαμένων κατοικιδίων
             </span>
@@ -179,7 +287,13 @@ export default function MainPage(){
             1. Αναζήτηση Χαμένων Κατοικιδίων  
           </span>
           <div className='box-details-text vertical'>
-            <img src={search_icon} className="citizen-details-pics" alt="Search Pic"/>
+            <img 
+              src={search_icon} 
+              className="citizen-details-pics" 
+              alt="Search Pic"
+              onClick={navigateToLostPets}
+              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+            />
             <span className="citizen-details-text">
               Αναζητήστε τα αναφερόμενα χαμένα κατοικίδια στη περιοχή σας με βάση την τοποθεσία, τον τύπο και την ώρα αναφοράς.
             </span>
@@ -194,7 +308,13 @@ export default function MainPage(){
             2. Δήλωση Εύρεσης Κατοικιδίου  
           </span>
           <div className='box-details-text vertical'>
-            <img src={location_icon} className="citizen-details-pics" alt="Location Pic"/>
+            <img 
+              src={location_icon} 
+              className="citizen-details-pics" 
+              alt="Location Pic"
+              onClick={navigateToLostPets}
+              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+            />
             <span className="citizen-details-text">
               Βρήκατε κάποιο κατοικίδιο; Δηλώστε την εύρεσή του!
             </span>
@@ -209,7 +329,13 @@ export default function MainPage(){
             3. Επανένωση Οικογενειών  
           </span>
           <div className='box-details-text vertical'>
-            <img src={heart_icon} className="citizen-details-pics" alt="Heart Pic"/>
+            <img 
+              src={heart_icon} 
+              className="citizen-details-pics" 
+              alt="Heart Pic"
+              onClick={navigateToLostPets}
+              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+            />
             <span className="citizen-details-text">
               Βοηθήστε τα κατοικίδια να συνδεθούν ξανά με τους ιδιοκτήτες τους!
             </span>
@@ -331,7 +457,8 @@ export default function MainPage(){
           </Box>
         </Box>
         <Button className='lost-pet-button'>
-          <span style={{display: 'block', marginTop: '3px', fontSize: '20px', textAlign: 'left', width: '100%', color: 'white'}}>
+          <span onClick={navigateToLostPets}
+                style={{display: 'block', marginTop: '3px', fontSize: '20px', textAlign: 'left', width: '100%', color: 'white', cursor: 'pointer'}}>
             Δείτε όλα τα απολεσθέντα κατοικίδια
           </span>
         </Button>
