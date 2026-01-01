@@ -55,6 +55,20 @@ export default function OwnerProfileEdit() {
 
     const onDeletePet = (id) => setPets((prev) => prev.filter((p) => p.id !== id));
 
+    const onPetPhotoChange = (petId) => (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = String(reader.result || "");
+      setPets((prev) =>
+        prev.map((p) => (p.id === petId ? { ...p, photo: base64 } : p))
+      );
+    };
+    reader.readAsDataURL(file);
+    };
+
     const onSave = async (e) => {
         e.preventDefault();
         const id = localStorage.getItem("userId");
@@ -145,10 +159,19 @@ export default function OwnerProfileEdit() {
                 alt={p.name}
                 className="pet-img"
               />
+
               <CardContent className="pet-content">
                 <IconButton className="pet-delete" onClick={() => onDeletePet(p.id)}>
                   <DeleteIcon />
                 </IconButton>
+
+                <div style={{ marginBottom: 10 }}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={onPetPhotoChange(p.id)}
+                  />
+                </div>
 
                 <div className="pet-row"><span>Όνομα:</span><b>{p.name}</b></div>
                 <div className="pet-row"><span>Microchip:</span><b>{p.microchip}</b></div>
