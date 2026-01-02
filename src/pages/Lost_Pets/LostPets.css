@@ -49,10 +49,43 @@
   justify-content: flex-start; /* Αριστερά στοίχιση */
 }
 
-.frame-lost_pets > span {
+.frame-lost_pets > span{
   display: block;
   margin-top: 40px;
   font-size: 24px;
   text-align: left; /* Αριστερά στοίχιση τίτλου */
   width: 100%;
+}
+
+.menu-bar-button {
+  color: black !important;
+  background-color: white !important;
+  border: 2px solid black !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  text-transform: none !important;
+  
+  height: 30px !important;
+  width: 50px;
+  margin-left: 80px !important;
+  margin-top: -20px !important;
+  margin-bottom: 40px !important;
+  align-self: flex-start !important;
+  transition: all 0.3s ease !important;
+}
+
+.menu-button {
+  color: black !important;
+  background-color: white !important;
+  border: 2px solid black !important;
+  border-radius: 8px !important;
+  /* font-weight: bold !important; */
+  text-transform: none !important;
+  height: 30px !important;
+  width: 50px;
+  margin-left: 10px !important;
+  margin-top: -20px !important;
+  margin-bottom: 40px !important;
+  align-self: flex-start !important;
+  transition: all 0.3s ease !important;
 }

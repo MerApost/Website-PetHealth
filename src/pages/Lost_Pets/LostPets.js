@@ -1,43 +1,34 @@
 import "./LostPets.css";
 import Athens_areas from './../Owner/Athens_areas';
 import Pet_Types from './../Main/Pet_Types';
+import LongMenu from './../../components/LongMenu';
 
 import{
   TextField,
   Autocomplete,
   Box,
-  // Typography,
   Button
 } from '@mui/material';
-// import MemoryIcon from '@mui/icons-material/Memory';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { useLayoutEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import { Paper, Typography} from '@mui/material';
-
 export default function LostPets(){
   const location = useLocation();
   const hasScrolled = useRef(false);
   
-  // ΧΡΗΣΗ useLayoutEffect - τρέχει ΠΡΙΝ από το render
   useLayoutEffect(() => {
-    // Ελέγχουμε αν αλλάξαμε location
     console.log('LostPetsPage: Location changed', location.pathname);
     
-    // Αμέσως scroll στην αρχή
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'instant' // 'instant' αντί για 'auto' ή 'smooth'
+      behavior: 'instant'
     });
     
-    // Κρατάμε ότι έχουμε κάνει scroll
     hasScrolled.current = true;
     
-    // Extra insurance - μετά από μικρή καθυστέρηση
     const timer1 = setTimeout(() => {
       if (window.scrollY !== 0) {
         console.log('First scroll failed, trying again...');
@@ -56,10 +47,9 @@ export default function LostPets(){
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
-      // Reset για επόμενη επίσκεψη
       hasScrolled.current = false;
     };
-  }, [location.pathname]); // Μόνο το pathname
+  }, [location.pathname]);
 
   return (
     <header className="Lost-pets-header">  
@@ -72,12 +62,12 @@ export default function LostPets(){
           <Box className="input_group-lost_pets">
             <Autocomplete
               disablePortal
-              id="location-input"
+              id="pet-type-input"
               options={Pet_Types}
               sx={{ 
                 minWidth: '250px',
                 '& .MuiInput-root': {
-                  paddingLeft: '8px' // Προσθήκη padding για να μην επικαλύπτει το εικονίδιο
+                  paddingLeft: '8px'
                 }
               }}
               renderInput={(params) => (
@@ -100,7 +90,7 @@ export default function LostPets(){
               sx={{ 
                 minWidth: '250px',
                 '& .MuiInput-root': {
-                  paddingLeft: '8px' // Προσθήκη padding για να μην επικαλύπτει το εικονίδιο
+                  paddingLeft: '8px'
                 }
               }}
               renderInput={(params) => (
@@ -119,10 +109,14 @@ export default function LostPets(){
             Αναζήτηση
           </Button>
         </Box>
+        
+        <Button className='menu-bar-button' variant="outlined">
+          <LongMenu />
+        </Button>
+        <Button className='menu-button' variant="outlined">
+          Ράτσα
+        </Button>
       </div>
-
-      
     </header>
   );
 }
-
