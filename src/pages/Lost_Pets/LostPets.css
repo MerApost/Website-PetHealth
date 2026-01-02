@@ -89,3 +89,11 @@
   align-self: flex-start !important;
   transition: all 0.3s ease !important;
 }
+
+.dropdown-arrow{
+  cursor: pointer;
+  width: 24px;  /*Προσαρμόστε το μέγεθος*/
+  height: 24px;
+  margin-left: 4px;
+  mix-blend-mode: multiply;
+}

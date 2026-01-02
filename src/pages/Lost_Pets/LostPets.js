@@ -2,21 +2,32 @@ import "./LostPets.css";
 import Athens_areas from './../Owner/Athens_areas';
 import Pet_Types from './../Main/Pet_Types';
 import LongMenu from './../../components/LongMenu';
+import BreedMenu from './BreedMenu'; 
+import GenderMenu from './GenderMenu';
 
 import{
   TextField,
   Autocomplete,
   Box,
-  Button
+  Button,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export default function LostPets(){
   const location = useLocation();
   const hasScrolled = useRef(false);
+  
+  const [breed, setBreed] = useState(''); // Κατάσταση για το dropdown
+  const [open, setOpen] = useState(false); // Κατάσταση για το άνοιγμα του dropdown
+
+  // Καταστάσεις για το φύλλο
+  const [gender, setGender] = useState('');
+  const [genderOpen, setGenderOpen] = useState(false);
+
+  
   
   useLayoutEffect(() => {
     console.log('LostPetsPage: Location changed', location.pathname);
@@ -110,12 +121,25 @@ export default function LostPets(){
           </Button>
         </Box>
         
-        <Button className='menu-bar-button' variant="outlined">
-          <LongMenu />
-        </Button>
-        <Button className='menu-button' variant="outlined">
-          Ράτσα
-        </Button>
+        <Box sx={{display: 'flex', gap: '10px', alignItems: 'flex-start', marginTop: '20px'}}>
+          <Button className='menu-bar-button' variant="outlined">
+            <LongMenu />
+          </Button>
+
+          <BreedMenu
+            breed={breed}
+            setBreed={setBreed}
+            open={open}
+            setOpen={setOpen}
+          />
+
+          <GenderMenu 
+            gender={gender}
+            setGender={setGender}
+            open={genderOpen}
+            setOpen={setGenderOpen}
+          />
+        </Box>
       </div>
     </header>
   );
