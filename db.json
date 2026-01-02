@@ -80,16 +80,15 @@
       ]
     },
     {
-      "id": "4",
+      "id": "12c1",
       "role": "owner",
-      "name": "μαιρη",
-      "surname": "μαιρουλακι",
-      "email": "mair@gmail.com",
-      "phone": "691111111",
+      "name": "μαρια",
+      "surname": "παπα",
+      "email": "maria@gmail.com",
+      "phone": "6945556555",
       "afm": "12341234",
       "password": "12345678Aa!",
-      "petsCount": 1,
-      "pets": []
+      "petsCount": "1"
     }
   ]
 }

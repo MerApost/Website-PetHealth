@@ -132,7 +132,7 @@ export default function VetProfileEdit() {
               variant="contained"
               color="error"
               className="danger-btn"
-              onClick={() => alert("Αργότερα θα το συνδέσουμε με JSON Server")}
+              onClick={() => navigate("/delete-account")}
             >
               Διαγραφή Λογαριασμού
             </Button>

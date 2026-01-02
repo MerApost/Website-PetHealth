@@ -79,7 +79,7 @@ export default function OwnerProfileEdit() {
             setForm((prev) => ({ ...prev, photo: base64 }));
             };
         reader.readAsDataURL(file);
-        };
+    };
 
     const onSave = async (e) => {
         e.preventDefault();
@@ -104,7 +104,6 @@ export default function OwnerProfileEdit() {
 }
 
 
-
   return (
     <div className="profile-page">
     <Typography className="profile-title">Προβολή Προφίλ</Typography>
@@ -116,7 +115,7 @@ export default function OwnerProfileEdit() {
               variant="contained"
               color="error"
               className="danger-btn"
-              onClick={() => alert("Αργότερα θα το συνδέσουμε με JSON Server")}
+              onClick={() => navigate("/delete-account")}
             >
               Διαγραφή Λογαριασμού
             </Button>
