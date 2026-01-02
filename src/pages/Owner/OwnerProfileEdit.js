@@ -122,23 +122,16 @@ export default function OwnerProfileEdit() {
             </Button>
 
             <Box className="edit-actions-right">
-                <Button
-                variant="outlined"
-                className="cancel-btn"
-                onClick={() => navigate("/owner/profile")}
-                >
-                Ακύρωση
+                <Button variant="outlined" className="cancel-btn" onClick={() => navigate("/owner/profile")}>
+                  Ακύρωση
                 </Button>
 
-                <Button
-                variant="contained"
-                className="save-btn"
-                onClick={onSave}
-                >
-                Αποθήκευση Αλλαγών
+                <Button variant="contained" className="save-btn" onClick={onSave}                >
+                  Αποθήκευση Αλλαγών
                 </Button>
             </Box>
         </Box>
+
         <Typography className="profile-section-title">Προσωπικά Στοιχεία</Typography>
 
         </Box>
@@ -153,13 +146,7 @@ export default function OwnerProfileEdit() {
               <TextField label="E-mail:" size="small" fullWidth value={form.email} onChange={change("email")} />
               <TextField label="Τηλέφωνο:" size="small" fullWidth value={form.phone} onChange={change("phone")} />
               <TextField label="ΑΦΜ:" size="small" fullWidth value={form.afm} onChange={change("afm")} />
-              <TextField
-                label="Αριθμός Κατοικιδίων:"
-                size="small"
-                fullWidth
-                value={form.petsCount}
-                onChange={change("petsCount")}
-              />
+              <TextField label="Αριθμός Κατοικιδίων:" size="small" fullWidth value={form.petsCount} onChange={change("petsCount")} />
             </div>
           </Grid>
 
@@ -189,7 +176,7 @@ export default function OwnerProfileEdit() {
             <Card key={p.id} className="pet-card" elevation={0}>
               <CardMedia
                 component="img"
-                image={p.photo && p.photo.trim() !== "" ? p.photo : "https://via.placeholder.com/220x140?text=Pet"}
+                image={p.photo && p.photo.trim() !== "" ? p.photo : ""}
                 alt={p.name}
                 className="pet-img"
               />
