@@ -1,0 +1,128 @@
+import "./LostPets.css";
+import Athens_areas from './../Owner/Athens_areas';
+import Pet_Types from './../Main/Pet_Types';
+
+import{
+  TextField,
+  Autocomplete,
+  Box,
+  // Typography,
+  Button
+} from '@mui/material';
+// import MemoryIcon from '@mui/icons-material/Memory';
+import SearchIcon from '@mui/icons-material/Search';
+
+import { useLayoutEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { Paper, Typography} from '@mui/material';
+
+export default function LostPets(){
+  const location = useLocation();
+  const hasScrolled = useRef(false);
+  
+  // ΧΡΗΣΗ useLayoutEffect - τρέχει ΠΡΙΝ από το render
+  useLayoutEffect(() => {
+    // Ελέγχουμε αν αλλάξαμε location
+    console.log('LostPetsPage: Location changed', location.pathname);
+    
+    // Αμέσως scroll στην αρχή
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant' // 'instant' αντί για 'auto' ή 'smooth'
+    });
+    
+    // Κρατάμε ότι έχουμε κάνει scroll
+    hasScrolled.current = true;
+    
+    // Extra insurance - μετά από μικρή καθυστέρηση
+    const timer1 = setTimeout(() => {
+      if (window.scrollY !== 0) {
+        console.log('First scroll failed, trying again...');
+        window.scrollTo(0, 0);
+      }
+    }, 10);
+    
+    const timer2 = setTimeout(() => {
+      if (window.scrollY !== 0) {
+        console.log('Second scroll failed, using documentElement...');
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }
+    }, 50);
+    
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      // Reset για επόμενη επίσκεψη
+      hasScrolled.current = false;
+    };
+  }, [location.pathname]); // Μόνο το pathname
+
+  return (
+    <header className="Lost-pets-header">  
+      <div className="frame-lost_pets">
+        <span style={{ display: 'block', marginTop: '40px', marginLeft: '80px', fontSize: '24px', color: 'black', fontWeight: 'bold'}}>
+          Αναζήτηση Απολεσθέντων Κατοικιδίων
+        </span>
+        <Box className="find_pet-lost_pets">
+          {/* Είδος Κατοιδίου */}
+          <Box className="input_group-lost_pets">
+            <Autocomplete
+              disablePortal
+              id="location-input"
+              options={Pet_Types}
+              sx={{ 
+                minWidth: '250px',
+                '& .MuiInput-root': {
+                  paddingLeft: '8px' // Προσθήκη padding για να μην επικαλύπτει το εικονίδιο
+                }
+              }}
+              renderInput={(params) => (
+                <TextField 
+                  {...params} 
+                  label="Εισάγετε Είδος Κατοικιδίου" 
+                  variant="standard"
+                  className="input_field"
+                />
+              )}
+            />
+          </Box>
+
+          {/* Τοποθεσία Εύρεσης */}
+          <Box className="input_group-lost_pets">
+            <Autocomplete
+              disablePortal
+              id="location-input"
+              options={Athens_areas}
+              sx={{ 
+                minWidth: '250px',
+                '& .MuiInput-root': {
+                  paddingLeft: '8px' // Προσθήκη padding για να μην επικαλύπτει το εικονίδιο
+                }
+              }}
+              renderInput={(params) => (
+                <TextField 
+                  {...params} 
+                  label="Εισάγετε Τοποθεσία Εύρεσης" 
+                  variant="standard"
+                  className="input_field"
+                />
+              )}
+            />
+          </Box>
+
+          <Button className='search-button'>
+            <SearchIcon className="search_icon" />
+            Αναζήτηση
+          </Button>
+        </Box>
+      </div>
+
+      
+    </header>
+  );
+}
+

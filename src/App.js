@@ -13,9 +13,12 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import LogoutSuccess from "./pages/LogoutSuccess"; //
 import PasswordRecovery from "./pages/PasswordRecovery"; //
-import { useState } from "react";
 import OwnerProfileView from "./pages/Owner/OwnerProfileView";
 import OwnerProfileEdit from "./pages/Owner/OwnerProfileEdit";
+import LostPets from "./pages/Lost_Pets/LostPets";
+
+import { useState } from "react";
+
 
 
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -42,7 +45,7 @@ export default function App() {
           <Route path="/forgot-password" element={<PasswordRecovery />} />
           <Route path="/owner/profile" element={<OwnerProfileView />} />
           <Route path="/owner/profile/edit" element={<OwnerProfileEdit />} />
-
+          <Route path="/lost_pets" element={<LostPets/>} />
 
 
         </Routes>

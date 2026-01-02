@@ -3,8 +3,6 @@ import "./VetMainPage.css"
 import vet_main_page from "../../pics/vet_main_page.png";
 import left_arrow from "../../pics/left_arrow.png"
 
-
-// import React, { useState } from 'react';
 import {
   TextField,
   // Autocomplete,
@@ -15,7 +13,52 @@ import {
 import MemoryIcon from '@mui/icons-material/Memory';
 import SearchIcon from '@mui/icons-material/Search';
 
-export default function VetMainPage() {
+import { useLayoutEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+
+export default function VetMainPage(){
+  const location = useLocation();
+  const hasScrolled = useRef(false);
+  
+  // ΧΡΗΣΗ useLayoutEffect - τρέχει ΠΡΙΝ από το render
+  useLayoutEffect(() => {
+    // Ελέγχουμε αν αλλάξαμε location
+    console.log('VetMainPage: Location changed', location.pathname);
+    
+    // Αμέσως scroll στην αρχή
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant' // 'instant' αντί για 'auto' ή 'smooth'
+    });
+    
+    // Κρατάμε ότι έχουμε κάνει scroll
+    hasScrolled.current = true;
+    
+    // Extra insurance - μετά από μικρή καθυστέρηση
+    const timer1 = setTimeout(() => {
+      if (window.scrollY !== 0) {
+        console.log('First scroll failed, trying again...');
+        window.scrollTo(0, 0);
+      }
+    }, 10);
+    
+    const timer2 = setTimeout(() => {
+      if (window.scrollY !== 0) {
+        console.log('Second scroll failed, using documentElement...');
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }
+    }, 50);
+    
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      // Reset για επόμενη επίσκεψη
+      hasScrolled.current = false;
+    };
+  }, [location.pathname]); // Μόνο το pathname
+
   return (
     <header className="Owner-main-header">  
       <img src={vet_main_page} className="Owner" alt="Vet Main Page" />
