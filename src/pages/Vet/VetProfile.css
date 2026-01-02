@@ -1,0 +1,266 @@
+.profile-page{
+  min-height: 100vh;
+  background: #d7d3cb;
+  padding: 70px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-card{
+  width: 980px;
+  max-width: 100%;
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.25);
+  border-radius: 12px;
+  padding: 18px 18px 26px;
+  text-align: left; 
+}
+
+.profile-title{
+  font-weight: 900;
+  text-align: center;
+  margin: 0 0 18px;
+  letter-spacing: 0.5px;
+  font-size: 26px;
+}
+
+.profile-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.profile-section-title{
+  font-weight: 800;
+  font-size: 14px;
+  text-align: left;
+}
+
+.profile-edit-btn{
+  padding: 4px 12px !important;
+  font-size: 13px !important;
+  text-transform: none !important;
+  line-height: 1.2 !important
+}
+
+.profile-divider{
+  margin: 14px 0 !important;
+  border-color: rgba(0,0,0,0.15) !important;
+  opacity: 0.6;
+}
+
+.profile-info-grid{
+  margin-top: 6px;
+}
+
+.profile-info{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-row{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 10px;
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 8px;
+  background: rgba(0,0,0,0.02);
+  align-items: baseline;
+  margin: 4px 0;
+}
+
+.profile-row span{
+    min-width: 160px;
+    opacity: 0.8;
+}
+
+.profile-photo-box{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.profile-photo-placeholder{
+  width: 150px;
+  height: 150px;
+  border: 2px solid rgba(0,0,0,0.35);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.pets-title{
+  margin-top: 14px !important;
+  margin-bottom: 10px !important;
+}
+
+.pets-list{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pet-card{
+  border: 1.5px solid rgba(0,0,0,0.18);
+  border-radius: 12px !important;
+  overflow: hidden;
+  display: flex;
+  position: relative; 
+}
+
+.pet-img{
+  width: 220px !important;
+  height: 140px !important;
+  object-fit: cover !important;
+}
+
+.pet-content{
+  position: relative;
+  padding: 12px 14px !important;
+  text-align: left;
+  flex: 1; 
+}
+
+.pet-row{
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 2px 0;
+}
+
+.pet-row span{
+  opacity: 0.8;
+  min-width: 110px;
+}
+
+.pet-delete{
+  position: absolute !important;
+  top: 6px;
+  right: 6px;
+  z-index: 5; 
+}
+
+.profile-back{
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.edit-top{
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.edit-actions{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;  
+  gap: 8px;
+}
+
+.edit-actions-right{
+  display: flex;
+  gap: 10px;
+}
+
+.danger-btn,
+.save-btn,
+.cancel-btn{
+  padding: 4px 12px !important;
+  font-size: 13px !important;
+  min-height: 32px !important;
+  text-transform: none !important;
+  border-radius: 10px !important;
+}
+
+.loading{
+  padding-top: 120px;
+  text-align: center;
+}
+
+.profile-photo-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.centered-section-title{
+  margin-top: 16px !important;
+  text-align: center;
+  font-weight: 900 !important;
+  font-size: 14px;
+}
+
+.section-box{
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 10px;
+  padding: 12px;
+  background: rgba(0,0,0,0.02);
+  margin-top: 8px;
+}
+
+.about-text{
+  white-space: pre-wrap;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.file-input-wrap{
+  margin-top: 10px;
+}
+
+.service-add-grid{
+  display: grid;
+  grid-template-columns: 1.6fr 0.8fr 0.6fr auto;
+  gap: 10px;
+  margin-top: 8px;
+  align-items: center;
+}
+
+.services-box{
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.services-header,
+.services-row{
+  display: grid;
+  gap: 10px;
+  padding: 10px 12px;
+  align-items: center;
+}
+
+.services-header{
+  font-weight: 800;
+  background: rgba(0,0,0,0.04);
+}
+
+.services-header-view,
+.services-row-view{
+  grid-template-columns: 1.6fr 0.8fr 0.6fr;
+}
+
+.services-header-edit,
+.services-row-edit{
+  grid-template-columns: 1.6fr 0.8fr 0.6fr 40px;
+}
+
+.services-row{
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+.services-empty{
+  padding: 12px;
+  opacity: 0.8;
+}

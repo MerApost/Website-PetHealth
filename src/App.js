@@ -11,13 +11,19 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Faq from "./pages/Faq";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
-import LogoutSuccess from "./pages/LogoutSuccess"; //
-import PasswordRecovery from "./pages/PasswordRecovery"; //
+import LogoutSuccess from "./pages/LogoutSuccess";
+import PasswordRecovery from "./pages/PasswordRecovery";
 import OwnerProfileView from "./pages/Owner/OwnerProfileView";
 import OwnerProfileEdit from "./pages/Owner/OwnerProfileEdit";
 import LostPets from "./pages/Lost_Pets/LostPets";
+import VetProfileView from "./pages/Vet/VetProfileView";
+import VetProfileEdit from "./pages/Vet/VetProfileEdit";
+import DeleteAccount from "./pages/DeleteAccount";
+
 
 import { useState } from "react";
+
+
 
 
 
@@ -46,6 +52,11 @@ export default function App() {
           <Route path="/owner/profile" element={<OwnerProfileView />} />
           <Route path="/owner/profile/edit" element={<OwnerProfileEdit />} />
           <Route path="/lost_pets" element={<LostPets/>} />
+          <Route path="/vet/profile" element={<VetProfileView />} />
+          <Route path="/vet/profile/edit" element={<VetProfileEdit />} />΄
+          <Route path="/delete-account" element={<DeleteAccount />} />
+
+
 
 
         </Routes>

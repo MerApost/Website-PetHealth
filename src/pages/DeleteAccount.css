@@ -1,0 +1,72 @@
+.delete-page{
+  min-height: 100vh;
+  background: #d7d3cb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+.delete-card{
+  width: 420px;
+  max-width: 100%;
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.25);
+  border-radius: 14px;
+  padding: 26px 22px 22px;
+  text-align: center;
+}
+
+.delete-icon{
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 3px solid #d32f2f;
+  color: #d32f2f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 26px;
+  margin: 0 auto 14px;
+}
+
+.delete-title{
+  font-weight: 900 !important;
+  font-size: 20px !important;
+  margin-bottom: 8px !important;
+}
+
+.delete-subtitle{
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  margin-bottom: 6px !important;
+}
+
+.delete-hint{
+  opacity: 0.8;
+  font-size: 13px !important;
+  margin-bottom: 16px !important;
+}
+
+.delete-actions{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.delete-cancel,
+.delete-confirm{
+  padding: 4px 16px !important;
+  font-size: 13px !important;
+  min-height: 32px !important;
+  text-transform: none !important;
+  border-radius: 10px !important;
+}
+
+.delete-footer{
+  margin-top: 14px !important;
+  opacity: 0.75;
+  font-size: 12px !important;
+}
