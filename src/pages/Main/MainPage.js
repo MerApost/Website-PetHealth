@@ -15,7 +15,7 @@ import frixos from "./../../pics/frixos.png"
 import frank from "./../../pics/frank.png"
 
 import Athens_areas from './../Owner/Athens_areas';
-import Pet_Types from './Pet_Types';
+import Pet_Types from './../Lost_Pets/Data/Pet_Types';
 
 import SearchIcon from '@mui/icons-material/Search';
 import PlaceIcon from '@mui/icons-material/Place';
