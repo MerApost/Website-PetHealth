@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import TuneSharpIcon from '@mui/icons-material/TuneSharp';
 import FiltersPopover from './../pages/Lost_Pets/FiltersPopover';
 
-export default function LongMenu() {
+export default function LongMenu({ onApplyFilters }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   
   const open = Boolean(anchorEl);
@@ -17,8 +17,11 @@ export default function LongMenu() {
   };
 
   const handleApply = (filters) => {
-    console.log('Filters applied:', filters);
-    // Εδώ μπορείτε να χρησιμοποιήσετε τα φίλτρα για να φιλτράρετε τα αποτελέσματα
+    console.log('=== LONG MENU: Filters received from popover ===', filters);
+    // Καλέστε τη συνάρτηση από τα props
+    if (onApplyFilters) {
+      onApplyFilters(filters);
+    }
   };
 
   return (
