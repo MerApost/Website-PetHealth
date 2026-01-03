@@ -16,25 +16,68 @@ import frank from "./../../pics/frank.png"
 
 import Athens_areas from './../Owner/Athens_areas';
 import Pet_Types from './../Lost_Pets/Data/Pet_Types';
+import PetSearchBar from './../Lost_Pets/PetSearchBar'; // ΠΡΟΣΘΗΚΗ
 
-import SearchIcon from '@mui/icons-material/Search';
 import PlaceIcon from '@mui/icons-material/Place';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import {
-  TextField,
-  Autocomplete,
   Box,
-  // Typography,
   Button
 } from '@mui/material';
 
-import { useNavigate, useLocation } from 'react-router-dom'; // ΠΡΟΣΘΗΚΗ useLocation
-import { useLayoutEffect, useRef } from 'react'; // ΠΡΟΣΘΗΚΗ useLayoutEffect και useRef
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useLayoutEffect, useRef, useState, useCallback } from 'react'; // ΠΡΟΣΘΗΚΗ useState, useCallback
 
 export default function MainPage(){
-  const location = useLocation(); // ΠΡΟΣΘΗΚΗ
-  const hasScrolled = useRef(false); // ΠΡΟΣΘΗΚΗ
+  const location = useLocation();
+  const hasScrolled = useRef(false);
+  
+  // ΠΡΟΣΘΗΚΗ state variables για τα φίλτρα
+  const [petTypeFilter, setPetTypeFilter] = useState(null);
+  const [locationFilter, setLocationFilter] = useState(null);
+  
+  const navigate = useNavigate();
+  
+  // ΠΡΟΣΘΗΚΗ handler για το search
+  const handleSearch = useCallback(() => {
+    console.log('Search clicked from MainPage:', { petTypeFilter, locationFilter });
+    navigateToLostPetsWithFilters();
+  }, [petTypeFilter, locationFilter]);
+  
+  // ΠΡΟΣΘΗΚΗ Νέα συνάρτηση για navigation με φίλτρα
+  const navigateToLostPetsWithFilters = useCallback(() => {
+    console.log('Navigating to lost pets with filters...');
+    
+    // Δημιουργία query parameters αν υπάρχουν φίλτρα
+    const params = new URLSearchParams();
+    if (petTypeFilter) {
+      const petTypeValue = typeof petTypeFilter === 'string' 
+        ? petTypeFilter 
+        : petTypeFilter.label || petTypeFilter;
+      params.append('type', petTypeValue);
+    }
+    if (locationFilter) {
+      const locationValue = typeof locationFilter === 'string'
+        ? locationFilter
+        : locationFilter.label || locationFilter;
+      params.append('location', locationValue);
+    }
+    
+    const queryString = params.toString();
+    const url = queryString ? `/lost_pets?${queryString}` : '/lost_pets';
+    
+    window.scrollTo(0, 0);
+    navigate(url);
+    
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant'
+      });
+    }, 100);
+  }, [petTypeFilter, locationFilter, navigate]);
   
   // ΠΡΟΣΘΗΚΗ useLayoutEffect για scroll στην αρχή
   useLayoutEffect(() => {
@@ -69,8 +112,6 @@ export default function MainPage(){
       hasScrolled.current = false;
     };
   }, [location.pathname]);
-  
-  const navigate = useNavigate();
   
   // Βελτιωμένη συνάρτηση navigation
   const navigateToOwner = () => {
@@ -128,61 +169,29 @@ export default function MainPage(){
         την ευρεση ειδικευμένων κτηνιάτρων και την επανένωση με χαμένα ζώα.
       </span>
 
+      {/* ΑΦΑΙΡΕΣΗ παλιού search section και ΠΡΟΣΘΗΚΗ του PetSearchBar */}
       <span style={{ display: 'block', marginTop: '40px', fontSize: '24px'}}>
         Αναζήτηση Απολεσθέντων Κατοικιδίων
       </span>
-      <Box className="find_pet">
-        {/* Είδος Κατοιδίου */}
-        <Box className="input_group-main">
-          <Autocomplete
-            disablePortal
-            id="location-input"
-            options={Pet_Types}
-            sx={{ 
-              minWidth: '250px',
-              '& .MuiInput-root': {
-                paddingLeft: '8px' // Προσθήκη padding για να μην επικαλύπτει το εικονίδιο
-              }
-            }}
-            renderInput={(params) => (
-              <TextField 
-                {...params} 
-                label="Εισάγετε Είδος Κατοικιδίου" 
-                variant="standard"
-                className="input_field"
-              />
-            )}
-          />
-        </Box>
-
-        {/* Τοποθεσία Εύρεσης */}
-        <Box className="input_group-main">
-          <Autocomplete
-            disablePortal
-            id="location-input"
-            options={Athens_areas}
-            sx={{ 
-              minWidth: '250px',
-              '& .MuiInput-root': {
-                paddingLeft: '8px' // Προσθήκη padding για να μην επικαλύπτει το εικονίδιο
-              }
-            }}
-            renderInput={(params) => (
-              <TextField 
-                {...params} 
-                label="Εισάγετε Τοποθεσία Εύρεσης" 
-                variant="standard"
-                className="input_field"
-              />
-            )}
-          />
-        </Box>
-
-        <Button className='search-button'>
-          <SearchIcon className="search_icon" />
-          Αναζήτηση
-        </Button>
-      </Box>
+      
+      {/* Χρήση του PetSearchBar */}
+      <PetSearchBar
+        petTypes={Pet_Types}
+        locationAreas={Athens_areas}
+        petTypeFilter={petTypeFilter}
+        locationFilter={locationFilter}
+        onPetTypeChange={setPetTypeFilter}
+        onLocationChange={setLocationFilter}
+        onSearch={handleSearch}
+        petTypeLabel="Εισάγετε Είδος Κατοικιδίου"
+        locationLabel="Εισάγετε Τοποθεσία Εύρεσης"
+        searchButtonText="Αναζήτηση"
+        sx={{
+          width: '100%',
+          maxWidth: '800px',
+          margin: '20px auto'
+        }}
+      />
 
       <Box className='quick-details'>
         {/* Αριστερό κουτάκι */}
@@ -196,7 +205,7 @@ export default function MainPage(){
               className="box-details-pics" 
               alt="Owner Main Pic"
               onClick={navigateToOwner}
-              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+              style={{ cursor: 'pointer' }}
             />
             <span className="selection-text with-bullet">
               Διαχειριστείτε τα στοιχεία του κατοικιδίου σας
@@ -222,13 +231,12 @@ export default function MainPage(){
             Κτηνίατρος  
           </span>
           <div className='box-details-text vertical'>
-            {/* <img src={vet_main} className="box-details-pics" alt="Vet Main Pic"/> */}
             <img 
               src={vet_main} 
               className="box-details-pics" 
-              alt="Owner Main Pic"
+              alt="Vet Main Pic"
               onClick={navigateToVet}
-              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+              style={{ cursor: 'pointer' }}
             />
             <span className="selection-text with-bullet">
               Καταγραφή ταυτότητας κατοικιδίων
@@ -256,7 +264,7 @@ export default function MainPage(){
               className="box-details-pics" 
               alt="Citizen Main Pic"
               onClick={navigateToLostPets}
-              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+              style={{ cursor: 'pointer' }}
             />
             <span className="selection-text with-bullet">
               Αναζήτηση χαμένων κατοικιδίων
@@ -292,7 +300,7 @@ export default function MainPage(){
               className="citizen-details-pics" 
               alt="Search Pic"
               onClick={navigateToLostPets}
-              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+              style={{ cursor: 'pointer' }}
             />
             <span className="citizen-details-text">
               Αναζητήστε τα αναφερόμενα χαμένα κατοικίδια στη περιοχή σας με βάση την τοποθεσία, τον τύπο και την ώρα αναφοράς.
@@ -313,7 +321,7 @@ export default function MainPage(){
               className="citizen-details-pics" 
               alt="Location Pic"
               onClick={navigateToLostPets}
-              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+              style={{ cursor: 'pointer' }}
             />
             <span className="citizen-details-text">
               Βρήκατε κάποιο κατοικίδιο; Δηλώστε την εύρεσή του!
@@ -334,7 +342,7 @@ export default function MainPage(){
               className="citizen-details-pics" 
               alt="Heart Pic"
               onClick={navigateToLostPets}
-              style={{ cursor: 'pointer' }} // Προαιρετικό: αλλάζει το cursor
+              style={{ cursor: 'pointer' }}
             />
             <span className="citizen-details-text">
               Βοηθήστε τα κατοικίδια να συνδεθούν ξανά με τους ιδιοκτήτες τους!
