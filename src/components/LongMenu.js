@@ -1,44 +1,31 @@
 import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import TuneSharpIcon from '@mui/icons-material/TuneSharp';
-
-const options = [
-  'None',
-  'Atria',
-  'Callisto',
-  'Dione',
-  'Ganymede',
-  'Hangouts Call',
-  'Luna',
-  'Oberon',
-  'Phobos',
-  'Pyxis',
-  'Sedna',
-  'Titania',
-  'Triton',
-  'Umbriel',
-];
-
-const ITEM_HEIGHT = 48;
+import FiltersPopover from './../pages/Lost_Pets/FiltersPopover';
 
 export default function LongMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  
   const open = Boolean(anchorEl);
+  
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleApply = (filters) => {
+    console.log('Filters applied:', filters);
+    // Εδώ μπορείτε να χρησιμοποιήσετε τα φίλτρα για να φιλτράρετε τα αποτελέσματα
   };
 
   return (
     <div>
       <IconButton
-        aria-label="more"
-        id="long-button"
-        aria-controls={open ? 'long-menu' : undefined}
+        aria-label="filters"
+        aria-controls={open ? 'filters-menu' : undefined}
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
@@ -46,29 +33,13 @@ export default function LongMenu() {
       >
         <TuneSharpIcon />
       </IconButton>
-      <Menu
-        id="long-menu"
+      
+      <FiltersPopover
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        slotProps={{
-          paper: {
-            style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
-              width: '20ch',
-            },
-          },
-          list: {
-            'aria-labelledby': 'long-button',
-          },
-        }}
-      >
-        {options.map((option) => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-            {option}
-          </MenuItem>
-        ))}
-      </Menu>
+        onApply={handleApply}
+      />
     </div>
   );
 }
