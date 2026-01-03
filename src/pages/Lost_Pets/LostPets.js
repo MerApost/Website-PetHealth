@@ -5,6 +5,13 @@ import LongMenu from './../../components/LongMenu';
 import BreedMenu from './BreedMenu'; 
 import GenderMenu from './GenderMenu';
 
+import maximos from './../../pics/maximos.png'
+import fiona from './../../pics/fiona.png'
+import frixos from './../../pics/frixos.png'
+import melomakarono from './../../pics/melomakarono.png'
+import hasan from './../../pics/hasan.png'
+import loukoumi from './../../pics/loukoumi.png'
+
 import{
   TextField,
   Autocomplete,
@@ -12,6 +19,8 @@ import{
   Button,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import PlaceIcon from '@mui/icons-material/Place';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -19,7 +28,7 @@ import { useLocation } from 'react-router-dom';
 export default function LostPets(){
   const location = useLocation();
   const hasScrolled = useRef(false);
-  
+
   const [breed, setBreed] = useState(''); // Κατάσταση για το dropdown
   const [open, setOpen] = useState(false); // Κατάσταση για το άνοιγμα του dropdown
 
@@ -27,7 +36,6 @@ export default function LostPets(){
   const [gender, setGender] = useState('');
   const [genderOpen, setGenderOpen] = useState(false);
 
-  
   
   useLayoutEffect(() => {
     console.log('LostPetsPage: Location changed', location.pathname);
@@ -141,6 +149,191 @@ export default function LostPets(){
           />
         </Box>
       </div>
+
+      <Box className='quick-selection-container-vet'>
+        {/* ΔΕΥΤΕΡΗ ΓΡΑΜΜΗ - 2 ΚΟΥΤΑΚΙΑ */}
+        <Box className='quick-selection-row-pet'>
+          <Box className='around-box'>
+            <Box className='inside-box'>
+              {/* Στήλη 1: Εικόνα */}
+              <Box sx={{flexShrink: 0}}>
+                <img src={maximos} className='lost-pet-img' alt="Maximos" />
+              </Box>
+
+              {/* Στήλη 2: Κείμενο */}
+              <Box className='text-column'>
+                <span className='pet-name'>
+                  Μάξιμος
+                </span>
+                <span className='pet-range'>
+                  Border Collie, Αρσενικό
+                </span>
+                
+                <span className='pet-location'>
+                  <PlaceIcon sx={{color: '#67A3B8', width: 22, height: 22}} />
+                  Ζωγράφου, Αθήνα
+                </span>
+                
+                <span className='pet-location'>
+                  <AccessTimeIcon sx={{color: '#67A3B8', width: 22, height: 20}} />
+                  Πριν 1 ημέρα
+                </span>
+              </Box>
+            </Box>
+          </Box>  
+
+          <Box className='around-box'>
+            <Box className='inside-box'>
+              {/* Στήλη 1: Εικόνα */}
+              <Box sx={{flexShrink: 0}}>
+                <img src={fiona} className='lost-pet-img' alt="Fiona" />
+              </Box>
+
+              {/* Στήλη 2: Κείμενο */}
+              <Box className='text-column'>
+                <span className='pet-name'>
+                  Φιόνα
+                </span>
+                <span className='pet-range'>
+                  Domestic Longhair, Θηλυκό
+                </span>
+                
+                <span className='pet-location'>
+                  <PlaceIcon sx={{color: '#67A3B8', width: 22, height: 22}} />
+                  Εξάρχεια, Αθήνα
+                </span>
+                
+                <span className='pet-location'>
+                  <AccessTimeIcon sx={{color: '#67A3B8', width: 22, height: 20}} />
+                  Πριν 2 ημέρες
+                </span>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      
+        {/* ΔΕΥΤΕΡΗ ΓΡΑΜΜΗ - 2 ΚΟΥΤΑΚΙΑ */}
+        <Box className='quick-selection-row-pet'>
+          <Box className='around-box'>
+            <Box className='inside-box'>
+              {/* Στήλη 1: Εικόνα */}
+              <Box sx={{flexShrink: 0}}>
+                <img src={frixos} className='lost-pet-img' alt="Frixos" />
+              </Box>
+
+              {/* Στήλη 2: Κείμενο */}
+              <Box className='text-column'>
+                <span className='pet-name'>
+                  Φρίξος
+                </span>
+                <span className='pet-range'>
+                  Maine Coon, Αρσενικό
+                </span>
+                
+                <span className='pet-location'>
+                  <PlaceIcon sx={{color: '#67A3B8', width: 22, height: 22}} />
+                  Ψυχικό, Αθήνα
+                </span>
+                
+                <span className='pet-location'>
+                  <AccessTimeIcon sx={{color: '#67A3B8', width: 22, height: 20}} />
+                  Πριν 2 ημέρες
+                </span>
+              </Box>
+            </Box>
+          </Box>  
+
+          <Box className='around-box'>
+            <Box className='inside-box'>
+              {/* Στήλη 1: Εικόνα */}
+              <Box sx={{flexShrink: 0}}>
+                <img src={melomakarono} className='lost-pet-img' alt="Melomakarono" />
+              </Box>
+
+              {/* Στήλη 2: Κείμενο */}
+              <Box className='text-column'>
+                <span className='pet-name'>
+                  Μελομακάρονο
+                </span>
+                <span className='pet-range'>
+                  Golden Retriever, Αρσενικό
+                </span>
+                
+                <span className='pet-location'>
+                  <PlaceIcon sx={{color: '#67A3B8', width: 22, height: 22}} />
+                  Αμπελόκηποι, Αθήνα
+                </span>
+                
+                <span className='pet-location'>
+                  <AccessTimeIcon sx={{color: '#67A3B8', width: 22, height: 20}} />
+                  Πριν 5 ημέρες
+                </span>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+
+        {/* ΤΡΙΤΗ ΓΡΑΜΜΗ - 2 ΚΟΥΤΑΚΙΑ */}
+        <Box className='quick-selection-row-pet'>
+          <Box className='around-box'>
+            <Box className='inside-box'>
+              {/* Στήλη 1: Εικόνα */}
+              <Box sx={{flexShrink: 0}}>
+                <img src={loukoumi} className='lost-pet-img' alt="Loukoumi" />
+              </Box>
+
+              {/* Στήλη 2: Κείμενο */}
+              <Box className='text-column'>
+                <span className='pet-name'>
+                  Λουκούμι
+                </span>
+                <span className='pet-range'>
+                  Goldendoodle, Θηλυκό
+                </span>
+                
+                <span className='pet-location'>
+                  <PlaceIcon sx={{color: '#67A3B8', width: 22, height: 22}} />
+                  Παγκράτι, Αθήνα
+                </span>
+                
+                <span className='pet-location'>
+                  <AccessTimeIcon sx={{color: '#67A3B8', width: 22, height: 20}} />
+                  Πριν 5 ημέρες
+                </span>
+              </Box>
+            </Box>
+          </Box>  
+
+          <Box className='around-box'>
+            <Box className='inside-box'>
+              {/* Στήλη 1: Εικόνα */}
+              <Box sx={{flexShrink: 0}}>
+                <img src={hasan} className='lost-pet-img' alt="Hasan" />
+              </Box>
+
+              {/* Στήλη 2: Κείμενο */}
+              <Box className='text-column'>
+                <span className='pet-name'>
+                  Χασάν
+                </span>
+                <span className='pet-range'>
+                  Beagle, Αρσενικό
+                </span>
+                
+                <span className='pet-location'>
+                  <PlaceIcon sx={{color: '#67A3B8', width: 22, height: 22}} />
+                  Αιγάλεω, Αθήνα
+                </span>
+                
+                <span className='pet-location'>
+                  <AccessTimeIcon sx={{color: '#67A3B8', width: 22, height: 20}} />
+                  Πριν 8 ημέρες
+                </span>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
     </header>
   );
 }
