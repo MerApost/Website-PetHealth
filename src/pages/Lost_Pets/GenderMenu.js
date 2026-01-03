@@ -6,7 +6,7 @@ import {
   MenuItem
 } from '@mui/material';
 import dropdown_arrow from './../../pics/drop_down_arrow_1.png';
-import { GenderOptions } from './GenderOptions';
+import { GenderOptions } from './Data/GenderOptions';
 
 const GenderMenu = ({ gender, setGender, open, setOpen }) => {
   const handleToggle = () => {

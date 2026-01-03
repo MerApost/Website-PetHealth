@@ -1,6 +1,6 @@
 import "./LostPets.css";
 import Athens_areas from './../Owner/Athens_areas';
-import Pet_Types from './../Main/Pet_Types';
+import Pet_Types from './Data/Pet_Types';
 import LongMenu from './../../components/LongMenu';
 import BreedMenu from './BreedMenu'; 
 import GenderMenu from './GenderMenu';

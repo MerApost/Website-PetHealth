@@ -1,4 +1,3 @@
-// src/components/BreedDropdown.jsx
 import React from 'react';
 import {
   Box,
@@ -7,7 +6,7 @@ import {
   MenuItem
 } from '@mui/material';
 import dropdown_arrow from './../../pics/drop_down_arrow_1.png';
-import { BreedOptions } from './BreedOptions';
+import {Pet_Breeds} from './Data/Pet_Breeds';
 
 const BreedDropdown = ({ breed, setBreed, open, setOpen }) => {
   const handleToggle = () => {
@@ -52,10 +51,10 @@ const BreedDropdown = ({ breed, setBreed, open, setOpen }) => {
               marginLeft: '11px',
               maxHeight: '300px',
               overflowY: 'auto',
-              width: '250px'
+              width: '295px'
             }}
           >
-            {BreedOptions.map((option) => (
+            {Pet_Breeds.map((option) => (
               <MenuItem 
                 key={option.value}
                 onClick={() => { 

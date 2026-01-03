@@ -161,6 +161,6 @@
   width: 100%;
 }
 
-.quick-selection-row-pet:nth-child(1) { /* 1η γραμμή */ }
-.quick-selection-row-pet:nth-child(2) { /* 2η γραμμή */ }
-.quick-selection-row-pet:nth-child(3) { /* 3η γραμμή */ }
+.quick-selection-row-pet:nth-child(1) { justify-content: space-around; }
+.quick-selection-row-pet:nth-child(2) { justify-content: space-around; }
+.quick-selection-row-pet:nth-child(3) { justify-content: space-around; }
