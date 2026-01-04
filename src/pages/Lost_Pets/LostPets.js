@@ -19,7 +19,6 @@ import {  useSearchParams, useNavigate } from 'react-router-dom';
 export default function LostPets(){
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  // const hasScrolled = useRef(false);
 
   const [breed, setBreed] = useState('');
   const [open, setOpen] = useState(false);
@@ -48,6 +47,42 @@ export default function LostPets(){
       return a.daysLost - b.daysLost;
     });
   }, []);
+  
+  // Συνάρτηση για μορφοποίηση ημερών στα ελληνικά
+  const getDaysText = useCallback((days) => {
+    if (days === 0) return "Σήμερα";
+    if (days === 1) return "Πριν 1 ημέρα";
+    return `Πριν ${days} ημέρες`;
+  }, []);
+  
+  // Συνάρτηση μετατροπής ημερομηνίας από DD/MM/YYYY σε Date object
+  const parseEuropeanDate = useCallback((dateString) => {
+    if (!dateString) return new Date();
+    
+    const dateParts = dateString.split('/');
+    if (dateParts.length !== 3) return new Date();
+    
+    const day = parseInt(dateParts[0], 10);
+    const month = parseInt(dateParts[1], 10) - 1; // Μήνες είναι 0-indexed
+    const year = parseInt(dateParts[2], 10);
+    
+    return new Date(year, month, day);
+  }, []);
+  
+  // Συνάρτηση υπολογισμού διαφοράς ημερών
+  const calculateDaysLost = useCallback((lostDateString) => {
+    const lostDate = parseEuropeanDate(lostDateString);
+    const today = new Date();
+    
+    // Ορισμός ίδιου χρόνου για και τις δύο ημερομηνίες (μεσάνυχτα)
+    const lostDateNormalized = new Date(lostDate.getFullYear(), lostDate.getMonth(), lostDate.getDate());
+    const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    
+    const timeDiff = todayNormalized.getTime() - lostDateNormalized.getTime();
+    const daysLost = Math.max(0, Math.floor(timeDiff / (1000 * 3600 * 24)));
+    
+    return daysLost;
+  }, [parseEuropeanDate]);
   
   // Συνάρτηση για φιλτράρισμα τοποθεσίας
   const filterByLocation = useCallback((pets, locationFilter) => {
@@ -283,10 +318,25 @@ export default function LostPets(){
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Loaded pets from API:', data.length, data);
+        
+        console.log('Today is:', new Date().toLocaleDateString('el-GR'));
+        
+        // Προσθήκη υπολογισμού ημερών απώλειας
+        const dataWithDaysLost = data.map(pet => {
+          const daysLost = calculateDaysLost(pet.lostDate);
+          
+          console.log(`Pet ${pet.name}: lostDate=${pet.lostDate}, daysLost=${daysLost}`);
+          
+          return {
+            ...pet,
+            daysLost: daysLost
+          };
+        });
+        
+        console.log('Loaded pets from API:', dataWithDaysLost.length, dataWithDaysLost);
         
         // ΤΑΞΙΝΟΜΗΣΗ: Πιο πρόσφατα πρώτα
-        const sortedData = sortLostPets(data);
+        const sortedData = sortLostPets(dataWithDaysLost);
         
         setLostPets(sortedData);
         setFilteredPets(sortedData);
@@ -298,7 +348,7 @@ export default function LostPets(){
 
     fetchLostPets();
     initializeFiltersFromURL();
-  }, [initializeFiltersFromURL, sortLostPets]);
+  }, [initializeFiltersFromURL, sortLostPets, calculateDaysLost]);
   
   // useEffect για αυτόματη εφαρμογή φίλτρων όταν φορτωθεί η σελίδα με parameters
   useEffect(() => {
@@ -359,12 +409,6 @@ export default function LostPets(){
       });
     }
   }, [filters, applyAllFilters, petTypeFilter, locationFilter, breed, gender]);
-
-  // Μετατροπή ημερών στα ελληνικά
-  const getDaysText = useCallback((days) => {
-    if (days === 1) return "Πριν 1 ημέρα";
-    return `Πριν ${days} ημέρες`;
-  }, []);
 
   const petRows = groupPetsIntoRows(filteredPets);
 
@@ -483,12 +527,12 @@ export default function LostPets(){
                     <Button
                       variant="outlined"
                       sx={{
-                        backgroundColor: '#67a3b8e8', // Ανοιχτό μπλε μέσα
-                        color: '#000000', // Μαύρα γράμματα
-                        borderColor: '#000000', // Μαύρο border γύρω-γύρω
+                        backgroundColor: '#67a3b8e8',
+                        color: '#000000',
+                        borderColor: '#000000',
                         '&:hover': {
-                          backgroundColor: '#bbdefb', // Πιο σκούρο μπλε στο hover
-                          borderColor: '#000000', // Μαύρο border και στο hover
+                          backgroundColor: '#bbdefb',
+                          borderColor: '#000000',
                         },
                         height: '30px',
                         width: '180px',
@@ -498,9 +542,9 @@ export default function LostPets(){
                         fontSize: '16px',
                         padding: '10px 20px',
                         borderRadius: '20px',
-                        textTransform: 'none', // Για να μην κάνει κεφαλαία τα γράμματα
+                        textTransform: 'none',
                       }}
-                      onClick={() => navigate('/pet-profile')}
+                      onClick={() => navigate(`/lost_pets/${pet.id}`)}
                     >
                       Προβολή Προφίλ
                     </Button>
