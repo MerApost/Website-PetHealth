@@ -130,10 +130,10 @@ const PetSearchBar = ({
         sx={{
           height: '56px',
           minWidth: { xs: '100%', md: '150px' },
-          backgroundColor: '#67A3B8',
+          backgroundColor: '#AD653A',
           color: 'white',
           '&:hover': {
-            backgroundColor: '#4a8fa8',
+            backgroundColor: '#AD653A',
           },
           textTransform: 'none',
           fontSize: '1rem',

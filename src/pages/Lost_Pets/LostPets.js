@@ -6,13 +6,6 @@ import BreedMenu from './BreedMenu';
 import GenderMenu from './GenderMenu';
 import PetSearchBar from './PetSearchBar';
 
-import maximos from './../../pics/maximos.png'
-import fiona from './../../pics/fiona.png'
-import frixos from './../../pics/frixos.png'
-import melomakarono from './../../pics/melomakarono.png'
-import hasan from './../../pics/hasan.png'
-import loukoumi from './../../pics/loukoumi.png'
-
 import {
   Box,
   Button,
@@ -20,23 +13,13 @@ import {
 import PlaceIcon from '@mui/icons-material/Place';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
-import { useLayoutEffect, useRef, useState, useEffect, useCallback } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
-
-// Χάρτης φωτογραφιών για αντιστοίχιση
-const petPhotos = {
-  "maximos": maximos,
-  "fiona": fiona,
-  "frixos": frixos,
-  "melomakarono": melomakarono,
-  "hasan": hasan,
-  "loukoumi": loukoumi
-};
+import { useState, useEffect, useCallback } from 'react';
+import {  useSearchParams } from 'react-router-dom';
 
 export default function LostPets(){
-  const location = useLocation();
+  // const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const hasScrolled = useRef(false);
+  // const hasScrolled = useRef(false);
 
   const [breed, setBreed] = useState('');
   const [open, setOpen] = useState(false);
@@ -58,11 +41,18 @@ export default function LostPets(){
   const [petTypeFilter, setPetTypeFilter] = useState(null);
   const [locationFilter, setLocationFilter] = useState(null);
   
+  // Συνάρτηση για ταξινόμηση από το πιο πρόσφατα χαμένο
+  const sortLostPets = useCallback((pets) => {
+    return [...pets].sort((a, b) => {
+      // Πρώτα τα πιο πρόσφατα (λιγότερες μέρες)
+      return a.daysLost - b.daysLost;
+    });
+  }, []);
+  
   // Συνάρτηση για φιλτράρισμα τοποθεσίας
   const filterByLocation = useCallback((pets, locationFilter) => {
     if (!locationFilter) return pets;
     
-    // Παίρνουμε το string από το locationFilter
     const locationString = typeof locationFilter === 'string' 
       ? locationFilter 
       : (locationFilter?.label || locationFilter || '');
@@ -77,12 +67,10 @@ export default function LostPets(){
       const petLocation = pet.location.toLowerCase().trim();
       const searchLocation = locationString.toLowerCase().trim();
       
-      // 1. Ακριβής αντιστοιχία
       if (petLocation === searchLocation) {
         return true;
       }
       
-      // 2. Αν το pet.location περιέχει ", Αθήνα"
       if (petLocation.includes(', αθήνα')) {
         const cleanPetLocation = petLocation.replace(', αθήνα', '').trim();
         if (cleanPetLocation === searchLocation) {
@@ -90,12 +78,10 @@ export default function LostPets(){
         }
       }
       
-      // 3. Αν το searchLocation είναι μέρος του pet.location
       if (petLocation.includes(searchLocation)) {
         return true;
       }
       
-      // 4. Αν το pet.location είναι μέρος του searchLocation
       if (searchLocation.includes(petLocation)) {
         return true;
       }
@@ -123,15 +109,6 @@ export default function LostPets(){
     
     let filtered = lostPets;
     console.log('Starting with', filtered.length, 'pets');
-    
-    // Εμφάνιση όλων των κατοικιδίων για debugging
-    console.log('All pets for debugging:', lostPets.map(p => ({
-      name: p.name,
-      type: p.type,
-      breed: p.breed,
-      gender: p.gender,
-      location: p.location
-    })));
     
     // 1. Φίλτρα από popover (ΕΙΔΗ)
     if (currentFilters.selectedSpecies && currentFilters.selectedSpecies.length > 0) {
@@ -170,7 +147,6 @@ export default function LostPets(){
       
       filtered = filtered.filter(pet => {
         const matches = pet.type && pet.type.toLowerCase().includes(petTypeString.toLowerCase());
-        console.log(`Pet "${pet.name}" type "${pet.type}" matches "${petTypeString}":`, matches);
         return matches;
       });
       console.log('After pet type filter:', filtered.length);
@@ -207,22 +183,24 @@ export default function LostPets(){
     }
     
     console.log('Final filtered count:', filtered.length);
-    console.log('Filtered pets:', filtered.map(p => `${p.name} (${p.type}, ${p.breed}, ${p.gender}, ${p.location})`));
-    setFilteredPets(filtered);
-  }, [lostPets, filters, petTypeFilter, locationFilter, breed, gender, filterByLocation, searchParams]);
+    
+    // ΤΑΞΙΝΟΜΗΣΗ των filtered results
+    const sortedFiltered = sortLostPets(filtered);
+    
+    console.log('Filtered pets (sorted):', sortedFiltered.map(p => `${p.name} (${p.daysLost} ημέρες)`));
+    setFilteredPets(sortedFiltered);
+  }, [lostPets, filters, petTypeFilter, locationFilter, breed, gender, filterByLocation, searchParams, sortLostPets]);
   
   // Συνάρτηση για εφαρμογή φίλτρων από το popover
   const handleApplyFilters = useCallback((newFilters) => {
     console.log('=== LOSTPETS: Received filters from popover ===', newFilters);
     setFilters(newFilters);
-    // ΜΗΝ καλείς την applyAllFilters εδώ - θα κληθεί από το useEffect για popover filters
   }, []);
   
   // Συνάρτηση φιλτραρίσματος από το κύριο search
   const handleSearch = useCallback(() => {
     console.log('=== SEARCH BUTTON CLICKED ===');
     
-    // Ενημέρωση URL με τα τρέχοντα φίλτρα
     const params = new URLSearchParams();
     if (petTypeFilter) {
       const petTypeValue = typeof petTypeFilter === 'string' 
@@ -266,10 +244,7 @@ export default function LostPets(){
       selectedBreeds: []
     });
     
-    // Καθαρισμός query parameters από το URL
     setSearchParams({});
-    
-    // Εμφανίζουμε όλα τα κατοικίδια
     setFilteredPets(lostPets);
   }, [lostPets, setSearchParams]);
   
@@ -281,7 +256,6 @@ export default function LostPets(){
     console.log('Reading URL params:', { typeParam, locationParam });
     
     if (typeParam) {
-      // Ψάχνουμε στο Pet_Types το αντίστοιχο object
       const foundPetType = Pet_Types.find(pet => {
         const petLabel = typeof pet === 'string' ? pet : pet.label;
         return petLabel === typeParam;
@@ -291,7 +265,6 @@ export default function LostPets(){
     }
     
     if (locationParam) {
-      // Ψάχνουμε στο Athens_areas το αντίστοιχο object
       const foundLocation = Athens_areas.find(area => {
         const areaLabel = typeof area === 'string' ? area : area.label;
         return areaLabel === locationParam;
@@ -311,8 +284,12 @@ export default function LostPets(){
         }
         const data = await response.json();
         console.log('Loaded pets from API:', data.length, data);
-        setLostPets(data);
-        setFilteredPets(data);
+        
+        // ΤΑΞΙΝΟΜΗΣΗ: Πιο πρόσφατα πρώτα
+        const sortedData = sortLostPets(data);
+        
+        setLostPets(sortedData);
+        setFilteredPets(sortedData);
       } catch (error) {
         console.error('Error fetching lost pets from API:', error);
         alert('Σφάλμα φόρτωσης δεδομένων απολεσθέντων κατοικιδίων');
@@ -321,16 +298,14 @@ export default function LostPets(){
 
     fetchLostPets();
     initializeFiltersFromURL();
-  }, [initializeFiltersFromURL]);
+  }, [initializeFiltersFromURL, sortLostPets]);
   
   // useEffect για αυτόματη εφαρμογή φίλτρων όταν φορτωθεί η σελίδα με parameters
   useEffect(() => {
-    // Ελέγχουμε αν υπάρχουν query parameters
     const hasQueryParams = searchParams.toString().length > 0;
     
     if (hasQueryParams && lostPets.length > 0) {
       console.log('URL has query params, applying filters...');
-      // Χρησιμοποιούμε ένα μικρό timeout για να βεβαιωθούμε ότι τα states έχουν ενημερωθεί
       setTimeout(() => {
         applyAllFilters({
           currentFilters: filters,
@@ -354,7 +329,6 @@ export default function LostPets(){
   
   // Αυτόματο φιλτράρισμα όταν αλλάζουν τα dropdowns
   useEffect(() => {
-    // Εφαρμόζουμε φίλτρα μόνο αν υπάρχει επιλογή
     if (breed !== '' || gender !== '') {
       console.log('Breed or gender changed, applying filters:', { breed, gender });
       applyAllFilters({
@@ -369,7 +343,6 @@ export default function LostPets(){
   
   // Αυτόματο φιλτράρισμα όταν αλλάζουν τα popover filters
   useEffect(() => {
-    // Ελέγχουμε αν υπάρχουν επιλεγμένα φίλτρα από το popover
     const hasPopoverFilters = 
       (filters.selectedSpecies && filters.selectedSpecies.length > 0) ||
       (filters.selectedGenders && filters.selectedGenders.length > 0) ||
@@ -387,66 +360,6 @@ export default function LostPets(){
     }
   }, [filters, applyAllFilters, petTypeFilter, locationFilter, breed, gender]);
 
-  // Προσθήκη debugging για τα δεδομένα
-  useEffect(() => {
-    console.log('=== PET DATA DEBUG ===');
-    console.log('All pets:', lostPets.map(pet => ({
-      name: pet.name,
-      type: pet.type,
-      breed: pet.breed,
-      gender: pet.gender,
-      location: pet.location
-    })));
-    
-    console.log('Unique types:', [...new Set(lostPets.map(pet => pet.type).filter(Boolean))]);
-    console.log('Unique breeds:', [...new Set(lostPets.map(pet => pet.breed).filter(Boolean))]);
-    console.log('Unique genders:', [...new Set(lostPets.map(pet => pet.gender).filter(Boolean))]);
-  }, [lostPets]);
-  
-  // Debugging για τα query parameters
-  useEffect(() => {
-    console.log('=== URL PARAMS DEBUG ===');
-    console.log('Current URL params:', searchParams.toString());
-    console.log('Type param:', searchParams.get('type'));
-    console.log('Location param:', searchParams.get('location'));
-    console.log('PetTypeFilter state:', petTypeFilter);
-    console.log('LocationFilter state:', locationFilter);
-  }, [searchParams, petTypeFilter, locationFilter]);
-  
-  useLayoutEffect(() => {
-    console.log('LostPetsPage: Location changed', location.pathname);
-    console.log('Search params:', searchParams.toString());
-    
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'instant'
-    });
-    
-    hasScrolled.current = true;
-    
-    const timer1 = setTimeout(() => {
-      if (window.scrollY !== 0) {
-        console.log('First scroll failed, trying again...');
-        window.scrollTo(0, 0);
-      }
-    }, 10);
-    
-    const timer2 = setTimeout(() => {
-      if (window.scrollY !== 0) {
-        console.log('Second scroll failed, using documentElement...');
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-      }
-    }, 50);
-    
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      hasScrolled.current = false;
-    };
-  }, [location.pathname, searchParams]);
-
   // Μετατροπή ημερών στα ελληνικά
   const getDaysText = useCallback((days) => {
     if (days === 1) return "Πριν 1 ημέρα";
@@ -462,7 +375,6 @@ export default function LostPets(){
           Αναζήτηση Απολεσθέντων Κατοικιδίων
         </span>
         
-        {/* Χρήση του νέου PetSearchBar component */}
         <PetSearchBar
           petTypes={Pet_Types}
           locationAreas={Athens_areas}
@@ -540,7 +452,7 @@ export default function LostPets(){
                 <Box className='inside-box'>
                   <Box sx={{flexShrink: 0}}>
                     <img 
-                      src={petPhotos[pet.photo] || "https://via.placeholder.com/150"} 
+                      src={pet.photo} 
                       className='lost-pet-img' 
                       alt={pet.name} 
                       onError={(e) => {
