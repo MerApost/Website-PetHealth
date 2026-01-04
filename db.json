@@ -90,5 +90,67 @@
       "password": "12345678Aa!",
       "petsCount": "1"
     }
+  ],
+  "lostPets": [
+    {
+      "id": 1,
+      "name": "Μάξιμος",
+      "type": "Σκύλος",
+      "breed": "Border Collie",
+      "gender": "Αρσενικό",
+      "location": "Ζωγράφου",  
+      "daysLost": 1,
+      "photo": "maximos"
+    },
+    {
+      "id": 2,
+      "name": "Φιόνα",
+      "type": "Γάτα",
+      "breed": "Domestic Longhair",
+      "gender": "Θυληκό",
+      "location": "Εξάρχεια",  
+      "daysLost": 2,
+      "photo": "fiona"
+    },
+    {
+      "id": 3,
+      "name": "Φρίξος",
+      "type": "Γάτα",
+      "breed": "Maine Coon",
+      "gender": "Αρσενικό",
+      "location": "Ψυχικό",  
+      "daysLost": 2,
+      "photo": "frixos"
+    },
+    {
+      "id": 4,
+      "name": "Μελομακάρονο",
+      "type": "Σκύλος",
+      "breed": "Golden Retriever",
+      "gender": "Αρσενικό",
+      "location": "Αμπελόκηποι",  
+      "daysLost": 5,
+      "photo": "melomakarono"
+    },
+    {
+      "id": 5,
+      "name": "Λουκούμι",
+      "type": "Σκύλος",
+      "breed": "Goldendoodle",
+      "gender": "Θηλυκό",
+      "location": "Παγκράτι",  
+      "daysLost": 5,
+      "photo": "loukoumi"
+    },
+    {
+      "id": 6,
+      "name": "Χασάν",
+      "type": "Σκύλος",
+      "breed": "Beagle",
+      "gender": "Αρσενικό",
+      "location": "Αιγάλεω",  
+      "daysLost": 8,
+      "photo": "hasan"
+    }
   ]
 }
