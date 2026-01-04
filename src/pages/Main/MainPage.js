@@ -10,13 +10,10 @@ import location_icon from "./../../pics/location_icon.png"
 import search_location from "./../../pics/search_location.png"
 import calendar_time from "./../../pics/calendar_time.png"
 import health_file from "./../../pics/health_file.png"
-import hasan from "./../../pics/hasan.png"
-import frixos from "./../../pics/frixos.png"
-import frank from "./../../pics/frank.png"
 
 import Athens_areas from './../Owner/Athens_areas';
 import Pet_Types from './../Lost_Pets/Data/Pet_Types';
-import PetSearchBar from './../Lost_Pets/PetSearchBar'; // ΠΡΟΣΘΗΚΗ
+import PetSearchBar from './../Lost_Pets/PetSearchBar';
 
 import PlaceIcon from '@mui/icons-material/Place';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -27,29 +24,27 @@ import {
 } from '@mui/material';
 
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useLayoutEffect, useRef, useState, useCallback } from 'react'; // ΠΡΟΣΘΗΚΗ useState, useCallback
+import { useLayoutEffect, useRef, useState, useEffect, useCallback } from 'react';
 
 export default function MainPage(){
   const location = useLocation();
   const hasScrolled = useRef(false);
   
-  // ΠΡΟΣΘΗΚΗ state variables για τα φίλτρα
   const [petTypeFilter, setPetTypeFilter] = useState(null);
   const [locationFilter, setLocationFilter] = useState(null);
+  const [recentLostPets, setRecentLostPets] = useState([]);
+  const [loading, setLoading] = useState(true);
   
   const navigate = useNavigate();
-  
-  // ΠΡΟΣΘΗΚΗ handler για το search
-  const handleSearch = useCallback(() => {
+
+  const handleSearch = () => {
     console.log('Search clicked from MainPage:', { petTypeFilter, locationFilter });
     navigateToLostPetsWithFilters();
-  }, [petTypeFilter, locationFilter]);
+  };
   
-  // ΠΡΟΣΘΗΚΗ Νέα συνάρτηση για navigation με φίλτρα
   const navigateToLostPetsWithFilters = useCallback(() => {
     console.log('Navigating to lost pets with filters...');
     
-    // Δημιουργία query parameters αν υπάρχουν φίλτρα
     const params = new URLSearchParams();
     if (petTypeFilter) {
       const petTypeValue = typeof petTypeFilter === 'string' 
@@ -63,7 +58,7 @@ export default function MainPage(){
         : locationFilter.label || locationFilter;
       params.append('location', locationValue);
     }
-    
+
     const queryString = params.toString();
     const url = queryString ? `/lost_pets?${queryString}` : '/lost_pets';
     
@@ -79,7 +74,34 @@ export default function MainPage(){
     }, 100);
   }, [petTypeFilter, locationFilter, navigate]);
   
-  // ΠΡΟΣΘΗΚΗ useLayoutEffect για scroll στην αρχή
+  useEffect(() => {
+    const fetchRecentLostPets = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('http://localhost:3004/lostPets');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        const recentPets = data
+          .filter(pet => pet.daysLost <= 7)
+          .sort((a, b) => a.daysLost - b.daysLost)
+          .slice(0, 3);
+        
+        setRecentLostPets(recentPets);
+        console.log('Loaded recent lost pets:', recentPets);
+      } catch (error) {
+        console.error('Error fetching recent lost pets:', error);
+        setRecentLostPets([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecentLostPets();
+  }, []);
+  
   useLayoutEffect(() => {
     console.log('MainPage: Location changed', location.pathname);
     
@@ -113,7 +135,6 @@ export default function MainPage(){
     };
   }, [location.pathname]);
   
-  // Βελτιωμένη συνάρτηση navigation
   const navigateToOwner = () => {
     console.log('Navigating to owner...');
     
@@ -159,6 +180,10 @@ export default function MainPage(){
     }, 100);
   };
   
+  const getDaysText = useCallback((days) => {
+    if (days === 1) return "Πριν 1 ημέρα";
+    return `Πριν ${days} ημέρες`;
+  }, []);
 
   return (
     <header className="App-header">
@@ -169,12 +194,10 @@ export default function MainPage(){
         την ευρεση ειδικευμένων κτηνιάτρων και την επανένωση με χαμένα ζώα.
       </span>
 
-      {/* ΑΦΑΙΡΕΣΗ παλιού search section και ΠΡΟΣΘΗΚΗ του PetSearchBar */}
       <span style={{ display: 'block', marginTop: '40px', fontSize: '24px'}}>
         Αναζήτηση Απολεσθέντων Κατοικιδίων
       </span>
       
-      {/* Χρήση του PetSearchBar */}
       <PetSearchBar
         petTypes={Pet_Types}
         locationAreas={Athens_areas}
@@ -189,12 +212,12 @@ export default function MainPage(){
         sx={{
           width: '100%',
           maxWidth: '800px',
-          margin: '20px auto'
+          margin: '20px auto',
+          marginLeft: '5px'
         }}
       />
 
       <Box className='quick-details'>
-        {/* Αριστερό κουτάκι */}
         <Box className='selections'>
           <span className="box-details-title">
             Ιδιοκτήτης/τρια  
@@ -225,7 +248,6 @@ export default function MainPage(){
           </div>
         </Box>
 
-        {/* Κεντρικό κουτάκι */}
         <Box className='selections'>
           <span className="box-details-title">
             Κτηνίατρος  
@@ -253,7 +275,6 @@ export default function MainPage(){
           </div>
         </Box>
 
-        {/* Δεξί κουτάκι */}
         <Box className='selections'>
           <span className="box-details-title">
             Πολίτης  
@@ -289,7 +310,6 @@ export default function MainPage(){
         Βοηθήστε στην επανένωση των χαμένων κατοικιδίων με τις οικογένειές τους
       </span>
       <Box className='quick-details'>
-        {/* Αριστερό κουτάκι */}
         <Box className='selections'>
           <span className="box-details-title">
             1. Αναζήτηση Χαμένων Κατοικιδίων  
@@ -310,7 +330,6 @@ export default function MainPage(){
 
         <img src={big_left_arrow} className="arrow-pic" alt="Arrow"/>
 
-        {/* Κεντρικό κουτάκι */}
         <Box className='selections'>
           <span className="box-details-title">
             2. Δήλωση Εύρεσης Κατοικιδίου  
@@ -331,7 +350,6 @@ export default function MainPage(){
 
         <img src={big_left_arrow} className="arrow-pic" alt="Arrow"/>
 
-        {/* Δεξί κουτάκι */}
         <Box className='selections'>
           <span className="box-details-title">
             3. Επανένωση Οικογενειών  
@@ -356,7 +374,6 @@ export default function MainPage(){
           Χαρακτηριστικά Πλατφόρμας
         </span>
         <Box className='quick-details'>
-          {/* Αριστερό κουτάκι */}
           <Box className='frame-boxes'>
             <div className='box-details-text vertical'>
               <img src={calendar_time} className="frame-boxes-imgs" alt="Calendar Time Pic"/>
@@ -364,12 +381,11 @@ export default function MainPage(){
                 Εύκολος προγραμματισμός!
               </span>
               <span style={{display: 'block', fontSize: '15px', textAlign: 'center', width: '100%', color: 'black'}}>
-                Κλείστε ραντεβού με κτηνίατρους με βάση τη διαθεσιμότητα και την τοποθεσία.
+                Κλείστε ραντεβού με κτηνιάτρους με βάση τη διαθεσιμότητα και την τοποθεσία.
               </span>
             </div>
           </Box>
 
-          {/* Κεντρικό κουτάκι */}
           <Box className='frame-boxes'>
             <div className='box-details-text vertical'>
               <img src={search_location} className="frame-boxes-imgs" alt="Search Location Pic"/>
@@ -382,7 +398,6 @@ export default function MainPage(){
             </div>
           </Box>
 
-          {/* Δεξί κουτάκι */}
           <Box className='frame-boxes'>
             <div className='box-details-text vertical'>
               <img src={health_file} className="frame-boxes-imgs" alt="Health File Pic"/>
@@ -401,75 +416,52 @@ export default function MainPage(){
         Μήπως τα είδατε;
       </span>
       <Box className='quick-details'>
-          {/* Αριστερό κουτάκι */}
-          <Box className='selections'>
-            <div className='box-details-text vertical'>
-              <img src={hasan} className="box-details-pics" alt="Hasan Pic"/>
-              <span style={{display: 'block', marginTop: '-30px', fontSize: '25px', fontWeight: 'bold', textAlign: 'left', width: '100%', color: 'black'}}>
-                Χασάν
-              </span>
-              <span style={{display: 'block', marginTop: '-28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
-                Beagle, Αρσενικό
-              </span>
-              <span style={{display: 'block', marginTop: '28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
-                <PlaceIcon sx={{color: '#67A3B8', width: 20, height: 20, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
-                Αμπελόκηποι, Αθήνα
-              </span>
-              <span style={{display: 'block', marginTop: '3px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
-                <AccessTimeIcon sx={{color: '#67A3B8', width: 20, height: 18, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
-                Πριν 8 ημέρες
-              </span>
-            </div>
+        {loading ? (
+          <Box sx={{textAlign: 'center', padding: '40px', width: '100%', color: '#666', fontSize: '18px'}}>
+            Φόρτωση πρόσφατων απολεσθέντων κατοικιδίων...
           </Box>
-
-          {/* Κεντρικό κουτάκι */}
-          <Box className='selections'>
-            <div className='box-details-text vertical'>
-              <img src={frixos} className="box-details-pics" alt="Frixos Pic"/>
-              <span style={{display: 'block', marginTop: '-30px', fontSize: '25px', fontWeight: 'bold', textAlign: 'left', width: '100%', color: 'black'}}>
-                Φρίξος
-              </span>
-              <span style={{display: 'block', marginTop: '-28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
-                Maine Coon, Αρσενικό
-              </span>
-              <span style={{display: 'block', marginTop: '28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
-                <PlaceIcon sx={{color: '#67A3B8', width: 20, height: 20, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
-                Ψυχικό, Αθήνα
-              </span>
-              <span style={{display: 'block', marginTop: '3px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
-                <AccessTimeIcon sx={{color: '#67A3B8', width: 20, height: 18, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
-                Πριν 2 ημέρες
-              </span>
-            </div>
+        ) : recentLostPets.length > 0 ? (
+          recentLostPets.map((pet, index) => (
+            <Box key={pet.id || index} className='selections'>
+              <div className='box-details-text vertical'>
+                <img 
+                  src={pet.photo} 
+                  className="box-details-pics" 
+                  alt={`${pet.name} Pic`}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://via.placeholder.com/150";
+                  }}
+                />
+                <span style={{display: 'block', marginTop: '-30px', fontSize: '25px', fontWeight: 'bold', textAlign: 'left', width: '100%', color: 'black'}}>
+                  {pet.name}
+                </span>
+                <span style={{display: 'block', marginTop: '-28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                  {pet.breed}, {pet.gender}
+                </span>
+                <span style={{display: 'block', marginTop: '28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                  <PlaceIcon sx={{color: '#67A3B8', width: 20, height: 20, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
+                  {pet.location}
+                </span>
+                <span style={{display: 'block', marginTop: '3px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
+                  <AccessTimeIcon sx={{color: '#67A3B8', width: 20, height: 18, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
+                  {getDaysText(pet.daysLost)}
+                </span>
+              </div>
+            </Box>
+          ))
+        ) : (
+          <Box sx={{textAlign: 'center', padding: '40px', width: '100%', color: '#666', fontSize: '18px'}}>
+            Δεν υπάρχουν πρόσφατα απολεσθέντα κατοικίδια
           </Box>
-
-          {/* Δεξί κουτάκι */}
-          <Box className='selections'>
-            <div className='box-details-text vertical'>
-              <img src={frank} className="box-details-pics" alt="Frank Pic"/>
-              <span style={{display: 'block', marginTop: '-30px', fontSize: '25px', fontWeight: 'bold', textAlign: 'left', width: '100%', color: 'black'}}>
-                Φρανκ
-              </span>
-              <span style={{display: 'block', marginTop: '-28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
-                Chameleon, Αρσενικό
-              </span>
-              <span style={{display: 'block', marginTop: '28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
-                <PlaceIcon sx={{color: '#67A3B8', width: 20, height: 20, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
-                Κηφισιά, Αθήνα
-              </span>
-              <span style={{display: 'block', marginTop: '3px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
-                <AccessTimeIcon sx={{color: '#67A3B8', width: 20, height: 18, margin: 0, display: 'inline-flex', alignItems: 'center'}} />
-                Πριν 5 ημέρες
-              </span>
-            </div>
-          </Box>
-        </Box>
-        <Button className='lost-pet-button'>
-          <span onClick={navigateToLostPets}
-                style={{display: 'block', marginTop: '3px', fontSize: '20px', textAlign: 'left', width: '100%', color: 'white', cursor: 'pointer'}}>
-            Δείτε όλα τα απολεσθέντα κατοικίδια
-          </span>
-        </Button>
+        )}
+      </Box>
+      <Button className='lost-pet-button'>
+        <span onClick={navigateToLostPets}
+              style={{display: 'block', marginTop: '3px', fontSize: '20px', textAlign: 'left', width: '100%', color: 'white', cursor: 'pointer'}}>
+          Δείτε όλα τα απολεσθέντα κατοικίδια
+        </span>
+      </Button>
     </header>
   );
 }
