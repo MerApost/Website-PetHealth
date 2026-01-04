@@ -1,4 +1,6 @@
 import './ViewLostPet.css';
+import BackButton from "../../components/BackButton/BackButton";
+
 import { Box, Button } from '@mui/material';
 import { useLayoutEffect, useRef, useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
@@ -307,6 +309,10 @@ export default function ViewLostPet() {
             Δήλωση Εύρεσης
           </Button>
         </div>
+      </div>
+
+      <div className="profile-back">
+        <BackButton />
       </div>
     </header>
   );
