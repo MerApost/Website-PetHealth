@@ -14,10 +14,10 @@ import PlaceIcon from '@mui/icons-material/Place';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { useState, useEffect, useCallback } from 'react';
-import {  useSearchParams } from 'react-router-dom';
+import {  useSearchParams, useNavigate } from 'react-router-dom';
 
 export default function LostPets(){
-  // const location = useLocation();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   // const hasScrolled = useRef(false);
 
@@ -480,17 +480,31 @@ export default function LostPets(){
                       {getDaysText(pet.daysLost)}
                     </span>
                     
-                    {pet.reward && (
-                      <span className='pet-reward' style={{
-                        display: 'block',
-                        marginTop: '5px',
-                        color: '#e91e63',
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        backgroundColor: '#67a3b8e8', // Ανοιχτό μπλε μέσα
+                        color: '#000000', // Μαύρα γράμματα
+                        borderColor: '#000000', // Μαύρο border γύρω-γύρω
+                        '&:hover': {
+                          backgroundColor: '#bbdefb', // Πιο σκούρο μπλε στο hover
+                          borderColor: '#000000', // Μαύρο border και στο hover
+                        },
+                        height: '30px',
+                        width: '180px',
+                        marginTop: '25px',
+                        marginLeft: '110px',
                         fontWeight: 'bold',
-                        fontSize: '14px'
-                      }}>
-                        Ανταμοιβή: {pet.reward}
-                      </span>
-                    )}
+                        fontSize: '16px',
+                        padding: '10px 20px',
+                        borderRadius: '20px',
+                        textTransform: 'none', // Για να μην κάνει κεφαλαία τα γράμματα
+                      }}
+                      onClick={() => navigate('/pet-profile')}
+                    >
+                      Προβολή Προφίλ
+                    </Button>
+
                   </Box>
                 </Box>
               </Box>
