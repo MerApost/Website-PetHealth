@@ -13,7 +13,7 @@ import melomakarono from './../../pics/melomakarono.png'
 import hasan from './../../pics/hasan.png'
 import loukoumi from './../../pics/loukoumi.png'
 
-import{
+import {
   Box,
   Button,
 } from '@mui/material';
@@ -22,9 +22,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { useLayoutEffect, useRef, useState, useEffect, useCallback } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
-
-// Εισαγωγή δεδομένων από JSON
-import lostPetsData from './Data/lostPets.json';
 
 // Χάρτης φωτογραφιών για αντιστοίχιση
 const petPhotos = {
@@ -107,7 +104,7 @@ export default function LostPets(){
     });
   }, []);
   
-  // Κοινή συνάρτηση για φιλτράρισμα - ΠΡΕΠΕΙ ΝΑ ΕΙΝΑΙ ΠΡΙΝ ΑΠΟ ΟΛΕΣ ΤΙΣ ΑΛΛΕΣ ΣΥΝΑΡΤΗΣΕΙΣ ΠΟΥ ΤΗ ΧΡΗΣΙΜΟΠΟΙΟΥΝ
+  // Κοινή συνάρτηση για φιλτράρισμα
   const applyAllFilters = useCallback(({
     currentFilters = filters,
     currentPetType = petTypeFilter,
@@ -214,8 +211,6 @@ export default function LostPets(){
     setFilteredPets(filtered);
   }, [lostPets, filters, petTypeFilter, locationFilter, breed, gender, filterByLocation, searchParams]);
   
-  // Τώρα ορίζουμε όλες τις άλλες συναρτήσεις που χρησιμοποιούν την applyAllFilters
-  
   // Συνάρτηση για εφαρμογή φίλτρων από το popover
   const handleApplyFilters = useCallback((newFilters) => {
     console.log('=== LOSTPETS: Received filters from popover ===', newFilters);
@@ -278,7 +273,7 @@ export default function LostPets(){
     setFilteredPets(lostPets);
   }, [lostPets, setSearchParams]);
   
-  // ΠΡΟΣΘΗΚΗ: Συνάρτηση για ανάγνωση query parameters
+  // Συνάρτηση για ανάγνωση query parameters
   const initializeFiltersFromURL = useCallback(() => {
     const typeParam = searchParams.get('type');
     const locationParam = searchParams.get('location');
@@ -306,19 +301,29 @@ export default function LostPets(){
     }
   }, [searchParams]);
   
-  // Φόρτωση δεδομένων κατά την αρχική φόρτωση
+  // Φόρτωση δεδομένων από API κατά την αρχική φόρτωση
   useEffect(() => {
-    const petsArray = lostPetsData.lostPets || lostPetsData;
-    setLostPets(petsArray);
-    // Στην αρχική φόρτωση, εμφανίζουμε όλα τα κατοικίδια
-    setFilteredPets(petsArray);
-    console.log('Initial load - showing all pets:', petsArray.length);
-    
-    // Αρχικοποίηση φίλτρων από URL αν υπάρχουν
+    const fetchLostPets = async () => {
+      try {
+        const response = await fetch('http://localhost:3004/lostPets');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Loaded pets from API:', data.length, data);
+        setLostPets(data);
+        setFilteredPets(data);
+      } catch (error) {
+        console.error('Error fetching lost pets from API:', error);
+        alert('Σφάλμα φόρτωσης δεδομένων απολεσθέντων κατοικιδίων');
+      }
+    };
+
+    fetchLostPets();
     initializeFiltersFromURL();
   }, [initializeFiltersFromURL]);
   
-  // ΠΡΟΣΘΗΚΗ: useEffect για αυτόματη εφαρμογή φίλτρων όταν φορτωθεί η σελίδα με parameters
+  // useEffect για αυτόματη εφαρμογή φίλτρων όταν φορτωθεί η σελίδα με parameters
   useEffect(() => {
     // Ελέγχουμε αν υπάρχουν query parameters
     const hasQueryParams = searchParams.toString().length > 0;
@@ -398,7 +403,7 @@ export default function LostPets(){
     console.log('Unique genders:', [...new Set(lostPets.map(pet => pet.gender).filter(Boolean))]);
   }, [lostPets]);
   
-  // ΠΡΟΣΘΗΚΗ debugging για τα query parameters
+  // Debugging για τα query parameters
   useEffect(() => {
     console.log('=== URL PARAMS DEBUG ===');
     console.log('Current URL params:', searchParams.toString());
@@ -535,7 +540,7 @@ export default function LostPets(){
                 <Box className='inside-box'>
                   <Box sx={{flexShrink: 0}}>
                     <img 
-                      src={petPhotos[pet.photo]} 
+                      src={petPhotos[pet.photo] || "https://via.placeholder.com/150"} 
                       className='lost-pet-img' 
                       alt={pet.name} 
                       onError={(e) => {
@@ -581,7 +586,7 @@ export default function LostPets(){
           </Box>
         ))}
         
-        {filteredPets.length === 0 && (
+        {filteredPets.length === 0 && lostPets.length > 0 && (
           <Box sx={{
             textAlign: 'center',
             padding: '40px',
@@ -589,6 +594,17 @@ export default function LostPets(){
             fontSize: '18px'
           }}>
             Δεν βρέθηκαν αποτελέσματα για τα κριτήρια αναζήτησής σας.
+          </Box>
+        )}
+        
+        {lostPets.length === 0 && (
+          <Box sx={{
+            textAlign: 'center',
+            padding: '40px',
+            color: '#666',
+            fontSize: '18px'
+          }}>
+            Φόρτωση απολεσθέντων κατοικιδίων...
           </Box>
         )}
       </Box>
