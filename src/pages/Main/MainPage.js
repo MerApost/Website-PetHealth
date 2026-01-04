@@ -37,6 +37,42 @@ export default function MainPage(){
   
   const navigate = useNavigate();
 
+  // Συνάρτηση μετατροπής ημερομηνίας από DD/MM/YYYY σε Date object
+  const parseEuropeanDate = useCallback((dateString) => {
+    if (!dateString) return new Date();
+    
+    const dateParts = dateString.split('/');
+    if (dateParts.length !== 3) return new Date();
+    
+    const day = parseInt(dateParts[0], 10);
+    const month = parseInt(dateParts[1], 10) - 1; // Μήνες είναι 0-indexed
+    const year = parseInt(dateParts[2], 10);
+    
+    return new Date(year, month, day);
+  }, []);
+
+  // Συνάρτηση υπολογισμού διαφοράς ημερών
+  const calculateDaysLost = useCallback((lostDateString) => {
+    const lostDate = parseEuropeanDate(lostDateString);
+    const today = new Date();
+    
+    // Ορισμός ίδιου χρόνου για και τις δύο ημερομηνίες (μεσάνυχτα)
+    const lostDateNormalized = new Date(lostDate.getFullYear(), lostDate.getMonth(), lostDate.getDate());
+    const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    
+    const timeDiff = todayNormalized.getTime() - lostDateNormalized.getTime();
+    const daysLost = Math.max(0, Math.floor(timeDiff / (1000 * 3600 * 24)));
+    
+    return daysLost;
+  }, [parseEuropeanDate]);
+
+  // Συνάρτηση για μορφοποίηση ημερών στα ελληνικά
+  const getDaysText = useCallback((days) => {
+    if (days === 0) return "Σήμερα";
+    if (days === 1) return "Πριν 1 ημέρα";
+    return `Πριν ${days} ημέρες`;
+  }, []);
+
   const handleSearch = () => {
     console.log('Search clicked from MainPage:', { petTypeFilter, locationFilter });
     navigateToLostPetsWithFilters();
@@ -84,13 +120,22 @@ export default function MainPage(){
         }
         const data = await response.json();
         
-        const recentPets = data
+        // Υπολογισμός daysLost για κάθε κατοικίδιο
+        const petsWithDaysLost = data.map(pet => {
+          const daysLost = calculateDaysLost(pet.lostDate);
+          return {
+            ...pet,
+            daysLost: daysLost
+          };
+        });
+        
+        const recentPets = petsWithDaysLost
           .filter(pet => pet.daysLost <= 7)
           .sort((a, b) => a.daysLost - b.daysLost)
           .slice(0, 3);
         
-        setRecentLostPets(recentPets);
         console.log('Loaded recent lost pets:', recentPets);
+        setRecentLostPets(recentPets);
       } catch (error) {
         console.error('Error fetching recent lost pets:', error);
         setRecentLostPets([]);
@@ -100,7 +145,7 @@ export default function MainPage(){
     };
 
     fetchRecentLostPets();
-  }, []);
+  }, [calculateDaysLost]);
   
   useLayoutEffect(() => {
     console.log('MainPage: Location changed', location.pathname);
@@ -179,11 +224,6 @@ export default function MainPage(){
       });
     }, 100);
   };
-  
-  const getDaysText = useCallback((days) => {
-    if (days === 1) return "Πριν 1 ημέρα";
-    return `Πριν ${days} ημέρες`;
-  }, []);
 
   return (
     <header className="App-header">
@@ -433,7 +473,7 @@ export default function MainPage(){
                     e.target.src = "https://via.placeholder.com/150";
                   }}
                 />
-                <span style={{display: 'block', marginTop: '-30px', fontSize: '25px', fontWeight: 'bold', textAlign: 'left', width: '100%', color: 'black'}}>
+                <span style={{display: 'block', marginTop: '-10px', fontSize: '25px', fontWeight: 'bold', textAlign: 'left', width: '100%', color: 'black'}}>
                   {pet.name}
                 </span>
                 <span style={{display: 'block', marginTop: '-28px', fontSize: '15px', textAlign: 'left', width: '100%', color: 'black'}}>
