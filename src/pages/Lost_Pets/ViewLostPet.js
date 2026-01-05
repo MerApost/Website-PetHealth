@@ -82,7 +82,7 @@ export default function ViewLostPet() {
 
   const handleFoundReport = () => {
     // Απλή πλοήγηση σε άλλη σελίδα
-    navigate('/found-pet-form', { 
+    navigate('/found_report', { 
       state: { 
         petData: petData,
         ownerData: ownerData 
