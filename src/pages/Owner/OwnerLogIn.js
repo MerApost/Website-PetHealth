@@ -1,4 +1,5 @@
 import './OwnerLogIn.css';
+import './../Main/MainPage.css'
 import big_left_arrow from "./../../pics/big_left_arrow.png"
 
 import { Box, Button, Typography, Paper, IconButton } from '@mui/material';
@@ -163,9 +164,7 @@ export default function OwnerLogIn() {
           </Button>
         </Box>
       </Box>
-     
-      
-      
+
       {loading ? (
         <Box sx={{padding: '40px 20px', textAlign: 'center', color: '#666'}}>
           <Typography variant="h6">Φόρτωση κατοικιδίων...</Typography>
@@ -173,80 +172,174 @@ export default function OwnerLogIn() {
       ) : pets.length > 0 ? (
         <Box className="carousel-section">
           <Typography variant="h5" className="carousel-title">
-            Τα Κατοικίδιά Μου
+            Τα Κατοικίδιά Μου ({pets.length})
           </Typography>
           
-          <Box className="carousel-container" >
-            {/* Βέλος αριστερά - εμφανίζεται μόνο αν χρειάζεται */}
+          <Box className="carousel-container">
+            {/* Βέλος αριστερά */}
             {showArrows && (
               <IconButton className="carousel-arrow carousel-arrow--left" onClick={handlePrev}>
                 <ChevronLeftIcon className="carousel-arrow__icon" />
               </IconButton>
             )}
             
-            {/* Grid για τα ορατά κατοικίδια */}
-            <Box className="carousel-grid">
+            <Box 
+              className="carousel-grid"
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: `repeat(${itemsPerView}, 1fr)`,
+                gap: '16px',
+                maxWidth: '1200px',
+                margin: '0 auto',
+                width: '100%',
+                alignSelf: 'center'
+              }}
+            >
               {visiblePets.map((pet) => {
                 const appointment = hasScheduledAppointment(pet.id);
                 
                 return (
-                  <Paper key={pet.id} className="carousel-item" elevation={3}>
-                    {/* Αριστερή πλευρά - Εικόνα ή εικονίδιο */}
-                    <Box className="carousel-item-image-container">
+                  <Paper 
+                    key={pet.id} 
+                    className="carousel-item" 
+                    elevation={3}
+                    sx={{
+                      height: '220px',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      padding: '16px',
+                      backgroundColor: 'white',
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-5px)',
+                        boxShadow: '0px 7px 8px -4px rgba(0,0,0,0.2), 0px 12px 17px 2px rgba(0,0,0,0.14), 0px 5px 22px 4px rgba(0,0,0,0.12)',
+                        backgroundColor: '#f8f9fa'
+                      }
+                    }}
+                  >
+                    {/* Αριστερή πλευρά - Εικόνα */}
+                    <Box 
+                      className="carousel-item-image-container"
+                      sx={{
+                        width: '120px',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginRight: '16px',
+                        flexShrink: 0,
+                        border: '1px solid black',
+                        borderRadius: '12px',
+                        overflow: 'hidden'
+                      }}
+                    >
                       {pet.photo ? (
-                        <img src={pet.photo} alt={pet.name} className="carousel-item-image"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.style.display = 'none';
-                            const placeholder = e.target.parentElement.querySelector('.carousel-item-placeholder');
-                            if (placeholder) {
-                              placeholder.style.display = 'flex';
-                            }
+                        <img 
+                          src={pet.photo} 
+                          alt={pet.name} 
+                          className="carousel-item-image"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            borderRadius: '12px'
                           }}
                         />
                       ) : (
-                        <Box className="carousel-item-placeholder">
-                          <InsertPhotoIcon className="carousel-item-placeholder-icon" />
+                        <Box 
+                          className="carousel-item-placeholder"
+                          sx={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#f5f5f5',
+                            borderRadius: '12px',
+                            border: '2px dashed #bdbdbd'
+                          }}
+                        >
+                          <InsertPhotoIcon sx={{ fontSize: 48, color: '#9e9e9e' }} />
                         </Box>
                       )}
                     </Box>
                     
                     {/* Δεξιά πλευρά - Πληροφορίες */}
-                    <Box className="carousel-item-content">
+                    <Box 
+                      className="carousel-item-content"
+                      sx={{
+                        flex: 1,
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between'
+                      }}
+                    >
                       {/* Πάνω μέρος: Όνομα, Ράτσα, Ηλικία */}
                       <Box className="carousel-item-info">
-                        {/* Όνομα */}
-                        <Typography variant="h6" className="carousel-item-name">
+                        <Typography variant="h6" sx={{ fontWeight: 700, marginBottom: '8px', color: 'black', fontSize: '1.1rem' }}>
                           {pet.name}
                         </Typography>
                         
-                        {/* Ράτσα και Ηλικία */}
-                        <Typography variant="body1" className="carousel-item-breed-age">
-                          {pet.breed}, {pet.age} {pet.age === "1" ? "έτους" : "ετών"} 
+                        <Typography variant="body1" sx={{ fontWeight: 400, marginBottom: '4px', color: 'black', fontSize: '0.8rem' }}>
+                          {pet.breed}, {pet.age} {pet.age === "1" ? "έτους" : "ετών"}
+                        </Typography>
+                        
+                        <Typography variant="body2" sx={{ color: '#666', fontSize: '0.85rem' }}>
+                          {pet.type} • {pet.gender}
                         </Typography>
                       </Box>
                       
-                      {/* Μεσαίο μέρος: Προγραμματισμένο ραντεβού (αν υπάρχει) */}
+                      {/* Μεσαίο μέρος: Ραντεβού */}
                       <Box className="carousel-item__appointment-section">
                         {appointment ? (
-                          <Paper className="carousel-item__appointment-badge">
-                            <Typography variant="caption" className="carousel-item__appointment-title">
+                          <Paper 
+                            sx={{
+                              backgroundColor: 'white',
+                              padding: '8px 12px',
+                              borderRadius: '8px',
+                              marginBottom: '16px'
+                            }}
+                          >
+                            <Typography variant="caption" sx={{ display: 'block', fontWeight: 'bold', color: 'black', fontSize: '0.85rem' }}>
                               Επόμενο ραντεβού
                             </Typography>
-                            <Typography variant="caption" className="carousel-item__appointment-details">
+                            <Typography variant="caption" sx={{ display: 'block', color: 'black' }}>
                               {appointment.date} στις {appointment.time}
                             </Typography>
                           </Paper>
                         ) : (
-                          <Typography variant="caption" className="carousel-item__no-appointment">
+                          <Typography variant="caption" sx={{ display: 'block', color: 'rgba(0, 0, 0, 0.51)', fontStyle: 'italic', marginBottom: '16px' }}>
                             Δεν υπάρχει ραντεβού
                           </Typography>
                         )}
                       </Box>
                       
-                      {/* Κάτω μέρος: Κουμπί */}
+                      {/* Κουμπί Βιβλίου Υγείας */}
                       <Box>
-                        <Button variant="contained" onClick={() => handleHealthClick(pet)} className="carousel-item__health-button">
+                        <Button 
+                          variant="contained" 
+                          onClick={() => handleHealthClick(pet)} 
+                          sx={{
+                            backgroundColor: '#2e487839',
+                            color: '#2E4878',
+                            textTransform: 'none',
+                            fontWeight: 'bold',
+                            padding: '6px 16px',
+                            borderRadius: '8px',
+                            fontSize: '0.9rem',
+                            width: '100%',
+                            height: '36px',
+                            marginTop: '-4px',
+                            border: '1px solid #2E4878',
+                            '&:hover': {
+                              backgroundColor: '#2e48785f'
+                            }
+                          }}
+                        >
                           Βιβλ. Υγείας
                         </Button>
                       </Box>
@@ -256,7 +349,7 @@ export default function OwnerLogIn() {
               })}
             </Box>
             
-            {/* Βέλος δεξιά - εμφανίζεται μόνο αν χρειάζεται */}
+            {/* Βέλος δεξιά */}
             {showArrows && (
               <IconButton className="carousel-arrow carousel-arrow--right" onClick={handleNext}>
                 <ChevronRightIcon className="carousel-arrow__icon" />
