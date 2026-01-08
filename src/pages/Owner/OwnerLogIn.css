@@ -1,0 +1,635 @@
+/* Βασικό container */
+.owner-main-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #D7D3CB;
+}
+
+/* Διορθώσεις για το carousel */
+.carousel-container{
+  width: 100%;
+  max-width: 100%;
+  margin-top: 25px;
+}
+
+/* Αφαίρεσε το min-height: 100vh και margin-top: -140px */
+.carousel_header{
+  background-color: #D7D3CB;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Αλλαγή από center σε flex-start */
+  align-items: center;
+  width: 100%;
+}
+
+.carousel-section{
+  width: 100%;
+  max-width: 1200px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Αλλαγή από center σε flex-start */
+  align-items: center;
+  padding: 60px 20px 40px 20px; /* Προσθήκη padding */
+}
+
+.carousel-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+/* carousel-arrows.css */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background-color: white;
+  box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 
+              0px 6px 10px 0px rgba(0,0,0,0.14), 
+              0px 1px 18px 0px rgba(0,0,0,0.12);
+  transition: background-color 0.3s ease;
+}
+
+.carousel-arrow:hover {
+  background-color: #f5f5f5;
+}
+
+.carousel-arrow--left {
+  left: 0;
+}
+
+.carousel-arrow--right {
+  right: 0;
+}
+
+.carousel-arrow__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Carousel Grid */
+.carousel-grid {
+  display: grid;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  align-self: center;
+}
+
+/* Carousel Item */
+.carousel-item {
+  height: 220px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 16px;
+  cursor: default;
+  transition: all 0.3s ease;
+  background-color: white;
+  border-radius: 16px !important;
+  overflow: hidden;
+}
+
+.carousel-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 7px 8px -4px rgba(0,0,0,0.2), 
+              0px 12px 17px 2px rgba(0,0,0,0.14), 
+              0px 5px 22px 4px rgba(0,0,0,0.12) !important;
+  background-color: #f8f9fa;
+}
+
+/* Image Container */
+.carousel-item-image-container {
+  width: 120px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  flex-shrink: 0;
+  border: 1px solid black;
+  border-radius: 12px;
+}
+
+.carousel-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.carousel-item-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  border: 2px dashed #bdbdbd;
+}
+
+.carousel-item__placeholder-icon {
+  font-size: 48px;
+  color: #9e9e9e;
+}
+
+/* Content Area */
+.carousel-item-content {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Info Section */
+.carousel-item-info {
+  margin-bottom: -4px;
+}
+
+.carousel-item-name {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: black;
+  font-size: 1.1rem;
+}
+
+.carousel-item-breed-age {
+  font-weight: 400;
+  margin-bottom: 4px;
+  color: black;
+  font-size: 0.8rem;
+}
+
+/* Appointment Section */
+.carousel-item__appointment-section {
+  margin-bottom: -4px;
+}
+
+.carousel-item__appointment-badge {
+  background-color: white !important;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-shadow: none !important;
+}
+
+.carousel-item__appointment-title {
+  display: block;
+  font-weight: bold;
+  color: black;
+  font-size: 0.85rem;
+}
+
+.carousel-item__appointment-details {
+  display: block;
+  color: black;
+}
+
+.carousel-item__no-appointment {
+  display: block;
+  color: rgba(0, 0, 0, 0.51);
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+/* Health Button */
+.carousel-item__health-button {
+  background-color: #2e487839 !important;
+  color: #2E4878 !important;
+  text-transform: none !important;
+  font-weight: bold !important;
+  padding: 6px 16px !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
+  width: 100%;
+  height: 20px;
+  margin-top: -4px;
+  border: 1px solid #2E4878;
+}
+
+.carousel-item__health-button:hover {
+  background-color: #2e48785f !important;
+}
+
+/* Carousel Dots Container */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 24px;
+}
+
+/* Individual Dot */
+.carousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Active Dot */
+.carousel-dot--active {
+  background-color: #1976d2;
+}
+
+/* Hover States */
+.carousel-dot:hover {
+  background-color: #bdbdbd;
+}
+
+.carousel-dot--active:hover {
+  background-color: #1565c0;
+}
+
+/* Platform Features Section */
+.platform-features-frame {
+  background-color: #EDEBE8; 
+  border: none;
+  border-radius: 0; 
+  padding: 60px 20px;
+  margin: 0;
+  font-family: sans-serif;
+  color: #333;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.platform-features-title {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 40px;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+  color: black;
+}
+
+.platform-features-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start; /* Αλλαγή από stretch σε flex-start */
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.platform-features-box {
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+  background-color: #EDEBE8;
+  padding: 25px 20px;
+  border: 1px solid #EDEBE8;
+  transition: all 0.3s ease;
+  display: flex; /* Προσθήκη flex */
+}
+
+.platform-features-content {
+  display: flex;
+  flex-direction: row; /* Αλλαγή από column σε row */
+  align-items: center;
+  text-align: left; /* Αλλαγή από center σε left */
+  height: 100%;
+  justify-content: flex-start; /* Αλλαγή από space-between σε flex-start */
+  gap: 15px; /* Προσθήκη gap μεταξύ εικονιδίου και κειμένου */
+  width: 100%;
+}
+
+.platform-features-icon {
+  font-size: 56px;
+  margin-bottom: 0; /* Αφαίρεση margin-bottom */
+  width: 60px; /* Μείωση πλάτους */
+  height: 60px; /* Μείωση ύψους */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Για να μην συμπιέζεται */
+}
+
+.platform-features-icon .MuiSvgIcon-root {
+  font-size: 40px; /* Μέγεθος του εικονιδίου */
+  color: black; /* Χρώμα εικονιδίου */
+}
+
+.platform-features-box-description {
+  display: block;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: left; /* Αλλαγή από center σε left */
+  width: 100%;
+  color: #2c3e50; /* Σκούρο χρώμα για καλύτερη αναγνωσιμότητα */
+  margin-top: 0; /* Αφαίρεση margin-top */
+  font-weight: 500;
+}
+
+.appointment-selections{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  background-color: #D7D3CB;
+  padding: 25px;
+  border-radius: 8px;
+  width: 320px; /* Σταθερό πλάτος */
+  min-height: 220px; /* Ελάχιστο ύψος */
+  box-sizing: border-box;
+}
+
+.appointment-arrow-pic{
+  opacity: 0.9;
+  flex-shrink: 0;
+  height: 60px;
+  width: 60px;
+  width: auto;
+  mix-blend-mode: multiply;
+  margin-right: 5em;
+  margin-top: 6em;
+}
+
+.quick-reports{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 60px auto 50px auto;
+  align-items: strech;
+}
+
+.report-buttons{
+  background-color: #D7D3CB !important;
+  color: #157E25 !important;
+  text-transform: none !important;
+  font-weight: bold !important;
+  padding: 6px 16px !important;
+  border-radius: 20px !important;
+  font-size: 0.9rem !important;
+  width: 100%;
+  height: 40px;
+  margin-top: 15px;
+  border: 1px solid #157E25;
+}
+
+.report-buttons:hover {
+  background-color: #D7D3CB !important;
+}
+
+.history-buttons{
+  background-color: #D7D3CB !important;
+  color: black !important;
+  text-transform: none !important;
+  font-weight: bold !important;
+  padding: 6px 16px !important;
+  border-radius: 20px !important;
+  font-size: 0.9rem !important;
+  width: 100%;
+  height: 40px;
+  margin-top: 15px;
+  border: 1px solid black;
+}
+
+.history-buttons:hover {
+  background-color: #D7D3CB !important;
+}
+
+/* Responsive styles για platform features */
+@media (max-width: 992px) {
+  .platform-features-container {
+    gap: 25px;
+  }
+  
+  .platform-features-box {
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .platform-features-frame {
+    padding: 40px 15px;
+  }
+  
+  .platform-features-title {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  
+  .platform-features-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .platform-features-box {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px 15px;
+  }
+  
+  .platform-features-content {
+    gap: 12px;
+  }
+  
+  .platform-features-icon {
+    font-size: 48px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .platform-features-icon .MuiSvgIcon-root {
+    font-size: 35px;
+  }
+  
+  .platform-features-box-description {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .platform-features-frame {
+    padding: 30px 10px;
+  }
+  
+  .platform-features-title {
+    font-size: 24px;
+  }
+  
+  .platform-features-box {
+    padding: 15px 12px;
+  }
+  
+  .platform-features-icon {
+    font-size: 40px;
+    width: 45px;
+    height: 45px;
+  }
+  
+  .platform-features-icon .MuiSvgIcon-root {
+    font-size: 30px;
+  }
+  
+  .platform-features-box-description {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 360px) {
+  .platform-features-content {
+    flex-direction: column; /* Σε πολύ μικρές οθόνες, βάλε το εικονίδιο πάνω */
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .platform-features-box-description {
+    text-align: center;
+  }
+}
+
+/* Responsive styles για carousel arrows */
+@media (max-width: 599px) {
+  .carousel-arrow {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .carousel-arrow--left {
+    left: 0;
+  }
+  
+  .carousel-arrow--right {
+    right: 0;
+  }
+  
+  .carousel-arrow__icon {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .carousel-arrow {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .carousel-arrow--left {
+    left: -10px;
+  }
+  
+  .carousel-arrow--right {
+    right: -10px;
+  }
+  
+  .carousel-arrow__icon {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 900px) {
+  .carousel-arrow {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .carousel-arrow--left {
+    left: -20px;
+  }
+  
+  .carousel-arrow--right {
+    right: -20px;
+  }
+  
+  .carousel-arrow__icon {
+    font-size: 28px;
+  }
+}
+
+/* Responsive Styles για carousel grid */
+@media (max-width: 599px) {
+  .carousel-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 8px;
+  }
+  
+  .carousel-item {
+    height: 220px;
+    padding: 16px;
+  }
+  
+  .carousel-item-image-container {
+    width: 100px;
+    margin-right: 12px;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .carousel-grid {
+    grid-template-columns: repeat(var(--items-per-view, 2), 1fr);
+    gap: 16px;
+  }
+  
+  .carousel-item {
+    height: 240px;
+    padding: 20px;
+  }
+  
+  .carousel-item-name {
+    font-size: 1.3rem;
+  }
+  
+  .carousel-item__breed_age {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .carousel-grid {
+    grid-template-columns: repeat(var(--items-per-view, 3), 1fr);
+    gap: 24px;
+  }
+  
+  .carousel-item {
+    height: 260px;
+    padding: 24px;
+  }
+  
+  .carousel-item-name {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .carousel-section {
+    padding: 80px 20px 40px 20px; /* Περισσότερο padding πάνω για το notification */
+  }
+}
+
+/* Κλάση για όταν δεν υπάρχουν κατοικίδια */
+.no-pets-container {
+  padding: 80px 20px 40px 20px;
+  text-align: center;
+  color: #666;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

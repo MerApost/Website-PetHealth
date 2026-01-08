@@ -43,7 +43,7 @@ export default function Login({ setIsLoggedIn, setRole }) {
     setIsLoggedIn(true);
     setRole(user.role);
 
-    if (user.role === "owner") navigate("/owner");
+    if (user.role === "owner") navigate(`/${user.id}/owner_main`);
       else navigate("/vet");
 
   };

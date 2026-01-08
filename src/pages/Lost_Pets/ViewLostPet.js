@@ -8,7 +8,6 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 export default function ViewLostPet() {
   const { id } = useParams();
   const [petData, setPetData] = useState(null);
-  const [ownerData, setOwnerData] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -16,8 +15,6 @@ export default function ViewLostPet() {
   const location = useLocation();
 
   useLayoutEffect(() => {
-    console.log('MainPage: Location changed', location.pathname);
-    
     window.scrollTo({
       top: 0,
       left: 0,
@@ -28,14 +25,12 @@ export default function ViewLostPet() {
     
     const timer1 = setTimeout(() => {
       if (window.scrollY !== 0) {
-        console.log('First scroll failed, trying again...');
         window.scrollTo(0, 0);
       }
     }, 10);
     
     const timer2 = setTimeout(() => {
       if (window.scrollY !== 0) {
-        console.log('Second scroll failed, using documentElement...');
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
       }
@@ -53,21 +48,58 @@ export default function ViewLostPet() {
       try {
         setLoading(true);
         
-        // Fetch lost pet data
-        const petResponse = await fetch(`http://localhost:3004/lostPets/${parseInt(id)}`);
-        if (!petResponse.ok) {
-          throw new Error('Failed to fetch pet data');
+        // Φέρε το ενισχυμένο lostPet από το LostPets endpoint
+        // Ή φέρε τα δεδομένα και κάνε ενίσχυση εδώ
+        const response = await fetch(`http://localhost:3004/lostPets/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch lost pet data');
         }
-        const petData = await petResponse.json();
-        setPetData(petData);
         
-        // Fetch owner data if ownerId exists
-        if (petData.ownerId) {
-          const ownerResponse = await fetch(`http://localhost:3004/users/${petData.ownerId}`);
+        const lostPetData = await response.json();
+        
+        // Φέρε τον owner για επιπλέον στοιχεία αν χρειάζεται
+        if (lostPetData.ownerId) {
+          const ownerResponse = await fetch(`http://localhost:3004/users/${lostPetData.ownerId}`);
           if (ownerResponse.ok) {
             const ownerData = await ownerResponse.json();
-            setOwnerData(ownerData);
+            
+            // Βρες το συγκεκριμένο pet
+            const pet = ownerData.pets?.find(p => 
+              p.id === lostPetData.petId || p.microchip === lostPetData.microchip
+            );
+            
+            if (pet) {
+              // Συνδυάζουμε τα δεδομένα
+              setPetData({
+                // Από lostPet
+                id: lostPetData.id,
+                lostDate: lostPetData.lostDate,
+                location: lostPetData.location,
+                info: lostPetData.additionalInfo || lostPetData.info,
+                microchip: lostPetData.microchip,
+                
+                // Από το pet
+                name: pet.name,
+                type: pet.type,
+                breed: pet.breed,
+                gender: pet.gender,
+                age: pet.age + (pet.age === "1" ? " έτους" : " ετών"),
+                color: pet.color,
+                photo: pet.photo,
+                
+                // Από owner
+                ownerName: ownerData.name,
+                ownerSurname: ownerData.surname,
+                ownerPhone: ownerData.phone,
+                ownerEmail: ownerData.email
+              });
+            } else {
+              // Αν δεν βρεθεί pet, χρησιμοποιούμε μόνο τα lostPet δεδομένα
+              setPetData(lostPetData);
+            }
           }
+        } else {
+          setPetData(lostPetData);
         }
         
         setLoading(false);
@@ -81,19 +113,13 @@ export default function ViewLostPet() {
   }, [id]);
 
   const handleFoundReport = () => {
-    // Απλή πλοήγηση σε άλλη σελίδα
     navigate('./found_report', { 
       state: { 
-        petData: petData,
-        ownerData: ownerData 
+        petData: petData
       } 
     });
-    
-    // Εναλλακτική: Χρήση query parameters
-    // navigate(`/found-pet-form?petId=${id}&petName=${encodeURIComponent(petData.name)}`);
   };
 
-  // Render loading state
   if (loading) {
     return (
       <header className="Lost-pets-header">
@@ -106,7 +132,6 @@ export default function ViewLostPet() {
     );
   }
 
-  // Render error state
   if (!petData) {
     return (
       <header className="Lost-pets-header">
@@ -119,14 +144,12 @@ export default function ViewLostPet() {
     );
   }
 
-  // Render success state
   return (
     <header className="Lost-pets-header">
       <div className='lost-pet-data'>
         <div className='columns-container'> 
           
           <div className='column-left'>
-            {/* Φωτογραφία */}
             <div style={{
               width: '100%',
               display: 'flex',
@@ -169,7 +192,6 @@ export default function ViewLostPet() {
               Περιγραφή Περιστατικού
             </span>
 
-            {/* Box με κείμενο info */}
             <Box className='info-box'>
               <div style={{ whiteSpace: 'pre-line', padding: '15px' }}>
                 {petData.info || 'Δεν υπάρχει διαθέσιμη περιγραφή.'}
@@ -271,35 +293,34 @@ export default function ViewLostPet() {
                 Όνομα:
               </span>
               <Box className='data-box'>
-                {ownerData && ownerData.name ? ownerData.name : 'Δεν υπάρχουν στοιχεία'}
+                {petData.ownerName || 'Δεν υπάρχουν στοιχεία'}
               </Box>
 
               <span className='pet-data-description'>
                 Επώνυμο:
               </span>
               <Box className='data-box'>
-                {ownerData && ownerData.surname ? ownerData.surname : 'Δεν υπάρχουν στοιχεία'}
+                {petData.ownerSurname || 'Δεν υπάρχουν στοιχεία'}
               </Box>
 
               <span className='pet-data-description'>
                 Τηλέφωνο:
               </span>
               <Box className='data-box'>
-                {ownerData && ownerData.phone ? ownerData.phone : 'Δεν υπάρχουν στοιχεία'}
+                {petData.ownerPhone || 'Δεν υπάρχουν στοιχεία'}
               </Box>
 
               <span className='pet-data-description'>
                 Email:
               </span>
               <Box className='data-box'>
-                {ownerData && ownerData.email ? ownerData.email : 'Δεν υπάρχουν στοιχεία'}
+                {petData.ownerEmail || 'Δεν υπάρχουν στοιχεία'}
               </Box>
             </div>
             
           </div>
 
         </div>
-        {/* Κουμπί Δήλωση Εύρεσης */}
         <div className='found-report-box'>
           <Button
             variant="contained"

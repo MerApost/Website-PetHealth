@@ -15,10 +15,13 @@
           "id": 1,
           "name": "Μπιχλίτσα",
           "microchip": "147258369",
+          "type": "Σκύλος",
           "gender": "Θηλυκό",
           "age": "6",
           "breed": "Shih Tzu",
-          "photo": "https://images.unsplash.com/photo-1629740067905-bd3f515aa739?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          "color": "Λευκό",
+          "photo": "https://images.unsplash.com/photo-1629740067905-bd3f515aa739?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "isLost": false
         }
       ],
       "photo": "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -38,10 +41,13 @@
           "id": 1,
           "name": "Μπιχλίτσα",
           "microchip": "147258369",
+          "type": "Σκύλος",
           "gender": "Θηλυκό",
           "age": "6",
-          "breed": ";;",
-          "photo": ""
+          "breed": "Shih Tzu",
+          "color": "Λευκό",
+          "photo": "",
+          "isLost": false
         }
       ]
     },
@@ -82,13 +88,27 @@
     {
       "id": "12c1",
       "role": "owner",
-      "name": "μαρια",
-      "surname": "παπα",
+      "name": "Μαρία",
+      "surname": "Παπα",
       "email": "maria@gmail.com",
       "phone": "6945556555",
       "afm": "12341234",
       "password": "12345678Aa!",
-      "petsCount": "1"
+      "petsCount": 1,
+      "pets": [
+        {
+          "id": 1,
+          "name": "Μπάμπης",
+          "microchip": "111222333",
+          "type": "Γάτα",
+          "gender": "Αρσενικό",
+          "age": "4",
+          "breed": "European Shorthair",
+          "color": "Γκρι",
+          "photo": "https://images.unsplash.com/photo-1514888286974-6d03bde4ba14?q=80&w=1170&auto=format&fit=crop",
+          "isLost": false
+        }
+      ]
     },
     {
       "id": "4",
@@ -99,7 +119,45 @@
       "phone": "6912345678",
       "afm": "234567890",
       "password": "12345678Aa!",
-      "petsCount": "3"
+      "petsCount": 3,
+      "pets": [
+        {
+          "id": 1,
+          "name": "Μάξιμος",
+          "microchip": "144258867",
+          "type": "Σκύλος",
+          "gender": "Αρσενικό",
+          "age": "3",
+          "breed": "Border Collie",
+          "color": "Άσπρο-Μαύρο",
+          "photo": "https://images.unsplash.com/photo-1551097295-4c28e380cdf6?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "isLost": true
+        },
+        {
+          "id": 2,
+          "name": "Φιόνα",
+          "microchip": "144258267",
+          "type": "Γάτα",
+          "gender": "Θηλυκό",
+          "age": "3",
+          "breed": "Domestic Longhair",
+          "color": "Γκρι-Μαύρο",
+          "photo": "https://images.unsplash.com/photo-1644675531117-b92c5cc76257?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "isLost": true
+        },
+        {
+          "id": 3,
+          "name": "Φρίξος",
+          "microchip": "745258267",
+          "type": "Γάτα",
+          "gender": "Αρσενικό",
+          "age": "3",
+          "breed": "Maine Coon",
+          "color": "Άσπρο-Καφέ Ανοιχτό",
+          "photo": "https://images.unsplash.com/photo-1624477737871-2e6583e7deb0?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "isLost": true
+        }
+      ]
     },
     {
       "id": "5",
@@ -110,7 +168,45 @@
       "phone": "6912345678",
       "afm": "234067890",
       "password": "12345678Aa!",
-      "petsCount": "3"
+      "petsCount": 3,
+      "pets": [
+        {
+          "id": 1,
+          "name": "Μελομακάρονο",
+          "microchip": "145258267",
+          "type": "Σκύλος",
+          "gender": "Αρσενικό",
+          "age": "1",
+          "breed": "Golden Retriever",
+          "color": "Άσπρο-Καφέ Ανοιχτό",
+          "photo": "https://plus.unsplash.com/premium_photo-1694819488591-a43907d1c5cc?q=80&w=714&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "isLost": true
+        },
+        {
+          "id": 2,
+          "name": "Λουκούμι",
+          "microchip": "147258267",
+          "type": "Σκύλος",
+          "gender": "Θηλυκό",
+          "age": "2",
+          "breed": "Goldendoodle",
+          "color": "Καφέ Ανοιχτό",
+          "photo": "https://plus.unsplash.com/premium_photo-1701006172903-94fe6138242d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "isLost": true
+        },
+        {
+          "id": 3,
+          "name": "Χασάν",
+          "microchip": "147258260",
+          "type": "Σκύλος",
+          "gender": "Αρσενικό",
+          "age": "2",
+          "breed": "Beagle",
+          "color": "Άσπρο-Καφετί",
+          "photo": "https://images.unsplash.com/photo-1689202067148-284a02f5a502?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "isLost": true
+        }
+      ]
     },
     {
       "id": "6",
@@ -121,114 +217,93 @@
       "phone": "6912345678",
       "afm": "876543210",
       "password": "12345678Aa!",
-      "petsCount": "1"
+      "petsCount": 1,
+      "pets": [
+        {
+          "id": 1,
+          "name": "Μπακς μπάνι",
+          "microchip": "147258360",
+          "type": "Κουνέλι",
+          "gender": "Αρσενικό",
+          "age": "2",
+          "breed": "Rex Rabbit",
+          "color": "Άσπρο-Γκρι",
+          "photo": "https://plus.unsplash.com/premium_photo-1661832480567-68a86cb46f34?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "isLost": true
+        }
+      ]
     }
   ],
   "lostPets": [
     {
       "id": "1",
-      "name": "Μάξιμος",
-      "type": "Σκύλος",
-      "breed": "Border Collie",
-      "gender": "Αρσενικό",
-      "location": "Ζωγράφου",
+      "ownerId": "4",
+      "petId": 1,
       "microchip": "144258867",
-      "age": "3 ετών",
-      "color": "Άσπρο-Μαύρο",
       "lostDate": "30/12/2025",
-      "photo": "https://images.unsplash.com/photo-1551097295-4c28e380cdf6?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "info": "Ο Μάξιμος έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
-      "ownerId": "4"
+      "location": "Ζωγράφου",
+      "additionalInfo": "Ο Μάξιμος έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
+      "status": "lost"
     },
     {
       "id": "2",
-      "name": "Φιόνα",
-      "type": "Γάτα",
-      "breed": "Domestic Longhair",
-      "gender": "Θυληκό",
-      "location": "Εξάρχεια",
+      "ownerId": "4",
+      "petId": 2,
       "microchip": "144258267",
-      "age": "3 ετών",
-      "color": "Γκρι-Μαύρο",
       "lostDate": "29/12/2025",
-      "photo": "https://images.unsplash.com/photo-1644675531117-b92c5cc76257?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "info": "Η Φιόνα έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
-      "ownerId": "4"
+      "location": "Εξάρχεια",
+      "additionalInfo": "Η Φιόνα έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
+      "status": "lost"
     },
     {
       "id": "3",
-      "name": "Φρίξος",
-      "type": "Γάτα",
-      "breed": "Maine Coon",
-      "gender": "Αρσενικό",
-      "location": "Ψυχικό",
+      "ownerId": "4",
+      "petId": 3,
       "microchip": "745258267",
-      "age": "3 ετών",
-      "color": "Άσπρο-Καφέ Ανοιχτό",
       "lostDate": "01/01/2026",
-      "photo": "https://images.unsplash.com/photo-1624477737871-2e6583e7deb0?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "info": "Ο Φρίξος έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
-      "ownerId": "4"
+      "location": "Ψυχικό",
+      "additionalInfo": "Ο Φρίξος έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
+      "status": "lost"
     },
     {
       "id": "4",
-      "name": "Μελομακάρονο",
-      "type": "Σκύλος",
-      "breed": "Golden Retriever",
-      "gender": "Αρσενικό",
-      "location": "Αμπελόκηποι",
+      "ownerId": "5",
+      "petId": 1,
       "microchip": "145258267",
-      "age": "1 έτους",
-      "color": "Άσπρο-Καφέ Ανοιχτό",
       "lostDate": "04/01/2026",
-      "photo": "https://plus.unsplash.com/premium_photo-1694819488591-a43907d1c5cc?q=80&w=714&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "info": "Το Μελομακάρονο έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
-      "ownerId": "5"
+      "location": "Αμπελόκηποι",
+      "additionalInfo": "Το Μελομακάρονο έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
+      "status": "lost"
     },
     {
       "id": "5",
-      "name": "Λουκούμι",
-      "type": "Σκύλος",
-      "breed": "Goldendoodle",
-      "gender": "Θηλυκό",
-      "location": "Παγκράτι",
+      "ownerId": "5",
+      "petId": 2,
       "microchip": "147258267",
-      "age": "2 ετών",
-      "color": "Καφέ Ανοιχτό",
       "lostDate": "30/12/2025",
-      "photo": "https://plus.unsplash.com/premium_photo-1701006172903-94fe6138242d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "info": "Το Λουκούμι έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
-      "ownerId": "5"
+      "location": "Παγκράτι",
+      "additionalInfo": "Το Λουκούμι έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
+      "status": "lost"
     },
     {
       "id": "6",
-      "name": "Χασάν",
-      "type": "Σκύλος",
-      "breed": "Beagle",
-      "gender": "Αρσενικό",
-      "location": "Αιγάλεω",
+      "ownerId": "5",
+      "petId": 3,
       "microchip": "147258260",
-      "age": "2 ετών",
-      "color": "Άσπρο-Καφετί",
       "lostDate": "28/12/2025",
-      "photo": "https://images.unsplash.com/photo-1689202067148-284a02f5a502?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "info": "Ο Χασάν έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
-      "ownerId": "5"
+      "location": "Αιγάλεω",
+      "additionalInfo": "Ο Χασάν έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
+      "status": "lost"
     },
     {
       "id": "7",
-      "name": "Μπακς μπάνι",
-      "type": "Κουνέλι",
-      "breed": "Rex Rabbit",
-      "gender": "Αρσενικό",
-      "location": "Καισαριανή",
+      "ownerId": "6",
+      "petId": 1,
       "microchip": "147258360",
-      "age": "2 ετών",
-      "color": "Άσπρο-Γκρι",
       "lostDate": "02/01/2026",
-      "photo": "https://plus.unsplash.com/premium_photo-1661832480567-68a86cb46f34?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "info": "Ο Μπακς μπάνι έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
-      "ownerId": "6"
+      "location": "Καισαριανή",
+      "additionalInfo": "Ο Μπακς μπάνι έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
+      "status": "lost"
     }
   ],
   "foundReports": [],
