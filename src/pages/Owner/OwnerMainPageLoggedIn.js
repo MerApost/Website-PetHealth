@@ -1,18 +1,21 @@
 import './OwnerMainPageLoggedIn.css';
-import { useState, useEffect } from 'react';
+import big_left_arrow from "./../../pics/big_left_arrow.png"
+
 import { Box, Button, Typography, Paper, IconButton } from '@mui/material';
+
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
-import { useNavigate, useParams } from 'react-router-dom';
 import PetsIcon from '@mui/icons-material/Pets';
 import DescriptionIcon from '@mui/icons-material/Description';
 import PrintIcon from '@mui/icons-material/Print';
-import big_left_arrow from "./../../pics/big_left_arrow.png"
 import SearchIcon from '@mui/icons-material/Search';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
+
+import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 export default function OwnerMainPageLoggedIn() {
   const { id: userId } = useParams(); // Το userId από την URL
