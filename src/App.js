@@ -21,7 +21,7 @@ import VetProfileEdit from "./pages/Vet/VetProfileEdit";
 import DeleteAccount from "./pages/DeleteAccount";
 import ViewLostPet from "./pages/Lost_Pets/ViewLostPet";
 import FoundReport from "./pages/Lost_Pets/FoundReport";
-import OwnerMainPageLoggedIn from "./pages/Owner/OwnerMainPageLoggedIn";
+import OwnerLogIn from "./pages/Owner/OwnerLogIn";
 
 import { useState } from "react";
 
@@ -59,7 +59,7 @@ export default function App() {
           <Route path="/delete-account" element={<DeleteAccount />} />
           <Route path="/lost_pets/:id" element={<ViewLostPet/>} />
           <Route path="/lost_pets/:id/found_report" element={<FoundReport/>} />
-          <Route path="/:id/owner_main" element={<OwnerMainPageLoggedIn />} />
+          <Route path="/:id/owner_main" element={<OwnerLogIn />} />
 
 
 
