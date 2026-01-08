@@ -1,4 +1,4 @@
-import './OwnerMainPageLoggedIn.css';
+import './OwnerLogIn.css';
 import big_left_arrow from "./../../pics/big_left_arrow.png"
 
 import { Box, Button, Typography, Paper, IconButton } from '@mui/material';
@@ -17,7 +17,7 @@ import StarHalfIcon from '@mui/icons-material/StarHalf';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-export default function OwnerMainPageLoggedIn() {
+export default function OwnerLogIn() {
   const { id: userId } = useParams(); // Το userId από την URL
   const [notifications] = useState([
     { id: 1, text: "Κάποιος εντόπισε το κατοικίδιό σας - παρακαλώ ελέγξτε τις λεπτομέρειες", time: "10 λεπτά πριν" },
