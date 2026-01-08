@@ -45,7 +45,7 @@ export default function MainPage(){
     if (dateParts.length !== 3) return new Date();
     
     const day = parseInt(dateParts[0], 10);
-    const month = parseInt(dateParts[1], 10) - 1; // Μήνες είναι 0-indexed
+    const month = parseInt(dateParts[1], 10) - 1;
     const year = parseInt(dateParts[2], 10);
     
     return new Date(year, month, day);
@@ -56,7 +56,6 @@ export default function MainPage(){
     const lostDate = parseEuropeanDate(lostDateString);
     const today = new Date();
     
-    // Ορισμός ίδιου χρόνου για και τις δύο ημερομηνίες (μεσάνυχτα)
     const lostDateNormalized = new Date(lostDate.getFullYear(), lostDate.getMonth(), lostDate.getDate());
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     
@@ -72,6 +71,46 @@ export default function MainPage(){
     if (days === 1) return "Πριν 1 ημέρα";
     return `Πριν ${days} ημέρες`;
   }, []);
+
+  // Συνάρτηση ενίσχυσης δεδομένων lostPets
+  const enrichLostPetsData = useCallback((lostPetsData, usersData) => {
+    return lostPetsData.map(lostPet => {
+      // Βρες τον owner
+      const owner = usersData.find(u => u.id === lostPet.ownerId);
+      if (!owner) return null;
+      
+      // Βρες το συγκεκριμένο pet
+      const pet = owner.pets?.find(p => 
+        p.id === lostPet.petId || p.microchip === lostPet.microchip
+      );
+      
+      if (!pet) return null;
+      
+      // Υπολογισμός ημερών απώλειας
+      const daysLost = calculateDaysLost(lostPet.lostDate);
+      
+      return {
+        // Βασικά από lostPets
+        id: lostPet.id,
+        lostDate: lostPet.lostDate,
+        location: lostPet.location,
+        info: lostPet.additionalInfo || lostPet.info,
+        microchip: lostPet.microchip,
+        
+        // Στοιχεία από το pet
+        name: pet.name,
+        type: pet.type,
+        breed: pet.breed,
+        gender: pet.gender,
+        age: pet.age,
+        color: pet.color,
+        photo: pet.photo,
+        
+        // Υπολογισμένα πεδία
+        daysLost: daysLost
+      };
+    }).filter(pet => pet !== null);
+  }, [calculateDaysLost]);
 
   const handleSearch = () => {
     console.log('Search clicked from MainPage:', { petTypeFilter, locationFilter });
@@ -114,22 +153,25 @@ export default function MainPage(){
     const fetchRecentLostPets = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:3004/lostPets');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        
+        // Φέρε lostPets και users ταυτόχρονα
+        const [lostResponse, usersResponse] = await Promise.all([
+          fetch('http://localhost:3004/lostPets'),
+          fetch('http://localhost:3004/users')
+        ]);
+        
+        if (!lostResponse.ok || !usersResponse.ok) {
+          throw new Error('HTTP error!');
         }
-        const data = await response.json();
         
-        // Υπολογισμός daysLost για κάθε κατοικίδιο
-        const petsWithDaysLost = data.map(pet => {
-          const daysLost = calculateDaysLost(pet.lostDate);
-          return {
-            ...pet,
-            daysLost: daysLost
-          };
-        });
+        const lostData = await lostResponse.json();
+        const usersData = await usersResponse.json();
         
-        const recentPets = petsWithDaysLost
+        // Ενίσχυσε τα δεδομένα
+        const enrichedData = enrichLostPetsData(lostData, usersData);
+        
+        // Φίλτρα και ταξινόμηση: μόνο τα τελευταία 7 ημερών και max 3
+        const recentPets = enrichedData
           .filter(pet => pet.daysLost <= 7)
           .sort((a, b) => a.daysLost - b.daysLost)
           .slice(0, 3);
@@ -145,7 +187,7 @@ export default function MainPage(){
     };
 
     fetchRecentLostPets();
-  }, [calculateDaysLost]);
+  }, [enrichLostPetsData]);
   
   useLayoutEffect(() => {
     console.log('MainPage: Location changed', location.pathname);
@@ -223,6 +265,11 @@ export default function MainPage(){
         behavior: 'instant'
       });
     }, 100);
+  };
+
+  // Συνάρτηση για προβολή λεπτομερειών κατοικιδίου
+  const handlePetClick = (petId) => {
+    navigate(`/lost_pets/${petId}`);
   };
 
   return (
@@ -462,7 +509,19 @@ export default function MainPage(){
           </Box>
         ) : recentLostPets.length > 0 ? (
           recentLostPets.map((pet, index) => (
-            <Box key={pet.id || index} className='selections'>
+            <Box 
+              key={pet.id || index} 
+              className='selections'
+              onClick={() => handlePetClick(pet.id)}
+              sx={{
+                cursor: 'pointer',
+                '&:hover': {
+                  backgroundColor: '#f5f5f5',
+                  transform: 'translateY(-2px)',
+                  transition: 'all 0.2s ease'
+                }
+              }}
+            >
               <div className='box-details-text vertical'>
                 <img 
                   src={pet.photo} 
@@ -472,6 +531,7 @@ export default function MainPage(){
                     e.target.onerror = null;
                     e.target.src = "https://via.placeholder.com/150";
                   }}
+                  style={{ borderRadius: '8px' }}
                 />
                 <span style={{display: 'block', marginTop: '-10px', fontSize: '25px', fontWeight: 'bold', textAlign: 'left', width: '100%', color: 'black'}}>
                   {pet.name}
