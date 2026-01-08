@@ -97,7 +97,7 @@ export default function OwnerMainPageLoggedIn() {
     setCarouselIndex((prevIndex) => 
       prevIndex < maxIndex ? prevIndex + 1 : 0
     );
-  };
+  }; 
 
   const handlePrev = () => {
     if (pets.length === 0) return;
@@ -132,7 +132,7 @@ export default function OwnerMainPageLoggedIn() {
   };
 
   return (
-    <div className="owner-main-container"> {/* Αλλάξε από header σε div */}
+    <div className="owner-main-container"> 
       {/* Κύριο container για το notification bar */}
       <Box className='notification_bar_position'>
         <Box className='notification_bar'>
@@ -165,7 +165,7 @@ export default function OwnerMainPageLoggedIn() {
       </Box>
      
       
-      {/* Carousel Section για τα κατοικίδια */}
+      
       {loading ? (
         <Box sx={{padding: '40px 20px', textAlign: 'center', color: '#666'}}>
           <Typography variant="h6">Φόρτωση κατοικιδίων...</Typography>
@@ -192,36 +192,36 @@ export default function OwnerMainPageLoggedIn() {
                 return (
                   <Paper key={pet.id} className="carousel-item" elevation={3}>
                     {/* Αριστερή πλευρά - Εικόνα ή εικονίδιο */}
-                    <Box className="carousel-item__image-container">
+                    <Box className="carousel-item-image-container">
                       {pet.photo ? (
-                        <img src={pet.photo} alt={pet.name} className="carousel-item__image"
+                        <img src={pet.photo} alt={pet.name} className="carousel-item-image"
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.style.display = 'none';
-                            const placeholder = e.target.parentElement.querySelector('.carousel-item__placeholder');
+                            const placeholder = e.target.parentElement.querySelector('.carousel-item-placeholder');
                             if (placeholder) {
                               placeholder.style.display = 'flex';
                             }
                           }}
                         />
                       ) : (
-                        <Box className="carousel-item__placeholder">
-                          <InsertPhotoIcon className="carousel-item__placeholder-icon" />
+                        <Box className="carousel-item-placeholder">
+                          <InsertPhotoIcon className="carousel-item-placeholder-icon" />
                         </Box>
                       )}
                     </Box>
                     
                     {/* Δεξιά πλευρά - Πληροφορίες */}
-                    <Box className="carousel-item__content">
+                    <Box className="carousel-item-content">
                       {/* Πάνω μέρος: Όνομα, Ράτσα, Ηλικία */}
-                      <Box className="carousel-item__info">
+                      <Box className="carousel-item-info">
                         {/* Όνομα */}
-                        <Typography variant="h6" className="carousel-item__name">
+                        <Typography variant="h6" className="carousel-item-name">
                           {pet.name}
                         </Typography>
                         
                         {/* Ράτσα και Ηλικία */}
-                        <Typography variant="body1" className="carousel-item__breed_age">
+                        <Typography variant="body1" className="carousel-item-breed-age">
                           {pet.breed}, {pet.age} {pet.age === "1" ? "έτους" : "ετών"} 
                         </Typography>
                       </Box>
