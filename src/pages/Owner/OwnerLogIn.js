@@ -134,20 +134,93 @@ export default function OwnerLogIn() {
 
   return (
     <div className="owner-main-container"> 
-      {/* Κύριο container για το notification bar */}
-      <Box className='notification_bar_position'>
-        <Box className='notification_bar'>
+      {/* Κύριο container για το notification bar - MOVED TO INLINE STYLING */}
+      <Box sx={{
+        position: 'fixed',
+        top: '60px',
+        right: '10px',
+        zIndex: 999,
+        display: 'flex',
+        justifyContent: 'flex-end',
+        width: '100%'
+      }}>
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'stretch',
+          width: '100%',
+          maxWidth: '800px',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
+          borderRadius: '5px',
+          overflow: 'hidden',
+          marginTop: '25px',
+          height: '50px'
+        }}>
           {/* Πλαίσιο με μήνυμα - μεγαλύτερο και πιο επεκτατικό */}
           {latestNotification && (
-            <Paper elevation={0} className='message_box' onClick={() => navigate('/notifications')}>
-              <Box className='message_box_position'>
-                <Box className='message_content_position'>
-                  <Typography variant="body1" className='message_content'>
+            <Paper 
+              elevation={0} 
+              onClick={() => navigate('/notifications')}
+              sx={{
+                backgroundColor: '#78b5e37b',
+                padding: '0 20px',
+                border: '1px solid black',
+                borderRight: 'none',
+                cursor: 'pointer',
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '100%',
+                borderRadius: '12px',
+                marginRight: '-5px'
+              }}
+            >
+              <Box sx={{
+                flex: 1,
+                minWidth: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%'
+              }}>
+                <Box sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '10px',
+                  flexWrap: 'wrap',
+                  width: '100%'
+                }}>
+                  <Typography 
+                    variant="body1" 
+                    sx={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      lineHeight: 1.4,
+                      fontSize: '14px',
+                      overflowWrap: 'break-word',
+                      wordBreak: 'break-word',
+                      flex: 1,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
                     {latestNotification.text}
                   </Typography>
                   
                   {/* Χρόνος δίπλα στο κείμενο */}
-                  <Typography variant="caption" className='message_time'>
+                  <Typography 
+                    variant="caption" 
+                    sx={{
+                      color: 'black',
+                      fontSize: '11px',
+                      fontWeight: 500,
+                      whiteSpace: 'nowrap',
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
                     {latestNotification.time}
                   </Typography>
                 </Box>
@@ -156,9 +229,39 @@ export default function OwnerLogIn() {
           )}
           
           {/* Bell button - μεγαλύτερο και πιο εμφανές */}
-          <Button onClick={handleBellClick} className='bell_button'>
+          <Button 
+            onClick={handleBellClick}
+            sx={{
+              backgroundColor: '#67a3b8ff',
+              color: 'white',
+              borderRadius: '5px',
+              marginLeft: '-7px',
+              padding: '0 24px',
+              width: '120px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+              minHeight: '50px',
+              height: '100%',
+              flexShrink: 0,
+              border: '1px solid black'
+            }}
+          >
             <NotificationsIcon sx={{color: 'black', fontSize: { xs: 20, sm: 22, md: 35 } }}/>
-            <Box className='notification_number'>
+            <Box sx={{
+              backgroundColor: '#6e0d0dff',
+              color: 'white',
+              borderRadius: '50%',
+              width: '22px',
+              height: '22px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '13px',
+              fontWeight: 'bold',
+              boxShadow: '0 3px 6px rgba(255, 68, 68, 0.3)'
+            }}>
               {notifications.length}
             </Box>
           </Button>
@@ -287,10 +390,6 @@ export default function OwnerLogIn() {
                         <Typography variant="body1" sx={{ fontWeight: 400, marginBottom: '4px', color: 'black', fontSize: '0.8rem' }}>
                           {pet.breed}, {pet.age} {pet.age === "1" ? "έτους" : "ετών"}
                         </Typography>
-                        
-                        <Typography variant="body2" sx={{ color: '#666', fontSize: '0.85rem' }}>
-                          {pet.type} • {pet.gender}
-                        </Typography>
                       </Box>
                       
                       {/* Μεσαίο μέρος: Ραντεβού */}
@@ -301,10 +400,11 @@ export default function OwnerLogIn() {
                               backgroundColor: 'white',
                               padding: '8px 12px',
                               borderRadius: '8px',
-                              marginBottom: '16px'
+                              marginBottom: '16px',
+                              backgroundColor: '#f5f5f5',
                             }}
                           >
-                            <Typography variant="caption" sx={{ display: 'block', fontWeight: 'bold', color: 'black', fontSize: '0.85rem' }}>
+                            <Typography variant="caption" sx={{ display: 'block', fontWeight: 'bold', color: '#1976d2', fontSize: '0.85rem' }}>
                               Επόμενο ραντεβού
                             </Typography>
                             <Typography variant="caption" sx={{ display: 'block', color: 'black' }}>
@@ -437,11 +537,11 @@ export default function OwnerLogIn() {
         </Box>
       </div>
       
-      <Typography variant="h5" className="history-appointments-title">
+      <Typography variant="h5" sx={{fontSize:'2rem', fontWeight: 'bold', color: 'black', textAlign: 'center', marginTop: '60px', width: '100%'}}>
         Ιστορικό / Διαχείριση των Ραντεβού μου
       </Typography>
 
-      <Typography variant="h5" className="history-appointments-title">
+      <Typography variant="h5" sx={{fontSize:'2rem', fontWeight: 'bold', color: 'black', textAlign: 'center', marginTop: '60px', width: '100%'}}>
         Πως να κλείσεις ραντεβού;
       </Typography>
       <Box className='quick-details'>
