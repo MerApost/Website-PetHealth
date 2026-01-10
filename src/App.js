@@ -59,7 +59,7 @@ export default function App() {
           <Route path="/delete-account" element={<DeleteAccount />} />
           <Route path="/lost_pets/:id" element={<ViewLostPet/>} />
           <Route path="/lost_pets/:id/found_report" element={<FoundReport/>} />
-          <Route path="/:id/owner_main" element={<OwnerLogIn />} />
+          <Route path="/owner_main/:id" element={<OwnerLogIn />} />
 
 
 
