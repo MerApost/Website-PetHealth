@@ -1,0 +1,290 @@
+.vetpet-page{
+  min-height: 100vh;
+  background: #d7d3cb;
+  padding: 70px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vetpet-title{
+  font-weight: 900 !important;
+  font-size: 22px !important;
+  margin: 0 0 14px !important;
+  text-align: center;
+}
+
+.vetpet-card{
+  width: 820px;
+  max-width: 100%;
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.25);
+  border-radius: 12px;
+  padding: 18px 18px 22px;
+}
+
+.vetpet-card-narrow{
+  width: 720px;
+}
+
+.vetpet-section{
+  font-weight: 900 !important;
+  text-align: center;
+  margin-bottom: 6px !important;
+}
+
+.vetpet-section-left{
+  font-weight: 900 !important;
+  text-align: left;
+  margin-bottom: 10px !important;
+}
+
+.vetpet-section-center{
+  font-weight: 900 !important;
+  text-align: center;
+  margin-bottom: 10px !important;
+}
+
+.vetpet-divider{
+  margin: 12px 0 !important;
+  border-color: rgba(0,0,0,0.15) !important;
+  opacity: 0.6;
+}
+
+.vetpet-grid{
+  margin-top: 4px;
+}
+
+.vetpet-photo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vetpet-photo-box{
+  width: 140px;
+  height: 140px;
+  border: 2px solid rgba(0,0,0,0.35);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(0,0,0,0.02);
+}
+
+.vetpet-photo-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vetpet-photo-input{
+  margin-top: 10px;
+}
+
+.vetpet-actions{
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.vetpet-btn-blue,
+.vetpet-btn-green{
+  padding: 4px 14px !important;
+  font-size: 13px !important;
+  min-height: 32px !important;
+  text-transform: none !important;
+  border-radius: 10px !important;
+}
+
+.vetpet-btn-blue{ background: #1e67c6 !important; }
+.vetpet-btn-green{ background: #2e7d32 !important; }
+
+.vetpet-back{
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.vetpet-history-footer{
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.vetpet-topline{
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.vetpet-preview{
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 14px;
+  align-items: start;
+  margin-top: 10px;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(0,0,0,0.02);
+}
+
+.vetpet-preview-photo{
+  display: flex;
+  justify-content: center;
+}
+
+.vetpet-preview-img{
+  width: 140px;
+  height: 95px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+.vetpet-preview-placeholder{
+  width: 140px;
+  height: 95px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.03);
+}
+
+.vetpet-preview-info{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vetpet-prev-row{
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.vetpet-prev-row span{
+  min-width: 140px;
+  opacity: 0.85;
+}
+
+.vetpet-history-left{
+  justify-content: flex-start;
+}
+
+.vetpet-history-row{
+  display: grid;
+  grid-template-columns: 140px 1fr 230px;
+  gap: 16px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 12px;
+  margin-top: 12px;
+  background: #fff;
+}
+
+.vetpet-history-photo{
+  width: 140px;
+  height: 100px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.18);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.02);
+}
+
+.vetpet-history-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vetpet-history-placeholder{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+}
+
+.vetpet-history-info{
+  text-align: left;
+  justify-self: start;
+}
+
+.vetpet-history-line{
+  margin: 4px 0;
+  line-height: 1.25;
+}
+
+.vetpet-history-right{
+  justify-self: end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  min-width: 230px;
+}
+
+.vetpet-badge{
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.badge-green{
+  background: rgba(46,125,50,0.12);
+  color: #2e7d32;
+  border: 1px solid rgba(46,125,50,0.35);
+}
+
+.badge-blue{
+  background: rgba(30,103,198,0.12);
+  color: #1e67c6;
+  border: 1px solid rgba(30,103,198,0.35);
+}
+
+.vetpet-history-actions{
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.vetpet-small-blue,
+.vetpet-small-gray,
+.vetpet-small-red{
+  padding: 4px 12px !important;
+  font-size: 13px !important;
+  min-height: 32px !important;
+  text-transform: none !important;
+  border-radius: 10px !important;
+}
+
+.vetpet-small-blue{
+  background: #1e67c6 !important;
+}
+
+.vetpet-small-gray{
+  border-color: rgba(0,0,0,0.35) !important;
+  color: #222 !important;
+}
+
+.vetpet-small-red{
+   border-color: #d32f2f !important;
+   color: #d32f2f !important;
+}
