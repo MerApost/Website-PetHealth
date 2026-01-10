@@ -1,16 +1,30 @@
 import './OwnerLogIn.css';
+import './../Main/MainPage.css'
+import big_left_arrow from "./../../pics/big_left_arrow.png"
 
 import { Box, Button, Typography, Paper, IconButton } from '@mui/material';
 
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import PetsIcon from '@mui/icons-material/Pets';
+import DescriptionIcon from '@mui/icons-material/Description';
+import PrintIcon from '@mui/icons-material/Print';
+import SearchIcon from '@mui/icons-material/Search';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import StarHalfIcon from '@mui/icons-material/StarHalf';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 export default function OwnerLogIn() {
   const { id: userId } = useParams(); // Το userId από την URL
+  const [notifications] = useState([
+    { id: 1, text: "Κάποιος εντόπισε το κατοικίδιό σας - παρακαλώ ελέγξτε τις λεπτομέρειες", time: "10 λεπτά πριν" },
+    { id: 2, text: "Νέα ενημέρωση για χαμένο σκύλο στην περιοχή σας", time: "1 ώρα πριν" },
+    { id: 3, text: "Ενημέρωση προφίλ κατοικιδίου: Αναβάθμιση προφίλ ολοκληρώθηκε", time: "2 ώρες πριν" }
+  ]);
   
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(3);
@@ -19,6 +33,8 @@ export default function OwnerLogIn() {
   const [userData, setUserData] = useState(null);
   
   const navigate = useNavigate();
+  
+  const latestNotification = notifications.length > 0 ? notifications[0] : null;
   
   // Φόρτωση δεδομένων χρήστη και κατοικιδίων
   useEffect(() => {
@@ -71,7 +87,10 @@ export default function OwnerLogIn() {
     
     return () => window.removeEventListener('resize', updateItemsPerView);
   }, []);
-
+  
+  const handleBellClick = () => {
+    navigate('/notifications');
+  };
 
   const handleNext = () => {
     if (pets.length === 0) return;
@@ -115,6 +134,140 @@ export default function OwnerLogIn() {
 
   return (
     <div className="owner-main-container"> 
+      {/* Κύριο container για το notification bar - MOVED TO INLINE STYLING */}
+      <Box sx={{
+        position: 'fixed',
+        top: '60px',
+        right: '10px',
+        zIndex: 999,
+        display: 'flex',
+        justifyContent: 'flex-end',
+        width: '100%'
+      }}>
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'stretch',
+          width: '100%',
+          maxWidth: '800px',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
+          borderRadius: '5px',
+          overflow: 'hidden',
+          marginTop: '25px',
+          height: '50px'
+        }}>
+          {/* Πλαίσιο με μήνυμα - μεγαλύτερο και πιο επεκτατικό */}
+          {latestNotification && (
+            <Paper 
+              elevation={0} 
+              onClick={() => navigate('/notifications')}
+              sx={{
+                backgroundColor: '#78b5e37b',
+                padding: '0 20px',
+                border: '1px solid black',
+                borderRight: 'none',
+                cursor: 'pointer',
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '100%',
+                borderRadius: '12px',
+                marginRight: '-5px'
+              }}
+            >
+              <Box sx={{
+                flex: 1,
+                minWidth: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%'
+              }}>
+                <Box sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '10px',
+                  flexWrap: 'wrap',
+                  width: '100%'
+                }}>
+                  <Typography 
+                    variant="body1" 
+                    sx={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      lineHeight: 1.4,
+                      fontSize: '14px',
+                      overflowWrap: 'break-word',
+                      wordBreak: 'break-word',
+                      flex: 1,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
+                    {latestNotification.text}
+                  </Typography>
+                  
+                  {/* Χρόνος δίπλα στο κείμενο */}
+                  <Typography 
+                    variant="caption" 
+                    sx={{
+                      color: 'black',
+                      fontSize: '11px',
+                      fontWeight: 500,
+                      whiteSpace: 'nowrap',
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
+                    {latestNotification.time}
+                  </Typography>
+                </Box>
+              </Box>
+            </Paper>
+          )}
+          
+          {/* Bell button - μεγαλύτερο και πιο εμφανές */}
+          <Button 
+            onClick={handleBellClick}
+            sx={{
+              backgroundColor: '#67a3b8ff',
+              color: 'white',
+              borderRadius: '5px',
+              marginLeft: '-7px',
+              padding: '0 24px',
+              width: '120px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+              minHeight: '50px',
+              height: '100%',
+              flexShrink: 0,
+              border: '1px solid black'
+            }}
+          >
+            <NotificationsIcon sx={{color: 'black', fontSize: { xs: 20, sm: 22, md: 35 } }}/>
+            <Box sx={{
+              backgroundColor: '#6e0d0dff',
+              color: 'white',
+              borderRadius: '50%',
+              width: '22px',
+              height: '22px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '13px',
+              fontWeight: 'bold',
+              boxShadow: '0 3px 6px rgba(255, 68, 68, 0.3)'
+            }}>
+              {notifications.length}
+            </Box>
+          </Button>
+        </Box>
+      </Box>
+
       {loading ? (
         <Box sx={{padding: '40px 20px', textAlign: 'center', color: '#666'}}>
           <Typography variant="h6">Φόρτωση κατοικιδίων...</Typography>
@@ -244,6 +397,7 @@ export default function OwnerLogIn() {
                         {appointment ? (
                           <Paper 
                             sx={{
+                              backgroundColor: 'white',
                               padding: '8px 12px',
                               borderRadius: '8px',
                               marginBottom: '16px',
@@ -341,6 +495,143 @@ export default function OwnerLogIn() {
           </Button>
         </Box>
       )}
+
+      {/* Νέο πλαίσιο χαρακτηριστικών πλατφόρμας */}
+      <div className="platform-features-frame">
+        <span className="platform-features-title">
+          Δες το βιβλιάριο υγείας του κατοικίδιού σου, εύκολα και γρήγορα!
+        </span>
+        <Box className='platform-features-container'>
+          <Box className='platform-features-box'>
+            <div className='platform-features-content'>
+              <div className="platform-features-icon">
+                <PetsIcon sx={{ fontSize: 40 }} />
+              </div>
+              <span className="platform-features-box-description">
+                1. Επέλεξε το κατοικίδιο που θες.
+              </span>
+            </div>
+          </Box>
+
+          <Box className='platform-features-box'>
+            <div className='platform-features-content'>
+              <div className="platform-features-icon">
+                <DescriptionIcon sx={{ fontSize: 40 }} />
+              </div>
+              <span className="platform-features-box-description">
+                2. Πάτα πάνω στο κατοικίδιο για προβολή των στοιχείων και του βιβλ. υγείας.
+              </span>
+            </div>
+          </Box>
+
+          <Box className='platform-features-box'>
+            <div className='platform-features-content'>
+              <div className="platform-features-icon">
+                <PrintIcon sx={{ fontSize: 40 }} />
+              </div>
+              <span className="platform-features-box-description">
+                3. Δυνατότητα εκτύπωσης.
+              </span>
+            </div>
+          </Box>
+        </Box>
+      </div>
+      
+      <Typography variant="h5" sx={{fontSize:'2rem', fontWeight: 'bold', color: 'black', textAlign: 'center', marginTop: '60px', width: '100%'}}>
+        Ιστορικό / Διαχείριση των Ραντεβού μου
+      </Typography>
+
+      <Typography variant="h5" sx={{fontSize:'2rem', fontWeight: 'bold', color: 'black', textAlign: 'center', marginTop: '60px', width: '100%'}}>
+        Πως να κλείσεις ραντεβού;
+      </Typography>
+      <Box className='quick-details'>
+        <Box className='appointment-selections'>
+          <div className='box-details-text vertical'>
+            <SearchIcon sx={{ fontSize: 100 }} />
+            <span className="platform-features-box-description">
+              1. Εύρεση Κτηνίατρου
+            </span>
+          </div>
+        </Box>
+
+        <img src={big_left_arrow} className="appointment-arrow-pic" alt="Arrow"/>
+
+        <Box className='appointment-selections'>
+          <div className='box-details-text vertical'>
+            <CalendarMonthIcon sx={{ fontSize: 100 }} />
+            <span className="platform-features-box-description">
+              2. Προγραμματισμός Ραντεβού
+            </span>
+          </div>
+        </Box>
+
+        <img src={big_left_arrow} className="appointment-arrow-pic" alt="Arrow"/>
+
+        <Box className='appointment-selections'>
+          <div className='box-details-text vertical'>
+            <StarHalfIcon sx={{ fontSize: 100 }} />
+            <span className="platform-features-box-description">
+              3. Αξιολόγηση
+            </span>
+          </div>
+        </Box>
+      </Box>
+
+      <Box className='quick-reports'>
+        <Box className='selections'>
+          <span className="box-details-title">
+            Δήλωση Απώλειας  
+          </span>
+          <div className='box-details-text vertical'>
+            <span className="citizen-details-text">
+              Αναφέρετε το χαμένο κατοικίδιο.
+            </span>
+            <Box sx={{ display: 'flex', gap: '10px', width: '100%' }}>
+              <Button variant="contained" onClick={() => navigate('/new-report')} className="report-buttons" sx={{ flex: 1 }}>
+                Νέα Δήλωση
+              </Button>
+              <Button variant="contained" onClick={() => navigate('/new-report')} className="history-buttons" sx={{ flex: 1 }}>
+                Ιστορικό
+              </Button>
+            </Box>
+          </div>
+        </Box>
+
+        <Box className='selections'>
+          <span className="box-details-title">
+            Δήλωση Εύρεσης 
+          </span>
+          <div className='box-details-text vertical'>
+            <span className="citizen-details-text">
+              Αναφέρετε το κατοικίδιο που βρήκατε.
+            </span>
+            <Box sx={{ display: 'flex', gap: '10px', width: '100%' }}>
+              <Button variant="contained" onClick={() => navigate('/new-report')} className="report-buttons" sx={{ flex: 1 }}>
+                Νέα Δήλωση
+              </Button>
+              <Button variant="contained" onClick={() => navigate('/new-report')} className="history-buttons" sx={{ flex: 1 }}>
+                Ιστορικό
+              </Button>
+            </Box>
+          </div>
+        </Box>
+
+        <Box className='selections'>
+          <span className="box-details-title">
+            Εύρεση Κτηνίατρου   
+          </span>
+          <div className='box-details-text vertical'>
+            <span className="citizen-details-text">
+              Βρείτε τον κτηνίατρο που σας ταιριάζει, δείτε τις αξολογήσεις του.
+            </span>
+            <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <Button variant="contained" onClick={() => navigate('/search')} className="history-buttons">
+                Αναζήτηση
+              </Button>
+            </Box>
+          </div>
+        </Box>
+      </Box>
     </div> 
   );
 }
