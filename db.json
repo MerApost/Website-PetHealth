@@ -160,6 +160,18 @@
       ]
     },
     {
+      "id": "7",
+      "role": "owner",
+      "name": "Γιώργος",
+      "surname": "Κατσακιώρης",
+      "email": "kkatsa@gmail.com",
+      "phone": "6902345678",
+      "afm": "234167890",
+      "password": "12345678Aa!",
+      "petsCount": 0,
+      "pets": []
+    },
+    {
       "id": "5",
       "role": "owner",
       "name": "Κωνσταντίνος",
