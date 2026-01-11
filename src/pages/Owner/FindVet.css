@@ -1,0 +1,13 @@
+.FindVet-main-header{
+  background-color: #D7D3CB;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Αλλαγή: από flex-start σε center */
+  font-size: calc(10px + 2vmin);
+  color: black;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden; /* Προσθήκη για horizontal scroll */
+}

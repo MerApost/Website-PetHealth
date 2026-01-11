@@ -94,7 +94,7 @@ export default function OwnerLogIn() {
   };
 
   const handleHealthClick = (pet) => {
-    navigate(`/pet/${pet.id}/health`, { state: { ownerId: userId, ownerName: userData?.name } });
+    navigate(`./pet/${pet.id}/health`, { state: { ownerId: userId, ownerName: userData?.name } });
   };
 
   // Υπολογισμός ορατών κουτιών
@@ -137,7 +137,7 @@ export default function OwnerLogIn() {
         {/* Κύριο μενού */}
         <List>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`/owner/${userId}`)} sx={{backgroundColor: '#D7D3CB'}}>
+            <ListItemButton onClick={() => navigate(`/owner_main/${userId}`)} sx={{backgroundColor: '#D7D3CB'}}>
               <ListItemIcon>
                 <PetsIcon sx={{color: 'black'}}/>
               </ListItemIcon>
@@ -146,7 +146,7 @@ export default function OwnerLogIn() {
           </ListItem>
           
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`/owner/${userId}/pets`)}>
+            <ListItemButton onClick={() => navigate(`./find_vet`)}>
               <ListItemIcon>
                 <SearchIcon sx={{color: 'black'}}/>
               </ListItemIcon>
@@ -155,7 +155,7 @@ export default function OwnerLogIn() {
           </ListItem>
           
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`/owner/${userId}/appointments`)}>
+            <ListItemButton onClick={() => navigate(`./appointments`)}>
               <ListItemIcon>
                 <CalendarMonthIcon sx={{color: 'black'}}/>
               </ListItemIcon>
@@ -164,7 +164,7 @@ export default function OwnerLogIn() {
           </ListItem>
           
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`/owner/${userId}/history`)}>
+            <ListItemButton onClick={() => navigate(`./lost_report`)}>
               <ListItemIcon>
                 <DescriptionIcon sx={{color: 'black'}}/>
               </ListItemIcon>
@@ -173,7 +173,7 @@ export default function OwnerLogIn() {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`/owner/${userId}/history`)}>
+            <ListItemButton onClick={() => navigate(`./found_report`)}>
               <ListItemIcon>
                 <DescriptionIcon sx={{color: 'black'}}/>
               </ListItemIcon>
@@ -182,7 +182,7 @@ export default function OwnerLogIn() {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`/owner/${userId}/history`)}>
+            <ListItemButton onClick={() => navigate(`./history_report`)}>
               <ListItemIcon>
                 <HistoryIcon sx={{color: 'black'}}/>
               </ListItemIcon>
