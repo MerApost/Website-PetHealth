@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   TextField,
   Autocomplete,
@@ -6,10 +5,6 @@ import {
   Button,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-
-// Προσθέστε τα imports σας
-// import Athens_areas from './../Owner/Athens_areas';
-// import Pet_Types from './Data/Pet_Types';
 
 const PetSearchBar = ({
   // Props για τα options
