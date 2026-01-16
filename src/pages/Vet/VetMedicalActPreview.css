@@ -1,0 +1,73 @@
+.map-page{
+  min-height: 100vh;
+  background: #d7d3cb;
+  padding: 70px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.map-card{
+  width: 760px;
+  max-width: 100%;
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.25);
+  border-radius: 12px;
+  padding: 14px 16px 20px;
+}
+
+.map-actions{
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.map-print{
+  background: #9fdaa0 !important;
+  color: #111 !important;
+  padding: 4px 12px !important;
+  font-size: 12px !important;
+  min-height: 28px !important;
+  text-transform: none !important;
+  border-radius: 10px !important;
+}
+
+.map-empty{
+  padding: 18px;
+  text-align: center;
+  opacity: 0.85;
+}
+
+.map-panel{
+  border: 1px solid rgba(0,0,0,0.22);
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: #fff;
+}
+
+.map-title{
+  font-weight: 800 !important;
+  font-size: 16px !important;
+  text-align: center;
+  margin-bottom: 10px !important;
+}
+
+.map-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  font-size: 13px;
+}
+
+.map-back{
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 720px){
+  .map-grid{
+    grid-template-columns: 1fr;
+  }
+}

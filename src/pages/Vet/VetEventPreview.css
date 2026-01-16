@@ -1,0 +1,64 @@
+.vep-page{
+  min-height: 100vh;
+  background: #d7d3cb;
+  padding: 70px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vep-card{
+  width: 760px;
+  max-width: 100%;
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.25);
+  border-radius: 12px;
+  padding: 14px 16px 20px;
+}
+
+.vep-actions{
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.vep-print{
+  background: #9fdaa0 !important;
+  color: #111 !important;
+  padding: 4px 12px !important;
+  font-size: 12px !important;
+  min-height: 28px !important;
+  text-transform: none !important;
+  border-radius: 10px !important;
+}
+
+.vep-empty{
+  padding: 18px;
+  text-align: center;
+  opacity: 0.85;
+}
+
+.vep-panel{
+  border: 1px solid rgba(0,0,0,0.22);
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: #fff;
+}
+
+.vep-title{
+  font-weight: 800 !important;
+  font-size: 16px !important;
+  text-align: center;
+  margin-bottom: 10px !important;
+}
+
+.vep-line{
+  font-size: 13px;
+}
+
+.vep-back{
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

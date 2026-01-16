@@ -31,7 +31,7 @@ export default function VetProfileEdit() {
 
   React.useEffect(() => {
     const rawId = localStorage.getItem("userId");
-    const id = encodeURIComponent((rawId || "").trim());
+    const id = (rawId || "".trim());
 
     if (!id) {
       navigate("/login");
@@ -104,7 +104,7 @@ export default function VetProfileEdit() {
   const onSave = async (e) => {
     e.preventDefault();
     const rawId = localStorage.getItem("userId");
-    const id = encodeURIComponent((rawId || "").trim());
+    const id = (rawId || "".trim());
 
     const payload = { ...form, services };
 

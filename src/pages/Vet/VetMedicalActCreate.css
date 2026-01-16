@@ -1,0 +1,140 @@
+.ma-page{
+  min-height: 100vh;
+  background: #d7d3cb;
+  padding: 70px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ma-title{
+  font-weight: 900 !important;
+  font-size: 22px !important;
+  margin: 0 0 14px !important;
+  text-align: center;
+}
+
+.ma-card{
+  width: 860px;
+  max-width: 100%;
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.25);
+  border-radius: 16px;
+  padding: 18px 22px 18px;
+}
+
+.ma-grid{
+  margin-top: 2px;
+}
+
+.ma-inputs{
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ma-labels{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 2px;
+  text-align: left;
+}
+
+.ma-label{
+  font-size: 14px;
+  color: #111;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.ma-label.muted{ color: #777; }
+.ma-label.bold{ font-weight: 800; }
+
+.ma-spacer{ height: 59px; }
+.ma-gap{ height: 1px; }
+
+.ma-input .MuiInputBase-root{
+  background: #e6e6e6;
+  border-radius: 4px;
+  height: 24px;
+  font-size: 16px;
+}
+
+.ma-input .MuiInputBase-input{
+  padding: 2px 10px !important;
+}
+
+.ma-input .MuiSelect-select{
+  padding: 2px 10px !important;
+}
+
+.ma-input.ma-date .MuiInputBase-input{
+  text-align: left;
+  padding-right: 10px !important;
+}
+
+.ma-textareaWrap{
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.ma-textarea .MuiInputBase-root{
+  background: #e6e6e6;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.ma-textarea .MuiInputBase-input{
+  padding: 1px !important;
+}
+
+.ma-counter{
+  position: absolute;
+  right: 6px;
+  bottom: -16px;
+  font-size: 11px;
+  color: #333;
+  opacity: 0.85;
+}
+
+.ma-actions{
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.ma-btn-blue,
+.ma-btn-green,
+.ma-btn-red{
+  padding: 5px 14px !important;
+  font-size: 13px !important;
+  min-height: 32px !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+}
+
+.ma-btn-blue{
+  background: #9fb7e6 !important;
+  color: #111 !important;
+}
+
+.ma-btn-green{
+  background: #c9e7c9 !important;
+  color: #111 !important;
+}
+
+.ma-btn-red{
+  background: #f3c1c1 !important;
+  color: #111 !important;
+}
+
+.ma-back{
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

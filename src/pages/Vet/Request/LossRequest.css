@@ -1,0 +1,56 @@
+.lr-card{
+  border: 1px solid rgba(0,0,0,0.22);
+  border-radius: 10px;
+  padding: 14px 16px 16px;
+  background: #fff;
+}
+
+.lr-title{
+  font-weight: 800 !important;
+  font-size: 16px !important;
+  text-align: center;
+  margin-bottom: 12px !important;
+}
+
+.lr-section{
+  margin-top: 10px;
+}
+
+.lr-section-title{
+  font-weight: 800 !important;
+  font-size: 12.5px !important;
+  text-align: center;
+  margin-bottom: 8px !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lr-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+}
+
+.lr-textarea{
+  grid-column: span 2;
+  position: relative;
+}
+
+.lr-counter{
+  position: absolute;
+  right: 6px;
+  bottom: -16px;
+  font-size: 11px;
+  color: #333;
+  opacity: 0.85;
+}
+
+@media (max-width: 720px){
+  .lr-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .lr-textarea{
+    grid-column: span 1;
+  }
+}

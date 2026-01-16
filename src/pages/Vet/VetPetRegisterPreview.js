@@ -21,7 +21,7 @@ export default function VetPetRegisterPreview() {
 
     const load = async () => {
       try {
-        const res = await fetch(`http://localhost:3004/petRegistrations/${encodeURIComponent(id)}`);
+        const res = await fetch(`http://localhost:3004/petRegistrations/${id}`);
         if (!res.ok) throw new Error("not found");
         const data = await res.json();
 

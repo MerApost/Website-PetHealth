@@ -17,9 +17,7 @@ export default function VetPetRegisterHistory() {
     try {
       setLoading(true);
       const res = await fetch(
-        `http://localhost:3004/petRegistrations?vetId=${encodeURIComponent(
-          vetId
-        )}&_sort=createdAt&_order=desc`
+        `http://localhost:3004/petRegistrations?vetId=${vetId}&_sort=createdAt&_order=desc`
       );
       const data = await res.json();
       setItems(Array.isArray(data) ? data : []);
@@ -45,7 +43,7 @@ export default function VetPetRegisterHistory() {
 
     try {
       const res = await fetch(
-        `http://localhost:3004/petRegistrations/${encodeURIComponent(itemId)}`,
+        `http://localhost:3004/petRegistrations/${itemId}`,
         { method: "DELETE" }
       );
       if (!res.ok && res.status !== 204) throw new Error("DELETE failed");

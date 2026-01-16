@@ -20,7 +20,7 @@ export default function VetProfileView() {
 
   React.useEffect(() => {
     const rawId = localStorage.getItem("userId");
-    const id = encodeURIComponent((rawId || "").trim());
+    const id = (rawId || "".trim());
 
     if (!id) {
       navigate("/login");

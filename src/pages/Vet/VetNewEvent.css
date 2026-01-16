@@ -1,0 +1,138 @@
+.ve-page{
+  min-height: 100vh;
+  background: #d7d3cb;
+  padding: 70px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ve-title{
+  font-weight: 900 !important;
+  font-size: 22px !important;
+  margin: 0 0 14px !important;
+  text-align: center;
+}
+
+.ve-card{
+  width: 760px;
+  max-width: 100%;
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.25);
+  border-radius: 12px;
+  padding: 16px 18px 20px;
+}
+
+.ve-stepper{
+  margin-bottom: 14px;
+}
+
+.ve-stepper .MuiStepLabel-label{
+  font-size: 10.5px !important;
+  color: #777 !important;
+  text-align: center;
+  white-space: normal;
+}
+
+.ve-stepper .MuiStepLabel-label.Mui-active{
+  color: #111 !important;
+  font-weight: 700 !important;
+}
+
+.ve-stepper .MuiStepLabel-label.Mui-completed{
+  color: #a3a3a3 !important;
+}
+
+.ve-stepper .MuiStepLabel-iconContainer{
+  padding-right: 0;
+}
+
+.ve-panel{
+  border: 1px solid rgba(0,0,0,0.22);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-top: 8px;
+  background: #fff;
+}
+
+.ve-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.ve-panel-title{
+  font-weight: 800 !important;
+  font-size: 13px !important;
+  margin-bottom: 8px !important;
+}
+
+.ve-placeholder{
+  font-size: 12px;
+  color: #555;
+}
+.ve-radio .MuiFormControlLabel-root{
+  margin-left: 0;
+}
+
+.ve-date .MuiInputBase-root{
+  background: #f3f3f3;
+  border-radius: 6px;
+}
+
+.ve-actions{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.ve-confirm-actions{
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.ve-btn{
+  border-color: #999 !important;
+  color: #111 !important;
+  text-transform: none !important;
+  font-size: 12px !important;
+  min-height: 28px !important;
+  padding: 4px 10px !important;
+  border-radius: 8px !important;
+}
+
+.ve-btn-red{
+  background: #f3c1c1 !important;
+  color: #6b1b1b !important;
+  text-transform: none !important;
+  font-size: 12px !important;
+  min-height: 30px !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+}
+
+.ve-btn-green{
+  background: #c9e7c9 !important;
+  color: #1d5e1d !important;
+  text-transform: none !important;
+  font-size: 12px !important;
+  min-height: 30px !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+}
+
+.ve-arrow{
+  font-size: 14px;
+  margin: 0 2px;
+}
+
+@media (max-width: 720px){
+  .ve-grid{
+    grid-template-columns: 1fr;
+  }
+}

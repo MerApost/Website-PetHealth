@@ -28,6 +28,18 @@ import LostReport from "./pages/Owner/LostReport";
 import OwnerFoundReport from "./pages/Owner/FoundReport";
 import HistoryReport from "./pages/Owner/HistoryReport";
 
+import VetPetRegister from "./pages/Vet/VetPetRegister";
+import VetPetRegisterHistory from "./pages/Vet/VetPetRegisterHistory";
+import VetPetRegisterPreview from "./pages/Vet/VetPetRegisterPreview";
+import VetPetRegisterEdit from "./pages/Vet/VetPetRegisterEdit";
+
+import VetHealthBook from "./pages/Vet/VetHealthBook";
+import VetMedicalActCreate from "./pages/Vet/VetMedicalActCreate";
+import VetMicrochip from './pages/Vet/VetMicrochip';
+import VetNewEvent from "./pages/Vet/VetNewEvent";
+import VetEventPreview from "./pages/Vet/VetEventPreview";
+import VetMedicalActPreview from "./pages/Vet/VetMedicalActPreview";
+
 import { useState } from "react";
 import { Routes, Route, Navigate } from 'react-router-dom';
 
@@ -65,6 +77,19 @@ export default function App() {
           <Route path="/owner_main/:id/lost_report" element={<LostReport />} />
           <Route path="/owner_main/:id/found_report" element={<OwnerFoundReport />} />
           <Route path="/owner_main/:id/history_report" element={<HistoryReport />} />
+
+          <Route path="/vet/pet-register" element={<VetPetRegister />} />
+          <Route path="/vet/pet-history" element={<VetPetRegisterHistory />} />
+          <Route path="/vet/pet-preview/:id" element={<VetPetRegisterPreview />} />
+          <Route path="/vet/pet-edit/:id" element={<VetPetRegisterEdit />} />
+
+
+          <Route path="/vet/health-book/:ownerId/:petId" element={<VetHealthBook />} />
+          <Route path="/vet/health-book/:ownerId/:petId/new-act" element={<VetMedicalActCreate />} />
+          <Route path="/vet/health-book/:ownerId/:petId/new-event" element={<VetNewEvent />} />
+          <Route path="/vet/health-book/event-preview/:eventId" element={<VetEventPreview />} />
+          <Route path="/vet/health-book/act-preview/:actId" element={<VetMedicalActPreview />} />
+          <Route path="/vet/microchip" element={<VetMicrochip />} />
 
         </Routes>
       </div>
