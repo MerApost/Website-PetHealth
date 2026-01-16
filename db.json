@@ -319,112 +319,33 @@
     }
   ],
   "foundReports": [],
-  "petRegistrations": [
-    {
-      "id": "0528",
-      "microchip": "1",
-      "name": "a",
-      "species": "a",
-      "breed": "a",
-      "gender": "a",
-      "birthDate": "2025-12-30",
-      "photo": "",
-      "vetId": "1",
-      "status": "final",
-      "createdAt": "2026-01-09T13:11:12.085Z",
-      "updatedAt": "2026-01-09T13:11:31.646Z"
-    },
-    {
-      "id": "bf9c",
-      "microchip": "ς",
-      "name": "ς",
-      "species": "ρ",
-      "breed": "ρ",
-      "gender": "ρ",
-      "birthDate": "2025-12-30",
-      "photo": "",
-      "vetId": "1",
-      "status": "final",
-      "createdAt": "2026-01-09T13:13:51.175Z",
-      "updatedAt": "2026-01-09T13:14:06.951Z"
-    },
-    {
-      "id": "209c",
-      "microchip": "",
-      "name": "",
-      "species": "",
-      "breed": "a",
-      "gender": "",
-      "birthDate": "",
-      "photo": "",
-      "vetId": "1",
-      "status": "draft",
-      "createdAt": "2026-01-09T15:06:52.783Z",
-      "updatedAt": "2026-01-09T15:06:52.783Z"
-    },
-    {
-      "id": "7ed9",
-      "microchip": "",
-      "name": "",
-      "species": "",
-      "breed": "",
-      "gender": "αα",
-      "birthDate": "",
-      "photo": "",
-      "vetId": "1",
-      "status": "draft",
-      "createdAt": "2026-01-10T13:08:47.385Z",
-      "updatedAt": "2026-01-10T13:08:47.386Z"
-    }
-  ],
+  "petRegistrations": [],
   "medicalActs": [
     {
-      "id": "9619",
+      "id": "aa97",
       "petId": "1",
+      "ownerId": "1",
       "vetId": "3",
       "status": "draft",
       "actType": "Εμβολιασμός",
       "vaccine": "",
       "surgeryDesc": "",
-      "medication": "μ",
-      "frequency": "",
-      "dosage": 1,
-      "actDate": "2026-01-07",
-      "instructions": "",
-      "createdAt": "2026-01-11T15:36:57.189Z",
-      "updatedAt": "2026-01-14T12:10:04.411Z"
-    },
-    {
-      "id": "ed15",
-      "petId": "1",
-      "vetId": "3",
-      "status": "final",
-      "actType": "Αποπαρασίτωση",
-      "vaccine": "",
-      "surgeryDesc": "α",
       "medication": "",
       "frequency": "",
       "dosage": 1,
-      "actDate": "2026-01-02",
+      "actDate": "2026-01-08",
       "instructions": "",
-      "createdAt": "2026-01-11T15:37:31.124Z",
-      "updatedAt": "2026-01-11T15:37:31.124Z"
+      "updatedAt": "2026-01-16T15:20:00.952Z",
+      "createdAt": "2026-01-16T15:20:00.952Z"
     }
   ],
   "lifeEvents": [
     {
-      "id": "425c",
+      "id": "62ae",
       "petId": "1",
-      "type": "Εύρεση",
-      "date": "2026-01-07",
-      "createdAt": "2026-01-11T20:44:08.661Z",
-      "updatedAt": "2026-01-11T20:44:08.661Z"
-    },
-    {
-      "id": "9f7f",
-      "petId": "1",
+      "ownerId": "1",
       "type": "Απώλεια",
-      "date": "2026-01-09",
+      "date": "2026-01-20",
       "details": {
         "ownerFirstName": "Ελένη",
         "ownerLastName": "Αποστολάκη",
@@ -438,18 +359,48 @@
         "petBreed": "Shih Tzu",
         "petAge": "6",
         "petColor": "Λευκό",
-        "petGender": "Θηλυκό",
-        "lossDate": "2026-01-17",
-        "lossArea": "α",
-        "lossDescription": "α",
+        "petGender": "Αρσενικό",
+        "lossDate": "2026-01-09",
+        "lossArea": "κ",
+        "lossDescription": "ξξ",
+        "vetFirstName": "Αναστασία",
+        "vetLastName": "Μυλωνάκη",
+        "vetPhone": "6935448967"
+      },
+      "status": "draft",
+      "createdAt": "2026-01-16T15:17:03.014Z",
+      "updatedAt": "2026-01-16T15:17:03.014Z"
+    },
+    {
+      "id": "7c42",
+      "petId": "1",
+      "ownerId": "1",
+      "type": "Απώλεια",
+      "date": "2026-01-15",
+      "details": {
+        "ownerFirstName": "Ελένη",
+        "ownerLastName": "Αποστολάκη",
+        "ownerPhone": "6912345678",
+        "ownerAddress": "",
+        "ownerEmail": "eleni@gmail.com",
+        "petName": "Μπιχλίτσα",
+        "petType": "Σκύλος",
+        "petMicrochip": "147258369",
+        "petPhoto": "https://images.unsplash.com/photo-1629740067905-bd3f515aa739?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "petBreed": "Shih Tzu",
+        "petAge": "6",
+        "petColor": "Λευκό",
+        "petGender": "Αρσενικό",
+        "lossDate": "2026-01-16",
+        "lossArea": "φ",
+        "lossDescription": "κκ",
         "vetFirstName": "Αναστασία",
         "vetLastName": "Μυλωνάκη",
         "vetPhone": "6935448967"
       },
       "status": "final",
-      "createdAt": "2026-01-13T13:35:14.349Z",
-      "updatedAt": "2026-01-13T13:39:29.643Z"
+      "createdAt": "2026-01-16T15:19:38.266Z",
+      "updatedAt": "2026-01-16T15:19:38.266Z"
     }
-  ],
-  "medicalRecord": []
+  ]
 }

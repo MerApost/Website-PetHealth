@@ -129,16 +129,15 @@ export default function VetMedicalActCreate() {
         updatedAt: new Date().toISOString(),
       };
 
-      const res = editId
-        ? await fetch(
-            `http://localhost:3004/medicalActs/${editId}`,
-            {
-              method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            }
-          )
-        : await fetch("http://localhost:3004/medicalActs", {
+      let res;
+      if (editId && editId !== "undefined" && editId !== "null") {
+        res = await fetch(`http://localhost:3004/medicalActs/${editId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (res.status === 404) {
+          res = await fetch("http://localhost:3004/medicalActs", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -146,6 +145,17 @@ export default function VetMedicalActCreate() {
               createdAt: new Date().toISOString(),
             }),
           });
+        }
+      } else {
+        res = await fetch("http://localhost:3004/medicalActs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...payload,
+            createdAt: new Date().toISOString(),
+          }),
+        });
+      }
 
       if (!res.ok) throw new Error("POST failed");
 

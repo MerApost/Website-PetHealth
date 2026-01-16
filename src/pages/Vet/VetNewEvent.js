@@ -252,6 +252,8 @@ export default function VetNewEvent() {
 
     try {
       setSaving(true);
+      const cleanEditId =
+        editId && editId !== "undefined" && editId !== "null" ? editId : "";
       const payload = {
         petId,
         ownerId,
@@ -263,22 +265,31 @@ export default function VetNewEvent() {
         updatedAt: new Date().toISOString(),
       };
 
-      const res = editId
-        ? await fetch(
-            `http://localhost:3004/lifeEvents/${editId}`,
-            {
-              method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            }
-          )
-        : await fetch("http://localhost:3004/lifeEvents", {
+      let res;
+      if (cleanEditId) {
+        res = await fetch(`http://localhost:3004/lifeEvents/${cleanEditId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (res.status === 404) {
+          res = await fetch("http://localhost:3004/lifeEvents", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
           });
+        }
+      } else {
+        res = await fetch("http://localhost:3004/lifeEvents", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      }
 
-      if (!res.ok) throw new Error("POST failed");
+      if (!res.ok) {
+        throw new Error("POST failed");
+      }
       navigate(`/vet/health-book/${ownerId}/${petId}`);
     } catch (e) {
       console.error(e);
