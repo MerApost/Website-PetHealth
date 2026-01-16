@@ -94,7 +94,7 @@ export default function OwnerLogIn() {
   };
 
   const handleHealthClick = (pet) => {
-    navigate(`./pet/${pet.id}/health`, { state: { ownerId: userId, ownerName: userData?.name } });
+    navigate(`./pet/${pet.id}/health_book`, { state: { ownerId: userId, ownerName: userData?.name } });
   };
 
   // Υπολογισμός ορατών κουτιών

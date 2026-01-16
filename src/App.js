@@ -27,6 +27,7 @@ import Appointments from "./pages/Owner/Appointments";
 import LostReport from "./pages/Owner/LostReport";
 import OwnerFoundReport from "./pages/Owner/FoundReport";
 import HistoryReport from "./pages/Owner/HistoryReport";
+import PetHealthBook from './pages/Owner/PetHealthBook';
 
 import { useState } from "react";
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -65,6 +66,7 @@ export default function App() {
           <Route path="/owner_main/:id/lost_report" element={<LostReport />} />
           <Route path="/owner_main/:id/found_report" element={<OwnerFoundReport />} />
           <Route path="/owner_main/:id/history_report" element={<HistoryReport />} />
+          <Route path="/owner_main/:id/pet/:petid/health_book" element={<PetHealthBook />} />
 
         </Routes>
       </div>
