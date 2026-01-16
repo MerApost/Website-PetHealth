@@ -135,6 +135,7 @@ export default function LossRequestForm({ form, onChange, wordCount, disableVet 
             InputLabelProps={{ shrink: true }}
             value={form.lossDate}
             onChange={(e) => onChange("lossDate", e.target.value)}
+            inputProps={{ max: new Date().toISOString().slice(0, 10) }}
           />
           <TextField
             size="small"
