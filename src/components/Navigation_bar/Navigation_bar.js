@@ -168,7 +168,7 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
               Διαχείριση Ραντεβού
             </MenuItem>
 
-            <MenuItem component={RouterLink} to="/vet/availability" onClick={closeAll}>
+            <MenuItem component={RouterLink} to="/vet/schedule" onClick={closeAll}>
               Διαθεσιμότητα
             </MenuItem>
 

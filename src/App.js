@@ -40,6 +40,7 @@ import VetMicrochip from './pages/Vet/VetMicrochip';
 import VetNewEvent from "./pages/Vet/VetNewEvent";
 import VetEventPreview from "./pages/Vet/VetEventPreview";
 import VetMedicalActPreview from "./pages/Vet/VetMedicalActPreview";
+import VetSchedule from "./pages/Vet/VetSchedule";
 
 import { useState } from "react";
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -92,6 +93,7 @@ export default function App() {
           <Route path="/vet/health-book/event-preview/:eventId" element={<VetEventPreview />} />
           <Route path="/vet/health-book/act-preview/:actId" element={<VetMedicalActPreview />} />
           <Route path="/vet/microchip" element={<VetMicrochip />} />
+          <Route path="/vet/schedule" element={<VetSchedule />} />
 
         </Routes>
       </div>
