@@ -1,14 +1,15 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Drawer, CssBaseline, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Tabs, Tab, Pagination } from '@mui/material';
+import { Box, Drawer, CssBaseline, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Tabs, Tab, Pagination, Button } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import SearchIcon from '@mui/icons-material/Search';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import HistoryIcon from '@mui/icons-material/History';
 import DescriptionIcon from '@mui/icons-material/Description';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import PrintIcon from '@mui/icons-material/Print'; // Προσθήκη εικονιδίου εκτύπωσης
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react'; // Προσθήκη useRef
 
 const drawerWidth = 270;
 
@@ -43,38 +44,7 @@ function a11yProps(index) {
 }
 
 // Helper function για να επιστρέφει τα δεδομένα ενός κατοικίδιου
-const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPageHealth, setCurrentPageHealth) => {
-  // Δεδομένα για τους πίνακες
-  const eventsData = [
-    { id: 1, event: "Ετήσιος εμβολιασμός", date: "15/03/2024" },
-    { id: 2, event: "Καθαρισμός δοντιών", date: "20/02/2024" },
-    { id: 3, event: "Επέμβαση στειρώσεως", date: "10/01/2024" },
-    { id: 4, event: "Έλεγχος παρασίτων", date: "05/12/2023" },
-    { id: 5, event: "Πρώτη επισκέψη κτηνίατρου", date: "20/10/2023" },
-    { id: 6, event: "Εμβολιασμός λύσσας", date: "10/09/2023" },
-    { id: 7, event: "Έλεγχος βάρους", date: "05/08/2023" },
-    { id: 8, event: "Αφαίρεση κοντιλοματώδους", date: "15/07/2023" },
-    { id: 9, event: "Ρουτίνα ελέγχου", date: "20/06/2023" },
-    { id: 10, event: "Ετήσιος εμβολιασμός", date: "15/05/2023" },
-    { id: 11, event: "Έλεγχος δέρματος", date: "10/04/2023" },
-    { id: 12, event: "Διόρθωση προσθίου", date: "01/03/2023" },
-  ];
-
-  const healthData = [
-    { id: 1, procedure: "Ετήσιος εμβολιασμός", medication: "Parvovirus vaccine", dosage: "1 δόση", date: "15/03/2024" },
-    { id: 2, procedure: "Καθαρισμός δοντιών", medication: "Antibiotic", dosage: "2 φορές ημερησίως για 7 ημέρες", date: "20/02/2024" },
-    { id: 3, procedure: "Επέμβαση στειρώσεως", medication: "Pain medication", dosage: "1 φορά ημερησίως για 5 ημέρες", date: "10/01/2024" },
-    { id: 4, procedure: "Έλεγχος παρασίτων", medication: "Flea treatment", dosage: "Μηνιαία εφαρμογή", date: "05/12/2023" },
-    { id: 5, procedure: "Πρώτη επισκέψη κτηνίατρου", medication: "Vitamin supplements", dosage: "Καθημερινά", date: "20/10/2023" },
-    { id: 6, procedure: "Εμβολιασμός λύσσας", medication: "Rabies vaccine", dosage: "1 δόση", date: "10/09/2023" },
-    { id: 7, procedure: "Αντιμετώπιση αλλεργίας", medication: "Antihistamine", dosage: "1 φορά ημερησίως για 3 ημέρες", date: "05/08/2023" },
-    { id: 8, procedure: "Χειρουργική επέμβαση", medication: "Painkiller", dosage: "2 φορές ημερησίως για 10 ημέρες", date: "15/07/2023" },
-    { id: 9, procedure: "Ρουτίνα ελέγχου", medication: "-", dosage: "-", date: "20/06/2023" },
-    { id: 10, procedure: "Εμβολιασμός", medication: "Combination vaccine", dosage: "1 δόση", date: "15/05/2023" },
-    { id: 11, procedure: "Αντιμετώπιση μόλυνσης", medication: "Antibiotic", dosage: "3 φορές ημερησίως για 14 ημέρες", date: "01/04/2023" },
-    { id: 12, procedure: "Έλεγχος όρασης", medication: "Eye drops", dosage: "2 φορές ημερησίως για 5 ημέρες", date: "15/03/2023" },
-  ];
-
+const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPageHealth, setCurrentPageHealth, printRef, eventsData, healthData) => {
   // Ρυθμίσεις pagination
   const rowsPerPage = 5;
   
@@ -98,8 +68,266 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
     setCurrentPageHealth(page);
   };
 
+  // Συνάρτηση για εκτύπωση - Εμφανίζει ΟΛΑ τα δεδομένα (όχι μόνο της τρέχουσας σελίδας)
+  const handlePrint = () => {
+    const printContent = printRef.current;
+    const originalContents = document.body.innerHTML;
+    
+    document.body.innerHTML = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Βιβλιάριο Υγείας - ${pet.name}</title>
+        <meta charset="UTF-8">
+        <style>
+          @media print {
+            body { 
+              font-family: Arial, sans-serif; 
+              margin: 0;
+              padding: 20px;
+              font-size: 12px;
+            }
+            .print-container { 
+              max-width: 100%;
+            }
+            .print-header {
+              text-align: center;
+              margin-bottom: 30px;
+              border-bottom: 2px solid #333;
+              padding-bottom: 15px;
+            }
+            .print-title {
+              font-size: 24px;
+              font-weight: bold;
+              margin-bottom: 10px;
+              color: #000;
+            }
+            .print-subtitle {
+              font-size: 18px;
+              color: #555;
+              margin-bottom: 20px;
+            }
+            .print-section {
+              margin-bottom: 30px;
+              page-break-inside: avoid;
+            }
+            .print-section-title {
+              font-size: 16px;
+              font-weight: bold;
+              margin-bottom: 10px;
+              background-color: #f0f0f0;
+              padding: 8px;
+              border-radius: 4px;
+              color: #000;
+              border-left: 4px solid #2e7d32;
+            }
+            .print-pet-info {
+              display: flex;
+              margin-bottom: 25px;
+              gap: 30px;
+              align-items: flex-start;
+            }
+            .print-pet-photo {
+              width: 180px;
+              height: 220px;
+              border: 1px solid #000;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background-color: #f5f5f5;
+              flex-shrink: 0;
+            }
+            .print-pet-details {
+              flex: 1;
+            }
+            .print-pet-details-grid {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 12px;
+            }
+            .print-detail-item {
+              margin-bottom: 6px;
+            }
+            .print-detail-label {
+              font-weight: bold;
+              color: #000;
+              display: inline-block;
+              width: 160px;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 20px;
+              font-size: 11px;
+            }
+            th, td {
+              border: 1px solid #ddd;
+              padding: 6px 8px;
+              text-align: left;
+            }
+            th {
+              background-color: #f5f5f5;
+              font-weight: bold;
+              color: #000;
+            }
+            .print-instruction {
+              margin-bottom: 6px;
+              padding-left: 15px;
+            }
+            .print-footer {
+              margin-top: 40px;
+              text-align: center;
+              font-size: 11px;
+              color: #777;
+              border-top: 1px solid #ddd;
+              padding-top: 15px;
+            }
+            .page-break {
+              page-break-before: always;
+            }
+            .print-note {
+              font-style: italic;
+              color: #666;
+              margin-top: 10px;
+              font-size: 11px;
+              text-align: center;
+              margin-bottom: 15px;
+            }
+            .print-total {
+              font-weight: bold;
+              margin-bottom: 10px;
+              color: #2e7d32;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="print-container">
+          <div class="print-header">
+            <div class="print-title">Βιβλιάριο Υγείας Κατοικίδιου</div>
+            <div class="print-subtitle">${pet.name} - ${new Date().toLocaleDateString('el-GR')}</div>
+          </div>
+          
+          <div class="print-section">
+            <div class="print-section-title">Στοιχεία Κατοικιδίου</div>
+            <div class="print-pet-info">
+              <div class="print-pet-photo">
+                ${pet.photo ? `<img src="${pet.photo}" alt="${pet.name}" style="width:100%;height:100%;object-fit:cover;">` : '<div style="text-align:center;color:#777;">Χωρίς φωτογραφία</div>'}
+              </div>
+              <div class="print-pet-details">
+                <div class="print-pet-details-grid">
+                  <div class="print-detail-item">
+                    <span class="print-detail-label">Όνομα:</span> ${pet.name}
+                  </div>
+                  <div class="print-detail-item">
+                    <span class="print-detail-label">Είδος:</span> ${pet.type || 'Άγνωστο'}
+                  </div>
+                  <div class="print-detail-item">
+                    <span class="print-detail-label">Ράτσα:</span> ${pet.breed || 'Άγνωστη'}
+                  </div>
+                  <div class="print-detail-item">
+                    <span class="print-detail-label">Χρώμα:</span> ${pet.color || 'Άγνωστο'}
+                  </div>
+                  ${pet.microchip ? `
+                    <div class="print-detail-item">
+                      <span class="print-detail-label">Αριθμός Microchip:</span> ${pet.microchip}
+                    </div>
+                  ` : ''}
+                  <div class="print-detail-item">
+                    <span class="print-detail-label">Φύλο:</span> ${pet.gender || 'Άγνωστο'}
+                  </div>
+                  <div class="print-detail-item">
+                    <span class="print-detail-label">Ηλικία:</span> ${pet.age || 'Άγνωστη'} ${pet.age === "1" ? "έτους" : "ετών"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="print-section">
+            <div class="print-section-title">Συμβάντα Ζωής Κατοικιδίου</div>
+            <div class="print-total">Σύνολο: ${eventsData.length} συμβάντα</div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 50px; text-align: center;">A/A</th>
+                  <th>Γεγονός</th>
+                  <th style="width: 100px;">Ημ/νία</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${eventsData.map((item, index) => `
+                  <tr>
+                    <td style="text-align: center;">${index + 1}</td>
+                    <td>${item.event}</td>
+                    <td>${item.date}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="print-section page-break">
+            <div class="print-section-title">Βιβλιάριο Υγείας</div>
+            <div class="print-total">Σύνολο: ${healthData.length} εγγραφές</div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 50px; text-align: center;">A/A</th>
+                  <th>Ιατρικές Πράξεις</th>
+                  <th>Φαρμακευτική Αγωγή</th>
+                  <th>Δοσολογία & Συχνότητα</th>
+                  <th style="width: 90px;">Ημ/νία</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${healthData.map((item, index) => `
+                  <tr>
+                    <td style="text-align: center;">${index + 1}</td>
+                    <td>${item.procedure}</td>
+                    <td>${item.medication}</td>
+                    <td>${item.dosage}</td>
+                    <td>${item.date}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="print-section">
+            <div class="print-section-title">Οδηγίες</div>
+            <div>
+              ${[
+                "Να δίνεται το φάρμακο μετά το φαγητό για να αποφεύγεται δυσφορία στο στομάχι.",
+                "Να παρατηρείται το κατοικίδιο για τυχόν αλλεργικές αντιδράσεις τις πρώτες 24 ώρες.",
+                "Να διατηρείται ο χώρος του κατοικίδιου καθαρός και στεγνός κατά τη διάρκεια της ανάρρωσης.",
+                "Να αποφεύγονται έντονα σπορ και μακριές βόλτες για τις επόμενες 48 ώρες.",
+                "Επικοινωνήστε με τον κτηνίατρο σε περίπτωση έντονου πόνου ή πυρετού."
+              ].map((instruction, index) => `
+                <div class="print-instruction">
+                  <strong>${index + 1}.</strong> ${instruction}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          
+          <div class="print-footer">
+            <p>Εκτυπώθηκε από το PetCare System στις ${new Date().toLocaleString('el-GR')}</p>
+            <p style="font-size: 10px; color: #999;">Πλήρης έκθεση - Όλα τα δεδομένα</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+    
+    window.print();
+    document.body.innerHTML = originalContents;
+    window.location.reload();
+  };
+
   return (
     <Box 
+      ref={printRef}
       sx={{ 
         m: 3,
         p: 4,
@@ -108,9 +336,40 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
         boxShadow: 3,
         display: 'flex',
         flexDirection: 'column',
-        gap: 3
+        gap: 3,
+        position: 'relative'
       }}
     >
+      {/* Κουμπί εκτύπωσης - πάνω δεξιά */}
+      <Box sx={{ 
+        position: 'absolute',
+        top: 16,
+        right: 16,
+        zIndex: 1
+      }}>
+        <Button 
+          variant="contained"
+          onClick={handlePrint}
+          startIcon={<PrintIcon />}
+          sx={{ 
+            backgroundColor: '#2e7d32', // Πράσινο χρώμα
+            color: 'white',
+            '&:hover': {
+              backgroundColor: '#1b5e20' // Σκούρο πράσινο για hover
+            },
+            boxShadow: 2,
+            borderRadius: 2,
+            padding: '8px 16px',
+            fontWeight: 'bold',
+            textTransform: 'none',
+            fontSize: '1rem'
+          }}
+          title="Εκτύπωση πλήρους έκθεσης"
+        >
+          Εκτύπωση
+        </Button>
+      </Box>
+      
       {/* Πρώτο μικρό box - Φωτογραφία και πληροφορίες κατοικίδιου */}
       <Box 
         sx={{ 
@@ -460,6 +719,40 @@ export default function PetHealthBook() {
   // State για pagination - ξεχωριστά για κάθε κατοικίδιο
   const [currentPageEvents, setCurrentPageEvents] = useState(1);
   const [currentPageHealth, setCurrentPageHealth] = useState(1);
+  
+  // Ref για το περιεχόμενο που θα εκτυπωθεί
+  const printRef = useRef(null);
+  
+  // Δεδομένα για τους πίνακες (τώρα στο main component)
+  const eventsData = [
+    { id: 1, event: "Ετήσιος εμβολιασμός", date: "15/03/2024" },
+    { id: 2, event: "Καθαρισμός δοντιών", date: "20/02/2024" },
+    { id: 3, event: "Επέμβαση στειρώσεως", date: "10/01/2024" },
+    { id: 4, event: "Έλεγχος παρασίτων", date: "05/12/2023" },
+    { id: 5, event: "Πρώτη επισκέψη κτηνίατρου", date: "20/10/2023" },
+    { id: 6, event: "Εμβολιασμός λύσσας", date: "10/09/2023" },
+    { id: 7, event: "Έλεγχος βάρους", date: "05/08/2023" },
+    { id: 8, event: "Αφαίρεση κοντιλοματώδους", date: "15/07/2023" },
+    { id: 9, event: "Ρουτίνα ελέγχου", date: "20/06/2023" },
+    { id: 10, event: "Ετήσιος εμβολιασμός", date: "15/05/2023" },
+    { id: 11, event: "Έλεγχος δέρματος", date: "10/04/2023" },
+    { id: 12, event: "Διόρθωση προσθίου", date: "01/03/2023" },
+  ];
+
+  const healthData = [
+    { id: 1, procedure: "Ετήσιος εμβολιασμός", medication: "Parvovirus vaccine", dosage: "1 δόση", date: "15/03/2024" },
+    { id: 2, procedure: "Καθαρισμός δοντιών", medication: "Antibiotic", dosage: "2 φορές ημερησίως για 7 ημέρες", date: "20/02/2024" },
+    { id: 3, procedure: "Επέμβαση στειρώσεως", medication: "Pain medication", dosage: "1 φορά ημερησίως για 5 ημέρες", date: "10/01/2024" },
+    { id: 4, procedure: "Έλεγχος παρασίτων", medication: "Flea treatment", dosage: "Μηνιαία εφαρμογή", date: "05/12/2023" },
+    { id: 5, procedure: "Πρώτη επισκέψη κτηνίατρου", medication: "Vitamin supplements", dosage: "Καθημερινά", date: "20/10/2023" },
+    { id: 6, procedure: "Εμβολιασμός λύσσας", medication: "Rabies vaccine", dosage: "1 δόση", date: "10/09/2023" },
+    { id: 7, procedure: "Αντιμετώπιση αλλεργίας", medication: "Antihistamine", dosage: "1 φορά ημερησίως για 3 ημέρες", date: "05/08/2023" },
+    { id: 8, procedure: "Χειρουργική επέμβαση", medication: "Painkiller", dosage: "2 φορές ημερησίως για 10 ημέρες", date: "15/07/2023" },
+    { id: 9, procedure: "Ρουτίνα ελέγχου", medication: "-", dosage: "-", date: "20/06/2023" },
+    { id: 10, procedure: "Εμβολιασμός", medication: "Combination vaccine", dosage: "1 δόση", date: "15/05/2023" },
+    { id: 11, procedure: "Αντιμετώπιση μόλυνσης", medication: "Antibiotic", dosage: "3 φορές ημερησίως για 14 ημέρες", date: "01/04/2023" },
+    { id: 12, procedure: "Έλεγχος όρασης", medication: "Eye drops", dosage: "2 φορές ημερησίως για 5 ημέρες", date: "15/03/2023" },
+  ];
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -646,8 +939,8 @@ export default function PetHealthBook() {
                   sx={{ 
                     ml: 3,
                     '& .MuiTabs-indicator': {
-                      backgroundColor: '#a56312', // Μπλε χρώμα για την υπογράμμιση
-                      height: 3, // Πάχος της γραμμής
+                      backgroundColor: '#a56312',
+                      height: 3,
                     }
                   }}
                 >
@@ -680,7 +973,10 @@ export default function PetHealthBook() {
                     currentPageEvents, 
                     setCurrentPageEvents, 
                     currentPageHealth, 
-                    setCurrentPageHealth
+                    setCurrentPageHealth,
+                    printRef,
+                    eventsData,
+                    healthData
                   )}
                 </CustomTabPanel>
               ))}
