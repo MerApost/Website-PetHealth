@@ -7,9 +7,10 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import HistoryIcon from '@mui/icons-material/History';
 import DescriptionIcon from '@mui/icons-material/Description';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
-import PrintIcon from '@mui/icons-material/Print'; // Προσθήκη εικονιδίου εκτύπωσης
+import PrintIcon from '@mui/icons-material/Print';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react'; // Προσθήκη useRef
+import { useEffect, useState, useRef } from 'react';
+import './PetHealthBook.css'; // Import CSS file
 
 const drawerWidth = 270;
 
@@ -68,9 +69,8 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
     setCurrentPageHealth(page);
   };
 
-  // Συνάρτηση για εκτύπωση - Εμφανίζει ΟΛΑ τα δεδομένα (όχι μόνο της τρέχουσας σελίδας)
+  // Συνάρτηση για εκτύπωση - Εμφανίζει ΟΛΑ τα δεδομένα
   const handlePrint = () => {
-    const printContent = printRef.current;
     const originalContents = document.body.innerHTML;
     
     document.body.innerHTML = `
@@ -184,14 +184,6 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
             }
             .page-break {
               page-break-before: always;
-            }
-            .print-note {
-              font-style: italic;
-              color: #666;
-              margin-top: 10px;
-              font-size: 11px;
-              text-align: center;
-              margin-bottom: 15px;
             }
             .print-total {
               font-weight: bold;
@@ -328,76 +320,25 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
   return (
     <Box 
       ref={printRef}
-      sx={{ 
-        m: 3,
-        p: 4,
-        bgcolor: 'white',
-        borderRadius: 3,
-        boxShadow: 3,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 3,
-        position: 'relative'
-      }}
+      className="pet-content-box"
     >
       {/* Κουμπί εκτύπωσης - πάνω δεξιά */}
-      <Box sx={{ 
-        position: 'absolute',
-        top: 16,
-        right: 16,
-        zIndex: 1
-      }}>
+      <div className="print-button">
         <Button 
           variant="contained"
           onClick={handlePrint}
           startIcon={<PrintIcon />}
-          sx={{ 
-            backgroundColor: '#2e7d32', // Πράσινο χρώμα
-            color: 'white',
-            '&:hover': {
-              backgroundColor: '#1b5e20' // Σκούρο πράσινο για hover
-            },
-            boxShadow: 2,
-            borderRadius: 2,
-            padding: '8px 16px',
-            fontWeight: 'bold',
-            textTransform: 'none',
-            fontSize: '1rem'
-          }}
           title="Εκτύπωση πλήρους έκθεσης"
+          className="print-button-content"
         >
           Εκτύπωση
         </Button>
-      </Box>
+      </div>
       
       {/* Πρώτο μικρό box - Φωτογραφία και πληροφορίες κατοικίδιου */}
-      <Box 
-        sx={{ 
-          p: 3,
-          bgcolor: '#f0f0f0',
-          borderRadius: 2,
-          boxShadow: 1,
-          minHeight: 200,
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: 3
-        }}
-      >
+      <Box className="pet-info-box" sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
         {/* Φωτογραφία - αριστερά */}
-        <Box 
-          sx={{
-            width: 200,
-            height: 250,
-            borderRadius: 2,
-            overflow: 'hidden',
-            backgroundColor: '#e0e0e0',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-            border: '1.5px solid black'
-          }}
-        >
+        <Box className="pet-photo-container">
           {pet.photo ? (
             <img 
               src={pet.photo} 
@@ -409,63 +350,59 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
               }}
             />
           ) : (
-            <InsertPhotoIcon sx={{ fontSize: 60, color: '#9e9e9e' }} />
+            <InsertPhotoIcon className="pet-photo-placeholder" />
           )}
         </Box>
         
         {/* Πληροφορίες - δεξιά */}
-        <Box sx={{ flexGrow: 1 }}>
-          <Typography variant="h5" sx={{ mb: 3, fontWeight: 'bold', color: 'black' }}>
+        <Box className="pet-details-container">
+          <Typography variant="h5" className="section-title">
             Στοιχεία Κατοικιδίου
           </Typography>
           
           {/* Δίστηλη διάταξη με Grid */}
-          <Box sx={{ 
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 3
-          }}>
+          <Box className="details-grid">
             
             {/* Πρώτη στήλη - στοίχιση αριστερά */}
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, textAlign: 'left' }}>
-              <Box>
-                <Typography variant="body1" sx={{ mb: 0.5, textAlign: 'left' }}>
+            <Box className="details-column">
+              <Box className="detail-item">
+                <Typography variant="body1" className="detail-text">
                   <strong>Όνομα:</strong> {pet.name}
                 </Typography>
               </Box>
-              <Box>
-                <Typography variant="body1" sx={{ mb: 0.5, textAlign: 'left' }}>
+              <Box className="detail-item">
+                <Typography variant="body1" className="detail-text">
                   <strong>Είδος:</strong> {pet.type || 'Άγνωστο'}
                 </Typography>
               </Box>
-              <Box>
-                <Typography variant="body1" sx={{ mb: 0.5, textAlign: 'left' }}>
+              <Box className="detail-item">
+                <Typography variant="body1" className="detail-text">
                   <strong>Ράτσα:</strong> {pet.breed || 'Άγνωστη'}
                 </Typography>
               </Box>
-              <Box>
-                <Typography variant="body1" sx={{ mb: 0.5, textAlign: 'left' }}>
+              <Box className="detail-item">
+                <Typography variant="body1" className="detail-text">
                   <strong>Χρώμα:</strong> {pet.color || 'Άγνωστο'}
                 </Typography>
               </Box>
             </Box>
             
             {/* Δεύτερη στήλη - στοίχιση αριστερά */}
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, textAlign: 'left' }}>
+            <Box className="details-column">
               {pet.microchip && (
-                <Box>
-                  <Typography variant="body1" sx={{ mb: 0.5, textAlign: 'left' }}>
+                <Box className="detail-item">
+                  <Typography variant="body1" className="detail-text">
                     <strong>Αριθμός Microchip:</strong> {pet.microchip}
                   </Typography>
                 </Box>
               )}
-              <Box>
-                <Typography variant="body1" sx={{ mb: 0.5, textAlign: 'left' }}>
+              <Box className="detail-item">
+                <Typography variant="body1" className="detail-text">
                   <strong>Φύλο:</strong> {pet.gender || 'Άγνωστο'}
                 </Typography>
               </Box>
-              <Box>
-                <Typography variant="body1" sx={{ mb: 0.5, textAlign: 'left' }}>
+              <Box className="detail-item">
+                <Typography variant="body1" className="detail-text">
                   <strong>Ηλικία:</strong> {pet.age || 'Άγνωστη'} {pet.age === "1" ? "έτους" : "ετών"}
                 </Typography>
               </Box>
@@ -475,47 +412,23 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
       </Box>
       
       {/* Δεύτερο μικρό box - Συμβάντα Ζωής */}
-      <Box 
-        sx={{ 
-          p: 3,
-          bgcolor: '#f0f0f0',
-          borderRadius: 2,
-          boxShadow: 1,
-          minHeight: 120
-        }}
-      >
-        <Typography variant="h5" sx={{ mb: 3, fontWeight: 'bold', color: 'black' }}>
+      <Box className="pet-info-box">
+        <Typography variant="h5" className="section-title">
           Συμβάντα Ζωής Κατοικιδίου
         </Typography>
         
         {/* Πίνακας Συμβάντων */}
-        <Box sx={{ overflowX: 'auto', display: 'flex', justifyContent:'center', alignItems:'center' }}>
-          <Box 
-            sx={{ 
-              maxWidth: '600px',
-              border: '1px solid #ddd',
-              borderRadius: 1,
-              overflow: 'hidden',
-              mb: 2
-            }}
-          >
+        <Box className="pet-table-container">
+          <Box className="pet-table pet-table-small">
             {/* Κεφαλίδα πίνακα */}
-            <Box 
-              sx={{ 
-                display: 'grid',
-                gridTemplateColumns: '60px 1fr 120px',
-                bgcolor: '#bbb9b9',
-                color: 'black',
-                fontWeight: 'bold'
-              }}
-            >
-              <Box sx={{ p: 1.5, textAlign: 'center', borderRight: '1px solid #ddd' }}>
+            <Box className="table-header table-row table-row-small">
+              <Box className="table-cell">
                 A/A
               </Box>
-              <Box sx={{ p: 1.5, borderRight: '1px solid #ddd' }}>
+              <Box className="table-cell-left">
                 Γεγονός
               </Box>
-              <Box sx={{ p: 1.5 }}>
+              <Box className="table-cell-left">
                 Ημ/νία
               </Box>
             </Box>
@@ -525,22 +438,18 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
               {currentEvents.map((item, index) => (
                 <Box 
                   key={item.id}
+                  className="table-row table-row-small"
                   sx={{ 
-                    display: 'grid',
-                    gridTemplateColumns: '60px 1fr 120px',
                     borderBottom: index < currentEvents.length - 1 ? '1px solid #ddd' : 'none',
-                    '&:hover': {
-                      bgcolor: '#f8f9fa'
-                    }
                   }}
                 >
-                  <Box sx={{ p: 1.5, textAlign: 'center', borderRight: '1px solid #ddd' }}>
+                  <Box className="table-cell">
                     {(currentPageEvents - 1) * 5 + index + 1}
                   </Box>
-                  <Box sx={{ p: 1.5, borderRight: '1px solid #ddd' }}>
+                  <Box className="table-cell-left">
                     {item.event}
                   </Box>
-                  <Box sx={{ p: 1.5 }}>
+                  <Box className="table-cell-left">
                     {item.date}
                   </Box>
                 </Box>
@@ -551,7 +460,7 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
         
         {/* Pagination controls για Συμβάντα */}
         {totalEventPages > 1 && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          <Box className="pagination-container">
             <Pagination
               count={totalEventPages}
               page={currentPageEvents}
@@ -566,53 +475,29 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
       </Box>
       
       {/* Τρίτο μικρό box - Βιβλιάριο Υγείας */}
-      <Box 
-        sx={{ 
-          p: 3,
-          bgcolor: '#f0f0f0',
-          borderRadius: 2,
-          boxShadow: 1,
-          minHeight: 120
-        }}
-      >
-        <Typography variant="h5" sx={{ mb: 3, fontWeight: 'bold', color: 'black' }}>
+      <Box className="pet-info-box">
+        <Typography variant="h5" className="section-title">
           Βιβλιάριο Υγείας
         </Typography>
         
         {/* Πίνακας Υγείας */}
-        <Box sx={{ overflowX: 'auto', display: 'flex', justifyContent:'center', alignItems:'center' }}>
-          <Box 
-            sx={{ 
-              maxWidth: '1050px',
-              border: '1px solid #ddd',
-              borderRadius: 1,
-              overflow: 'hidden',
-              mb: 2
-            }}
-          >
+        <Box className="pet-table-container">
+          <Box className="pet-table pet-table-large">
             {/* Κεφαλίδα πίνακα */}
-            <Box 
-              sx={{ 
-                display: 'grid',
-                gridTemplateColumns: '60px repeat(4, 1fr)',
-                bgcolor: '#bbb9b9',
-                color: 'black',
-                fontWeight: 'bold'
-              }}
-            >
-              <Box sx={{ p: 1.5, textAlign: 'center', borderRight: '1px solid #ddd' }}>
+            <Box className="table-header table-row table-row-large">
+              <Box className="table-cell">
                 A/A
               </Box>
-              <Box sx={{ p: 1.5, borderRight: '1px solid #ddd' }}>
+              <Box className="table-cell-left">
                 Ιατρικές Πράξεις
               </Box>
-              <Box sx={{ p: 1.5, borderRight: '1px solid #ddd' }}>
+              <Box className="table-cell-left">
                 Φαρμακευτική Αγωγή 
               </Box>
-              <Box sx={{ p: 1.5, borderRight: '1px solid #ddd' }}>
+              <Box className="table-cell-left">
                 Δοσολογία & Συχνότητα
               </Box>
-              <Box sx={{ p: 1.5 }}>
+              <Box className="table-cell-left">
                 Ημ/νία
               </Box>
             </Box>
@@ -622,28 +507,24 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
               {currentHealth.map((item, index) => (
                 <Box 
                   key={item.id}
+                  className="table-row table-row-large"
                   sx={{ 
-                    display: 'grid',
-                    gridTemplateColumns: '60px repeat(4, 1fr)',
                     borderBottom: index < currentHealth.length - 1 ? '1px solid #ddd' : 'none',
-                    '&:hover': {
-                      bgcolor: '#f8f9fa'
-                    }
                   }}
                 >
-                  <Box sx={{ p: 1.5, textAlign: 'center', borderRight: '1px solid #ddd' }}>
+                  <Box className="table-cell">
                     {(currentPageHealth - 1) * 5 + index + 1}
                   </Box>
-                  <Box sx={{ p: 1.5, borderRight: '1px solid #ddd' }}>
+                  <Box className="table-cell-left">
                     {item.procedure}
                   </Box>
-                  <Box sx={{ p: 1.5, borderRight: '1px solid #ddd' }}>
+                  <Box className="table-cell-left">
                     {item.medication}
                   </Box>
-                  <Box sx={{ p: 1.5, borderRight: '1px solid #ddd' }}>
+                  <Box className="table-cell-left">
                     {item.dosage}
                   </Box>
-                  <Box sx={{ p: 1.5 }}>
+                  <Box className="table-cell-left">
                     {item.date}
                   </Box>
                 </Box>
@@ -654,7 +535,7 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
         
         {/* Pagination controls για Βιβλιάριο Υγείας */}
         {totalHealthPages > 1 && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          <Box className="pagination-container">
             <Pagination
               count={totalHealthPages}
               page={currentPageHealth}
@@ -669,19 +550,11 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
       </Box>
 
       {/* Τέταρτο μικρό box - Οδηγίες */}
-      <Box 
-        sx={{ 
-          p: 3,
-          bgcolor: '#f0f0f0',
-          borderRadius: 2,
-          boxShadow: 1,
-          minHeight: 120
-        }}
-      >
-        <Typography variant="h5" sx={{ mb: 3, fontWeight: 'bold', color: 'black' }}>
+      <Box className="pet-info-box">
+        <Typography variant="h5" className="section-title">
           Οδηγίες
         </Typography>
-        <Box sx={{ ml: 2 }}>
+        <Box className="instructions-container">
           {[
             "Να δίνεται το φάρμακο μετά το φαγητό για να αποφεύγεται δυσφορία στο στομάχι.",
             "Να παρατηρείται το κατοικίδιο για τυχόν αλλεργικές αντιδράσεις τις πρώτες 24 ώρες.",
@@ -689,8 +562,8 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
             "Να αποφεύγονται έντονα σπορ και μακριές βόλτες για τις επόμενες 48 ώρες.",
             "Επικοινωνήστε με τον κτηνίατρο σε περίπτωση έντονου πόνου ή πυρετού."
           ].map((instruction, index) => (
-            <Box key={index} sx={{ display: 'flex', mb: 2 }}>
-              <Typography sx={{ mr: 2, fontWeight: 'bold', minWidth: '24px' }}>
+            <Box key={index} className="instruction-item">
+              <Typography className="instruction-number">
                 {index + 1}.
               </Typography>
               <Typography>
@@ -723,7 +596,7 @@ export default function PetHealthBook() {
   // Ref για το περιεχόμενο που θα εκτυπωθεί
   const printRef = useRef(null);
   
-  // Δεδομένα για τους πίνακες (τώρα στο main component)
+  // Δεδομένα για τους πίνακες
   const eventsData = [
     { id: 1, event: "Ετήσιος εμβολιασμός", date: "15/03/2024" },
     { id: 2, event: "Καθαρισμός δοντιών", date: "20/02/2024" },
@@ -810,21 +683,12 @@ export default function PetHealthBook() {
   }, [userId, petId]);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box className="pet-health-book-container">
       <CssBaseline />
       
       {/* Sidebar Menu */}
       <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-            top: '64px',
-            height: 'calc(100% - 64px)',
-          },
-        }}
+        className="pet-sidebar"
         variant="permanent"
         anchor="left"
       >
@@ -890,72 +754,41 @@ export default function PetHealthBook() {
       {/* Κύριο περιεχόμενο */}
       <Box
         component="main"
-        sx={{ 
-          flexGrow: 1, 
-          bgcolor: 'background.default',
-          minHeight: '100vh'
-        }}
+        className="pet-main-content"
       > 
         <div className="owner-main-container">
-          <Typography variant="h5" className="carousel-title" sx={{marginTop: '50px', marginLeft: '30px'}}>
+          <Typography variant="h5" className="carousel-title">
             Τα Κατοικίδιά Μου
           </Typography>
           
           {loading ? (
-            <Box sx={{ 
-              m: 3,
-              p: 4,
-              bgcolor: 'white',
-              borderRadius: 3,
-              boxShadow: 3,
-              textAlign: 'center'
-            }}>
+            <Box className="loading-container">
               <Typography>Φόρτωση δεδομένων κατοικίδιου...</Typography>
             </Box>
           ) : pets.length === 0 ? (
-            <Box sx={{ 
-              m: 3,
-              p: 4,
-              bgcolor: 'white',
-              borderRadius: 3,
-              boxShadow: 3,
-              textAlign: 'center'
-            }}>
-              <Typography variant="h6" sx={{ mb: 2 }}>
+            <Box className="no-pets-container">
+              <Typography variant="h6" className="no-pets-title">
                 Δεν βρέθηκαν κατοικίδια
               </Typography>
-              <Typography sx={{ mb: 3 }}>
+              <Typography className="no-pets-text">
                 Ο χρήστης δεν έχει καταχωρημένα κατοικίδια.
               </Typography>
             </Box>
           ) : (
             <Box sx={{ width: '100%' }}>
               {/* Tabs Component */}
-              <Box sx={{ borderBottom: 1, borderColor: 'divider', mt: 2 }}>
+              <Box className="pet-tabs-container">
                 <Tabs 
                   value={value} 
                   onChange={handleChange} 
                   aria-label="basic tabs example"
-                  sx={{ 
-                    ml: 3,
-                    '& .MuiTabs-indicator': {
-                      backgroundColor: '#a56312',
-                      height: 3,
-                    }
-                  }}
+                  className="pet-tabs"
                 >
                   {pets.map((pet, index) => (
                     <Tab 
                       key={pet.id} 
                       label={
-                        <Typography 
-                          sx={{ 
-                            fontWeight: 'bold', 
-                            color: 'black',
-                            fontSize: '1.3rem',
-                            textTransform: 'capitalize'
-                          }}
-                        >
+                        <Typography className="pet-tab-label">
                           {pet.name}
                         </Typography>
                       } 

@@ -1,0 +1,326 @@
+/* PetHealthBook.css */
+
+/* Βασικά στυλ */
+.pet-health-book-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Menu */
+.pet-sidebar {
+  width: 270px;
+  flex-shrink: 0;
+}
+
+.pet-sidebar .MuiDrawer-paper {
+  width: 270px;
+  box-sizing: border-box;
+  top: 64px;
+  height: calc(100% - 64px);
+}
+
+/* Κύριο περιεχόμενο */
+.pet-main-content {
+  flex-grow: 1;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* Owner Main Container */
+.owner-main-container {
+  padding: 20px;
+}
+
+.carousel-title {
+  margin-top: 50px !important;
+  margin-left: 30px !important;
+  font-weight: bold !important;
+  color: #333 !important;
+}
+
+/* Tabs */
+.pet-tabs-container {
+  border-bottom: 1px solid #e0e0e0;
+  margin-top: 20px;
+}
+
+.pet-tabs {
+  margin-left: 30px;
+}
+
+.pet-tabs .MuiTabs-indicator {
+  background-color: #a56312;
+  height: 3px;
+}
+
+.pet-tab-label {
+  font-weight: bold !important;
+  color: #000 !important;
+  font-size: 1.3rem !important;
+  text-transform: capitalize !important;
+}
+
+/* Κύριο πλαίσιο περιεχομένου */
+.pet-content-box {
+  margin: 24px;
+  padding: 32px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+}
+
+/* Κουμπί εκτύπωσης */
+/* Κουμπί εκτύπωσης */
+.print-button {
+  position: absolute !important;
+  top: 16px;
+  right: 16px;
+  z-index: 1;
+}
+
+.print-button .MuiButton-root {
+  background-color: #2e7d32 !important;
+  color: white !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-weight: bold !important;
+  text-transform: none !important;
+  font-size: 1rem !important;
+}
+
+.print-button .MuiButton-root:hover {
+  background-color: #1b5e20 !important;
+}
+
+/* Πλαίσια με περιεχόμενο */
+.pet-info-box {
+  padding: 24px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: 200px;
+}
+
+/* Πρώτο box - Φωτογραφία και πληροφορίες */
+.pet-photo-container {
+  width: 200px;
+  height: 250px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1.5px solid #000;
+}
+
+.pet-photo-placeholder {
+  font-size: 60px !important;
+  color: #9e9e9e !important;
+}
+
+.pet-details-container {
+  flex-grow: 1;
+}
+
+.section-title {
+  margin-bottom: 24px !important;
+  font-weight: bold !important;
+  color: #000 !important;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.details-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.detail-item {
+  margin-bottom: 4px;
+}
+
+.detail-text {
+  margin-bottom: 4px !important;
+  text-align: left !important;
+}
+
+/* Πίνακες */
+.pet-table-container {
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.pet-table {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pet-table-small {
+  max-width: 600px;
+}
+
+.pet-table-large {
+  max-width: 1050px;
+}
+
+.table-header {
+  background-color: #bbb9b9 !important;
+  color: #000 !important;
+  font-weight: bold !important;
+}
+
+.table-cell {
+  padding: 12px !important;
+  text-align: center !important;
+  border-right: 1px solid #ddd !important;
+}
+
+.table-cell-left {
+  text-align: left !important;
+  padding: 12px !important;
+  border-right: 1px solid #ddd !important;
+}
+
+.table-row {
+  display: grid !important;
+  border-bottom: 1px solid #ddd !important;
+}
+
+.table-row:hover {
+  background-color: #f8f9fa !important;
+}
+
+.table-row-small {
+  grid-template-columns: 60px 1fr 120px;
+}
+
+.table-row-large {
+  grid-template-columns: 60px repeat(4, 1fr);
+}
+
+/* Pagination */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* Οδηγίες */
+.instructions-container {
+  margin-left: 16px;
+}
+
+.instruction-item {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.instruction-number {
+  margin-right: 16px !important;
+  font-weight: bold !important;
+  min-width: 24px !important;
+}
+
+/* Loading και error states */
+.loading-container {
+  margin: 24px;
+  padding: 32px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.no-pets-container {
+  margin: 24px;
+  padding: 32px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.no-pets-title {
+  margin-bottom: 16px !important;
+}
+
+.no-pets-text {
+  margin-bottom: 24px !important;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .pet-content-box {
+    margin: 16px;
+    padding: 24px;
+  }
+  
+  .pet-table-large {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 900px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .pet-table-container {
+    justify-content: flex-start;
+  }
+  
+  .pet-table-small,
+  .pet-table-large {
+    max-width: 100%;
+  }
+  
+  .print-button {
+    position: relative !important;
+    top: auto;
+    right: auto;
+    margin-bottom: 16px;
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 600px) {
+  .pet-content-box {
+    margin: 8px;
+    padding: 16px;
+  }
+  
+  .pet-info-box {
+    padding: 16px;
+  }
+  
+  .pet-photo-container {
+    width: 150px;
+    height: 200px;
+  }
+  
+  .section-title {
+    font-size: 1.25rem !important;
+  }
+  
+  .pet-tab-label {
+    font-size: 1.1rem !important;
+  }
+}
