@@ -40,7 +40,7 @@ export default function VetPetRegisterEdit() {
 
     const load = async () => {
       try {
-        const res = await fetch(`http://localhost:3004/petRegistrations/${encodeURIComponent(id)}`);
+        const res = await fetch(`http://localhost:3004/petRegistrations/${id}`);
         if (!res.ok) throw new Error("not found");
         const data = await res.json();
 
@@ -103,7 +103,7 @@ export default function VetPetRegisterEdit() {
         updatedAt: new Date().toISOString(),
       };
 
-      const res = await fetch(`http://localhost:3004/petRegistrations/${encodeURIComponent(id)}`, {
+      const res = await fetch(`http://localhost:3004/petRegistrations/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -115,25 +115,6 @@ export default function VetPetRegisterEdit() {
     } catch (e) {
       console.error(e);
       alert("Αποτυχία αποθήκευσης.");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const onDeleteDraft = async () => {
-    const ok = window.confirm("Θέλεις σίγουρα να διαγράψεις την προσωρινή καταχώριση;");
-    if (!ok) return;
-
-    try {
-      setSaving(true);
-      const res = await fetch(`http://localhost:3004/petRegistrations/${encodeURIComponent(id)}`, {
-        method: "DELETE",
-      });
-      if (!res.ok && res.status !== 204) throw new Error("DELETE failed");
-      navigate("/vet/pet-history");
-    } catch (e) {
-      console.error(e);
-      alert("Αποτυχία διαγραφής.");
     } finally {
       setSaving(false);
     }

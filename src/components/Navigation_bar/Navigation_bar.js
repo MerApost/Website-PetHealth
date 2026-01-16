@@ -190,10 +190,10 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
               anchorOrigin={{ vertical: "top", horizontal: "right" }}
               transformOrigin={{ vertical: "top", horizontal: "left" }}
             >
-              <MenuItem component={RouterLink} to="/vet/registration/pet_id" onClick={closeAll}>
+              <MenuItem component={RouterLink} to="/vet/pet-register" onClick={closeAll}>
                 Ταυτότητα Κατοικιδίου
               </MenuItem>
-              <MenuItem component={RouterLink} to="/vet/registration/med_procedures" onClick={closeAll}>
+              <MenuItem component={RouterLink} to="/vet/microchip" onClick={closeAll}>
                 Ιατρικών Πράξεων
               </MenuItem>
               <MenuItem component={RouterLink} to="/vet/registration/incident" onClick={closeAll}>

@@ -9,7 +9,7 @@ export default function DeleteAccountPage() {
 
   const onDeleteAccount = async () => {
     const rawId = localStorage.getItem("userId");
-    const id = encodeURIComponent((rawId || "").trim());
+    const id = (rawId || "".trim());
     if (!id) {
       navigate("/main_page");
       return;
