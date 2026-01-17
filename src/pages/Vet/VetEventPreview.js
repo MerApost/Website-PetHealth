@@ -5,6 +5,10 @@ import "./VetEventPreview.css";
 import { Paper, Typography, Box, Button } from "@mui/material";
 import PrintIcon from "@mui/icons-material/Print";
 import LossRequestPreview from "./Request/LossRequestPreview";
+import FindRequestPreview from "./Request/FindRequestPreview";
+import AdoptionRequestPreview from "./Request/AdoptionRequestPreview";
+import TransferRequestPreview from "./Request/TransferRequestPreview";
+import FosterRequestPreview from "./Request/FosterRequestPreview";
 import BackButton from "../../components/BackButton/BackButton";
 
 export default function VetEventPreview() {
@@ -55,7 +59,28 @@ export default function VetEventPreview() {
           <LossRequestPreview form={eventData.details || {}} />
         )}
 
-        {!loading && eventData && eventData.type !== "Απώλεια" && (
+        {!loading && eventData && eventData.type === "Εύρεση" && (
+          <FindRequestPreview form={eventData.details || {}} />
+        )}
+
+        {!loading && eventData && eventData.type === "Υιοθεσία" && (
+          <AdoptionRequestPreview form={eventData.details || {}} />
+        )}
+
+        {!loading && eventData && eventData.type === "Μεταβίβαση" && (
+          <TransferRequestPreview form={eventData.details || {}} />
+        )}
+
+        {!loading && eventData && eventData.type === "Αναδοχή" && (
+          <FosterRequestPreview form={eventData.details || {}} />
+        )}
+
+        {!loading && eventData &&
+          eventData.type !== "Απώλεια" &&
+          eventData.type !== "Εύρεση" &&
+          eventData.type !== "Υιοθεσία" &&
+          eventData.type !== "Μεταβίβαση" &&
+          eventData.type !== "Αναδοχή" && (
           <Paper elevation={0} className="vep-panel">
             <Typography className="vep-title">
               Δήλωση {eventData.type || "Συμβάντος"}

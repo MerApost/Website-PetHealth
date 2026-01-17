@@ -19,6 +19,14 @@ import {
 import { styled } from "@mui/material/styles";
 import LossRequestForm from "./Request/LossRequestForm";
 import LossRequestPreview from "./Request/LossRequestPreview";
+import FindRequestForm from "./Request/FindRequestForm";
+import FindRequestPreview from "./Request/FindRequestPreview";
+import AdoptionRequestForm from "./Request/AdoptionRequestForm";
+import AdoptionRequestPreview from "./Request/AdoptionRequestPreview";
+import TransferRequestForm from "./Request/TransferRequestForm";
+import TransferRequestPreview from "./Request/TransferRequestPreview";
+import FosterRequestForm from "./Request/FosterRequestForm";
+import FosterRequestPreview from "./Request/FosterRequestPreview";
 
 const steps = [
   "Επέλεξε συμβάν και ημερομηνία",
@@ -86,14 +94,177 @@ export default function VetNewEvent() {
     vetLastName: "",
     vetPhone: "",
   });
+  const [findForm, setFindForm] = React.useState({
+    contactFirstName: "",
+    contactLastName: "",
+    contactPhone: "",
+    contactEmail: "",
+    contactNotes: "",
+    petNameMicrochip: "",
+    petMicrochip: "",
+    petType: "",
+    petBreed: "",
+    petAge: "",
+    petColor: "",
+    petGender: "",
+    petPhoto: "",
+    petDescription: "",
+    foundDate: "",
+    foundArea: "",
+  });
+  const [adoptionForm, setAdoptionForm] = React.useState({
+    adopterFirstName: "",
+    adopterLastName: "",
+    adopterPhone: "",
+    adopterAddress: "",
+    adopterEmail: "",
+    homeInfo: "",
+    lifestyleInfo: "",
+    experienceInfo: "",
+    petName: "",
+    petType: "",
+    petMicrochip: "",
+    petBreed: "",
+    petAge: "",
+    petGender: "",
+  });
+  const [fosterForm, setFosterForm] = React.useState({
+    fosterFirstName: "",
+    fosterLastName: "",
+    fosterPhone: "",
+    fosterAddress: "",
+    fosterEmail: "",
+    homeInfo: "",
+    lifestyleInfo: "",
+    experienceInfo: "",
+    petName: "",
+    petType: "",
+    petMicrochip: "",
+    petBreed: "",
+    petAge: "",
+    petGender: "",
+  });
+  const [transferForm, setTransferForm] = React.useState({
+    currentFirstName: "",
+    currentLastName: "",
+    currentPhone: "",
+    currentAddress: "",
+    currentEmail: "",
+    newFirstName: "",
+    newLastName: "",
+    newPhone: "",
+    newAddress: "",
+    newEmail: "",
+    petName: "",
+    petType: "",
+    petMicrochip: "",
+    petBreed: "",
+    petAge: "",
+    petGender: "",
+  });
 
   const updateLossForm = (key, value) =>
     setLossForm((prev) => ({ ...prev, [key]: value }));
+  const updateFindForm = (key, value) =>
+    setFindForm((prev) => ({ ...prev, [key]: value }));
+  const updateAdoptionForm = (key, value) =>
+    setAdoptionForm((prev) => ({ ...prev, [key]: value }));
+  const updateFosterForm = (key, value) =>
+    setFosterForm((prev) => ({ ...prev, [key]: value }));
+  const updateTransferForm = (key, value) =>
+    setTransferForm((prev) => ({ ...prev, [key]: value }));
 
   const countWords = (text) => {
     const s = String(text || "").trim();
     if (!s) return 0;
     return s.split(/\s+/).filter(Boolean).length;
+  };
+
+  const toLostPetsDate = (value) => {
+    if (!value) return "";
+    const s = String(value);
+    if (s.includes("-")) {
+      const [y, m, d] = s.split("-");
+      if (y && m && d) return `${d}/${m}/${y}`;
+    }
+    return s;
+  };
+
+  const updatePetLostFlag = async (nextLost, microchipValue) => {
+    if (!ownerId || !petId) return;
+    const res = await fetch(`http://localhost:3004/users/${ownerId}`);
+    if (!res.ok) return;
+    const owner = await res.json();
+    if (!Array.isArray(owner?.pets)) return;
+    const microchip = String(microchipValue || "").trim();
+    const updatedPets = owner.pets.map((p) => {
+      const matchId = String(p.id) === String(petId);
+      const matchChip = microchip && String(p.microchip || "").trim() === microchip;
+      if (!matchId && !matchChip) {
+        return p;
+      }
+      return { ...p, isLost: nextLost };
+    });
+    await fetch(`http://localhost:3004/users/${ownerId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pets: updatedPets }),
+    });
+  };
+
+  const upsertLostPet = async () => {
+    const microchip = String(lossForm.petMicrochip || "").trim();
+    const res = await fetch(
+      `http://localhost:3004/lostPets?microchip=${microchip}`
+    );
+    const data = res.ok ? await res.json() : [];
+    const existing = Array.isArray(data) && data.length > 0 ? data[0] : null;
+    const payload = {
+      ownerId,
+      petId: Number.isNaN(Number(petId)) ? petId : Number(petId),
+      microchip,
+      lostDate: toLostPetsDate(lossForm.lossDate),
+      location: lossForm.lossArea,
+      additionalInfo: lossForm.lossDescription,
+      status: "lost",
+    };
+
+    if (existing?.id) {
+      await fetch(`http://localhost:3004/lostPets/${existing.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      return;
+    }
+
+    await fetch("http://localhost:3004/lostPets", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+  };
+
+  const removeLostPet = async () => {
+    const microchip = String(findForm.petMicrochip || "").trim();
+    let res = await fetch(
+      `http://localhost:3004/lostPets?microchip=${microchip}`
+    );
+    let data = res.ok ? await res.json() : [];
+    if (!Array.isArray(data) || data.length === 0) {
+      res = await fetch(
+        `http://localhost:3004/lostPets?ownerId=${ownerId}&petId=${petId}`
+      );
+      data = res.ok ? await res.json() : [];
+    }
+    if (!Array.isArray(data)) return;
+    await Promise.all(
+      data.map((item) =>
+        fetch(`http://localhost:3004/lostPets/${item.id}`, {
+          method: "DELETE",
+        })
+      )
+    );
   };
 
   React.useEffect(() => {
@@ -109,6 +280,7 @@ export default function VetNewEvent() {
           vetLastName: data?.surname || prev.vetLastName,
           vetPhone: data?.phone || prev.vetPhone,
         }));
+        // no vet fields for find request
       } catch (e) {
         console.error(e);
       }
@@ -130,6 +302,18 @@ export default function VetNewEvent() {
         setCreatedAt(data.createdAt || "");
         if (data.type === "Απώλεια" && data.details) {
           setLossForm((prev) => ({ ...prev, ...data.details }));
+        }
+        if (data.type === "Εύρεση" && data.details) {
+          setFindForm((prev) => ({ ...prev, ...data.details }));
+        }
+        if (data.type === "Υιοθεσία" && data.details) {
+          setAdoptionForm((prev) => ({ ...prev, ...data.details }));
+        }
+        if (data.type === "Μεταβίβαση" && data.details) {
+          setTransferForm((prev) => ({ ...prev, ...data.details }));
+        }
+        if (data.type === "Αναδοχή" && data.details) {
+          setFosterForm((prev) => ({ ...prev, ...data.details }));
         }
         setActiveStep(1);
       } catch (e) {
@@ -169,6 +353,52 @@ export default function VetNewEvent() {
           petColor: foundPet.color || prev.petColor,
           petGender: foundPet.gender || prev.petGender,
           petPhoto: foundPet.photo || prev.petPhoto,
+        }));
+        setFindForm((prev) => ({
+          ...prev,
+          petNameMicrochip:
+            foundPet.name && foundPet.microchip
+              ? `${foundPet.name} - ${foundPet.microchip}`
+              : prev.petNameMicrochip,
+          petMicrochip: foundPet.microchip || prev.petMicrochip,
+          petType: foundPet.type || prev.petType,
+          petBreed: foundPet.breed || prev.petBreed,
+          petAge: foundPet.age || prev.petAge,
+          petColor: foundPet.color || prev.petColor,
+          petGender: foundPet.gender || prev.petGender,
+          petPhoto: foundPet.photo || prev.petPhoto,
+        }));
+        setAdoptionForm((prev) => ({
+          ...prev,
+          petName: foundPet.name || prev.petName,
+          petType: foundPet.type || prev.petType,
+          petMicrochip: foundPet.microchip || prev.petMicrochip,
+          petBreed: foundPet.breed || prev.petBreed,
+          petAge: foundPet.age || prev.petAge,
+          petGender: foundPet.gender || prev.petGender,
+        }));
+        setFosterForm((prev) => ({
+          ...prev,
+          petName: foundPet.name || prev.petName,
+          petType: foundPet.type || prev.petType,
+          petMicrochip: foundPet.microchip || prev.petMicrochip,
+          petBreed: foundPet.breed || prev.petBreed,
+          petAge: foundPet.age || prev.petAge,
+          petGender: foundPet.gender || prev.petGender,
+        }));
+        setTransferForm((prev) => ({
+          ...prev,
+          currentFirstName: foundOwner.name || prev.currentFirstName,
+          currentLastName: foundOwner.surname || prev.currentLastName,
+          currentPhone: foundOwner.phone || prev.currentPhone,
+          currentAddress: foundOwner.address || prev.currentAddress,
+          currentEmail: foundOwner.email || prev.currentEmail,
+          petName: foundPet.name || prev.petName,
+          petType: foundPet.type || prev.petType,
+          petMicrochip: foundPet.microchip || prev.petMicrochip,
+          petBreed: foundPet.breed || prev.petBreed,
+          petAge: foundPet.age || prev.petAge,
+          petGender: foundPet.gender || prev.petGender,
         }));
       } catch (e) {
         console.error(e);
@@ -212,14 +442,159 @@ export default function VetNewEvent() {
     return true;
   };
 
-  const checkOwnerPet = async () => {
+  const validateFosterForm = () => {
+    const requiredKeys = [
+      "fosterFirstName",
+      "fosterLastName",
+      "fosterPhone",
+      "fosterAddress",
+      "fosterEmail",
+      "homeInfo",
+      "lifestyleInfo",
+      "experienceInfo",
+      "petName",
+      "petType",
+      "petMicrochip",
+      "petBreed",
+      "petAge",
+      "petGender",
+    ];
+
+    const hasEmpty = requiredKeys.some(
+      (k) => String(fosterForm[k] || "").trim() === ""
+    );
+    if (hasEmpty) {
+      alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
+      return false;
+    }
+    if (countWords(fosterForm.homeInfo) > 50) {
+      alert("Οι πληροφορίες για το σπίτι πρέπει να είναι έως 50 λέξεις.");
+      return false;
+    }
+    if (countWords(fosterForm.lifestyleInfo) > 50) {
+      alert("Οι πληροφορίες για τον τρόπο ζωής πρέπει να είναι έως 50 λέξεις.");
+      return false;
+    }
+    if (countWords(fosterForm.experienceInfo) > 50) {
+      alert("Οι πληροφορίες για την εμπειρία πρέπει να είναι έως 50 λέξεις.");
+      return false;
+    }
+    return true;
+  };
+
+  const validateFindForm = () => {
+    const requiredKeys = [
+      "petType",
+      "petBreed",
+      "petColor",
+      "petNameMicrochip",
+      "petPhoto",
+      "petDescription",
+      "foundArea",
+      "foundDate",
+      "contactFirstName",
+      "contactLastName",
+      "contactPhone",
+      "contactEmail",
+      "contactNotes",
+    ];
+
+    const hasEmpty = requiredKeys.some(
+      (k) => String(findForm[k] || "").trim() === ""
+    );
+    if (hasEmpty) {
+      alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
+      return false;
+    }
+    if (countWords(findForm.petDescription) > 50) {
+      alert("Η περιγραφή ζώου πρέπει να είναι έως 50 λέξεις.");
+      return false;
+    }
+    if (countWords(findForm.contactNotes) > 50) {
+      alert("Οι επιπλέον πληροφορίες πρέπει να είναι έως 50 λέξεις.");
+      return false;
+    }
+    return true;
+  };
+
+  const validateAdoptionForm = () => {
+    const requiredKeys = [
+      "adopterFirstName",
+      "adopterLastName",
+      "adopterPhone",
+      "adopterAddress",
+      "adopterEmail",
+      "homeInfo",
+      "lifestyleInfo",
+      "experienceInfo",
+      "petName",
+      "petType",
+      "petMicrochip",
+      "petBreed",
+      "petAge",
+      "petGender",
+    ];
+
+    const hasEmpty = requiredKeys.some(
+      (k) => String(adoptionForm[k] || "").trim() === ""
+    );
+    if (hasEmpty) {
+      alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
+      return false;
+    }
+    if (countWords(adoptionForm.homeInfo) > 50) {
+      alert("Οι πληροφορίες για το σπίτι πρέπει να είναι έως 50 λέξεις.");
+      return false;
+    }
+    if (countWords(adoptionForm.lifestyleInfo) > 50) {
+      alert("Οι πληροφορίες για τον τρόπο ζωής πρέπει να είναι έως 50 λέξεις.");
+      return false;
+    }
+    if (countWords(adoptionForm.experienceInfo) > 50) {
+      alert("Οι πληροφορίες για την εμπειρία πρέπει να είναι έως 50 λέξεις.");
+      return false;
+    }
+    return true;
+  };
+
+  const validateTransferForm = () => {
+    const requiredKeys = [
+      "currentFirstName",
+      "currentLastName",
+      "currentPhone",
+      "currentAddress",
+      "currentEmail",
+      "newFirstName",
+      "newLastName",
+      "newPhone",
+      "newAddress",
+      "newEmail",
+      "petName",
+      "petType",
+      "petMicrochip",
+      "petBreed",
+      "petAge",
+      "petGender",
+    ];
+
+    const hasEmpty = requiredKeys.some(
+      (k) => String(transferForm[k] || "").trim() === ""
+    );
+    if (hasEmpty) {
+      alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
+      return false;
+    }
+    return true;
+  };
+
+  const checkOwnerPet = async (microchipValue) => {
     try {
       setChecking(true);
       const res = await fetch(
         `http://localhost:3004/users/${ownerId}`
       );
       const owner = res.ok ? await res.json() : null;
-      const microchip = String(lossForm.petMicrochip || "").trim();
+      const microchip = String(microchipValue || "").trim();
       const matches =
         owner && Array.isArray(owner.pets)
           ? owner.pets.some(
@@ -249,6 +624,10 @@ export default function VetNewEvent() {
       return;
     }
     if (eventType === "Απώλεια" && !validateLossForm()) return;
+    if (eventType === "Εύρεση" && !validateFindForm()) return;
+    if (eventType === "Υιοθεσία" && !validateAdoptionForm()) return;
+    if (eventType === "Μεταβίβαση" && !validateTransferForm()) return;
+    if (eventType === "Αναδοχή" && !validateFosterForm()) return;
 
     try {
       setSaving(true);
@@ -259,7 +638,18 @@ export default function VetNewEvent() {
         ownerId,
         type: eventType,
         date: eventDate,
-        details: eventType === "Απώλεια" ? lossForm : {},
+        details:
+          eventType === "Απώλεια"
+            ? lossForm
+            : eventType === "Εύρεση"
+            ? findForm
+            : eventType === "Υιοθεσία"
+            ? adoptionForm
+            : eventType === "Μεταβίβαση"
+            ? transferForm
+            : eventType === "Αναδοχή"
+            ? fosterForm
+            : {},
         status,
         createdAt: createdAt || new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -289,6 +679,26 @@ export default function VetNewEvent() {
 
       if (!res.ok) {
         throw new Error("POST failed");
+      }
+
+      if (status === "final" && eventType === "Απώλεια") {
+        try {
+          await updatePetLostFlag(true, lossForm.petMicrochip);
+          await upsertLostPet();
+        } catch (e) {
+          console.error(e);
+          alert("Η δήλωση αποθηκεύτηκε αλλά απέτυχε η ενημέρωση απωλειών.");
+        }
+      }
+
+      if (status === "final" && eventType === "Εύρεση") {
+        try {
+          await updatePetLostFlag(false, findForm.petMicrochip);
+          await removeLostPet();
+        } catch (e) {
+          console.error(e);
+          alert("Η δήλωση αποθηκεύτηκε αλλά απέτυχε η ενημέρωση απωλειών.");
+        }
       }
       navigate(`/vet/health-book/${ownerId}/${petId}`);
     } catch (e) {
@@ -375,6 +785,58 @@ export default function VetNewEvent() {
           <LossRequestPreview form={lossForm} />
         )}
 
+        {activeStep === 1 && eventType === "Εύρεση" && (
+          <FindRequestForm
+            form={findForm}
+            onChange={updateFindForm}
+            petWordCount={countWords(findForm.petDescription)}
+            notesWordCount={countWords(findForm.contactNotes)}
+          />
+        )}
+
+        {activeStep === 2 && eventType === "Εύρεση" && (
+          <FindRequestPreview form={findForm} />
+        )}
+
+        {activeStep === 1 && eventType === "Υιοθεσία" && (
+          <AdoptionRequestForm
+            form={adoptionForm}
+            onChange={updateAdoptionForm}
+            homeWordCount={countWords(adoptionForm.homeInfo)}
+            lifestyleWordCount={countWords(adoptionForm.lifestyleInfo)}
+            experienceWordCount={countWords(adoptionForm.experienceInfo)}
+          />
+        )}
+
+        {activeStep === 2 && eventType === "Υιοθεσία" && (
+          <AdoptionRequestPreview form={adoptionForm} />
+        )}
+
+        {activeStep === 1 && eventType === "Αναδοχή" && (
+          <FosterRequestForm
+            form={fosterForm}
+            onChange={updateFosterForm}
+            homeWordCount={countWords(fosterForm.homeInfo)}
+            lifestyleWordCount={countWords(fosterForm.lifestyleInfo)}
+            experienceWordCount={countWords(fosterForm.experienceInfo)}
+          />
+        )}
+
+        {activeStep === 2 && eventType === "Αναδοχή" && (
+          <FosterRequestPreview form={fosterForm} />
+        )}
+
+        {activeStep === 1 && eventType === "Μεταβίβαση" && (
+          <TransferRequestForm
+            form={transferForm}
+            onChange={updateTransferForm}
+          />
+        )}
+
+        {activeStep === 2 && eventType === "Μεταβίβαση" && (
+          <TransferRequestPreview form={transferForm} />
+        )}
+
         {activeStep === 3 && eventType === "Απώλεια" && (
           <Paper elevation={0} className="ve-panel">
             <Typography className="ve-panel-title">
@@ -401,7 +863,116 @@ export default function VetNewEvent() {
           </Paper>
         )}
 
-        {(activeStep > 0 && eventType !== "Απώλεια") && (
+        {activeStep === 3 && eventType === "Εύρεση" && (
+          <Paper elevation={0} className="ve-panel">
+            <Typography className="ve-panel-title">
+              Θέλετε να προχωρήσετε σε οριστική υποβολή της δήλωσης σας;
+            </Typography>
+            <Box className="ve-confirm-actions">
+              <Button
+                variant="contained"
+                className="ve-btn-red"
+                disabled={saving || checking}
+                onClick={() => save("draft")}
+              >
+                ΟΧΙ, προσωρινή αποθήκευση
+              </Button>
+              <Button
+                variant="contained"
+                className="ve-btn-green"
+                disabled={saving || checking}
+                onClick={() => save("final")}
+              >
+                ΝΑΙ, οριστική υποβολή δήλωσης
+              </Button>
+            </Box>
+          </Paper>
+        )}
+
+        {activeStep === 3 && eventType === "Υιοθεσία" && (
+          <Paper elevation={0} className="ve-panel">
+            <Typography className="ve-panel-title">
+              Θέλετε να προχωρήσετε σε οριστική υποβολή της δήλωσης σας;
+            </Typography>
+            <Box className="ve-confirm-actions">
+              <Button
+                variant="contained"
+                className="ve-btn-red"
+                disabled={saving || checking}
+                onClick={() => save("draft")}
+              >
+                ΟΧΙ, προσωρινή αποθήκευση
+              </Button>
+              <Button
+                variant="contained"
+                className="ve-btn-green"
+                disabled={saving || checking}
+                onClick={() => save("final")}
+              >
+                ΝΑΙ, οριστική υποβολή δήλωσης
+              </Button>
+            </Box>
+          </Paper>
+        )}
+
+        {activeStep === 3 && eventType === "Αναδοχή" && (
+          <Paper elevation={0} className="ve-panel">
+            <Typography className="ve-panel-title">
+              Θέλετε να προχωρήσετε σε οριστική υποβολή της δήλωσης σας;
+            </Typography>
+            <Box className="ve-confirm-actions">
+              <Button
+                variant="contained"
+                className="ve-btn-red"
+                disabled={saving || checking}
+                onClick={() => save("draft")}
+              >
+                ΟΧΙ, προσωρινή αποθήκευση
+              </Button>
+              <Button
+                variant="contained"
+                className="ve-btn-green"
+                disabled={saving || checking}
+                onClick={() => save("final")}
+              >
+                ΝΑΙ, οριστική υποβολή δήλωσης
+              </Button>
+            </Box>
+          </Paper>
+        )}
+
+        {activeStep === 3 && eventType === "Μεταβίβαση" && (
+          <Paper elevation={0} className="ve-panel">
+            <Typography className="ve-panel-title">
+              Θέλετε να προχωρήσετε σε οριστική υποβολή της δήλωσης σας;
+            </Typography>
+            <Box className="ve-confirm-actions">
+              <Button
+                variant="contained"
+                className="ve-btn-red"
+                disabled={saving || checking}
+                onClick={() => save("draft")}
+              >
+                ΟΧΙ, προσωρινή αποθήκευση
+              </Button>
+              <Button
+                variant="contained"
+                className="ve-btn-green"
+                disabled={saving || checking}
+                onClick={() => save("final")}
+              >
+                ΝΑΙ, οριστική υποβολή δήλωσης
+              </Button>
+            </Box>
+          </Paper>
+        )}
+
+        {activeStep > 0 &&
+          eventType !== "Απώλεια" &&
+          eventType !== "Εύρεση" &&
+          eventType !== "Υιοθεσία" &&
+          eventType !== "Μεταβίβαση" &&
+          eventType !== "Αναδοχή" && (
           <Paper elevation={0} className="ve-panel">
             <Typography className="ve-panel-title">
               Βήμα {activeStep + 1}
@@ -440,11 +1011,39 @@ export default function VetNewEvent() {
                 } else if (activeStep === 1 && eventType === "Απώλεια") {
                   (async () => {
                     if (!validateLossForm()) return;
-                    const ok = await checkOwnerPet();
+                    const ok = await checkOwnerPet(lossForm.petMicrochip);
+                    if (!ok) return;
+                    setActiveStep(2);
+                  })();
+                } else if (activeStep === 1 && eventType === "Εύρεση") {
+                  (async () => {
+                    if (!validateFindForm()) return;
+                    const ok = await checkOwnerPet(findForm.petMicrochip);
+                    if (!ok) return;
+                    setActiveStep(2);
+                  })();
+                } else if (activeStep === 1 && eventType === "Υιοθεσία") {
+                  if (!validateAdoptionForm()) return;
+                  setActiveStep(2);
+                } else if (activeStep === 1 && eventType === "Αναδοχή") {
+                  if (!validateFosterForm()) return;
+                  setActiveStep(2);
+                } else if (activeStep === 1 && eventType === "Μεταβίβαση") {
+                  (async () => {
+                    if (!validateTransferForm()) return;
+                    const ok = await checkOwnerPet(transferForm.petMicrochip);
                     if (!ok) return;
                     setActiveStep(2);
                   })();
                 } else if (activeStep === 2 && eventType === "Απώλεια") {
+                  setActiveStep((s) => Math.min(s + 1, steps.length - 1));
+                } else if (activeStep === 2 && eventType === "Εύρεση") {
+                  setActiveStep((s) => Math.min(s + 1, steps.length - 1));
+                } else if (activeStep === 2 && eventType === "Υιοθεσία") {
+                  setActiveStep((s) => Math.min(s + 1, steps.length - 1));
+                } else if (activeStep === 2 && eventType === "Αναδοχή") {
+                  setActiveStep((s) => Math.min(s + 1, steps.length - 1));
+                } else if (activeStep === 2 && eventType === "Μεταβίβαση") {
                   setActiveStep((s) => Math.min(s + 1, steps.length - 1));
                 } else {
                   setActiveStep((s) => Math.min(s + 1, steps.length - 1));

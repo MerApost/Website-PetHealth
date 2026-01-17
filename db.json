@@ -320,6 +320,37 @@
   ],
   "foundReports": [],
   "petRegistrations": [],
+  "vetSchedules": [
+    {
+      "id": "d183",
+      "vetId": "3",
+      "customSlots": [
+        {
+          "id": 1768589355290,
+          "date": "2026-01-01",
+          "repeat": "yearly",
+          "note": "πρωτοχρονιά"
+        }
+      ],
+      "weekly": {
+        "monday": [
+          {
+            "id": 1768588361412,
+            "start": "21:00",
+            "end": "12:00"
+          }
+        ],
+        "tuesday": [],
+        "wednesday": [],
+        "thursday": [],
+        "friday": [],
+        "saturday": [],
+        "sunday": []
+      },
+      "updatedAt": "2026-01-16T20:02:24.919Z",
+      "createdAt": "2026-01-16T18:32:54.490Z"
+    }
+  ],
   "medicalActs": [
     {
       "id": "aa97",
@@ -401,6 +432,88 @@
       "status": "final",
       "createdAt": "2026-01-16T15:19:38.266Z",
       "updatedAt": "2026-01-16T15:19:38.266Z"
+    },
+    {
+      "id": "b456",
+      "petId": "1",
+      "ownerId": "1",
+      "type": "Εύρεση",
+      "date": "2026-01-16",
+      "details": {
+        "contactFirstName": "c",
+        "contactLastName": "c",
+        "contactPhone": " s",
+        "contactEmail": "c",
+        "contactNotes": "ss",
+        "petNameMicrochip": "Μπιχλίτσα - 147258369",
+        "petMicrochip": "147258369",
+        "petType": "Σκύλος",
+        "petBreed": "Shih Tzu",
+        "petAge": "6",
+        "petColor": "Λευκό",
+        "petGender": "Θηλυκό",
+        "petPhoto": "https://images.unsplash.com/photo-1629740067905-bd3f515aa739?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "petDescription": "x",
+        "foundDate": "2026-01-16",
+        "foundArea": "c"
+      },
+      "status": "draft",
+      "createdAt": "2026-01-16T16:20:41.644Z",
+      "updatedAt": "2026-01-16T16:30:32.380Z"
+    },
+    {
+      "id": "733e",
+      "petId": "1",
+      "ownerId": "1",
+      "type": "Μεταβίβαση",
+      "date": "2026-01-15",
+      "details": {
+        "currentFirstName": "Ελένη",
+        "currentLastName": "Αποστολάκη",
+        "currentPhone": "6912345678",
+        "currentAddress": "δ",
+        "currentEmail": "eleni@gmail.com",
+        "newFirstName": "δ",
+        "newLastName": "δ",
+        "newPhone": "δ",
+        "newAddress": "δ",
+        "newEmail": "δ",
+        "petName": "Μπιχλίτσα",
+        "petType": "Σκύλος",
+        "petMicrochip": "147258369",
+        "petBreed": "Shih Tzu",
+        "petAge": "6",
+        "petGender": "Αρσενικό"
+      },
+      "status": "draft",
+      "createdAt": "2026-01-16T17:26:00.178Z",
+      "updatedAt": "2026-01-16T17:26:00.178Z"
+    },
+    {
+      "id": "2ac4",
+      "petId": "1",
+      "ownerId": "1",
+      "type": "Αναδοχή",
+      "date": "2026-01-15",
+      "details": {
+        "fosterFirstName": "σ",
+        "fosterLastName": "σσ",
+        "fosterPhone": "σ",
+        "fosterAddress": "σσ",
+        "fosterEmail": "σ",
+        "homeInfo": "σ",
+        "lifestyleInfo": "σ",
+        "experienceInfo": "σ",
+        "petName": "Μπιχλίτσα",
+        "petType": "Σκύλος",
+        "petMicrochip": "147258369",
+        "petBreed": "Shih Tzu",
+        "petAge": "6",
+        "petGender": "Αρσενικό"
+      },
+      "status": "draft",
+      "createdAt": "2026-01-16T17:29:48.615Z",
+      "updatedAt": "2026-01-16T17:29:48.615Z"
     }
   ]
 }
