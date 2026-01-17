@@ -323,7 +323,11 @@ export default function FindVet(){
 
     // Συνάρτηση για μεταφορά σε σελίδα κτηνίατρου
     const handleViewVetProfile = useCallback((vetId) => {
-        navigate(`/owner_main/${userId}/vet/${vetId}`);
+        navigate(`/owner_main/${userId}/find_vet/${vetId}`);
+    }, [navigate, userId]);
+
+    const handleArrangeMeeting = useCallback((vetId) => {
+        navigate(`/owner_main/${userId}/find_vet/${vetId}/arrange_meeting`);
     }, [navigate, userId]);
 
     // ΧΡΗΣΗ useLayoutEffect - τρέχει ΠΡΙΝ από το render
@@ -813,7 +817,7 @@ export default function FindVet(){
                                                         {/* ΚΟΥΜΠΙΑ - ΚΑΤΩ */}
                                                         <Box sx={{ 
                                                             display: 'flex', 
-                                                            gap: 1.5, 
+                                                            gap: 5, 
                                                             mt: 'auto',
                                                             justifyContent: 'flex-start'
                                                         }}>
@@ -841,6 +845,7 @@ export default function FindVet(){
                                                             
                                                             <Button
                                                                 variant="contained"
+                                                                onClick={() => handleArrangeMeeting(vet.id)}
                                                                 sx={{
                                                                     backgroundColor: '#4caf50',
                                                                     color: 'white',
