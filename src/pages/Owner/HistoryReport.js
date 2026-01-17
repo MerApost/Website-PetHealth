@@ -1,10 +1,14 @@
 import './FindVet.css';
-import { useLayoutEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useNavigate, useParams } from 'react-router-dom';
+import './OwnerReports.css';
+import { useLayoutEffect, useRef, useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
-  Typography
+  Typography,
+  Paper,
+  Button,
+  Tabs,
+  Tab
 } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SearchIcon from '@mui/icons-material/Search';
@@ -21,6 +25,9 @@ export default function HistoryReport(){
     const hasScrolled = useRef(false);
     const { id: userId } = useParams();
     const navigate = useNavigate();
+    const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [activeTab, setActiveTab] = useState("loss");
 
     // ΧΡΗΣΗ useLayoutEffect - τρέχει ΠΡΙΝ από το render
     useLayoutEffect(() => {
@@ -55,6 +62,35 @@ export default function HistoryReport(){
         hasScrolled.current = false;
     };
     }, [location.pathname]);
+
+    useEffect(() => {
+      const load = async () => {
+        try {
+          setLoading(true);
+          const res = await fetch(`http://localhost:3004/lifeEvents?ownerId=${userId}`);
+          const data = res.ok ? await res.json() : [];
+          const filtered = Array.isArray(data)
+            ? data.filter((e) => e.type === "Απώλεια" || e.type === "Εύρεση")
+            : [];
+          setEvents(filtered);
+        } catch (e) {
+          console.error(e);
+          setEvents([]);
+        } finally {
+          setLoading(false);
+        }
+      };
+      load();
+    }, [userId]);
+
+    const handleDelete = async (id) => {
+      try {
+        await fetch(`http://localhost:3004/lifeEvents/${id}`, { method: "DELETE" });
+        setEvents((prev) => prev.filter((e) => e.id !== id));
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
     return(
         <Box sx={{ display: 'flex' }}>
@@ -144,12 +180,99 @@ export default function HistoryReport(){
             }}
             >
             <header className="FindVet-main-header">
-                {/* Υπολοιπο περιεχομενο της σελιδας FindVet */}
-                <Box>
-                    {/* Προσθέστε εδώ τη λίστα κτηνιάτρων ή άλλο περιεχόμενο */}
-                    <Typography variant="h6">
+                <Box className="or-content">
+                    <Typography variant="h6" className="or-title">
                         Ιστορικό Δηλώσεων
                     </Typography>
+
+                    {loading && <div>Φόρτωση…</div>}
+
+                    {!loading && (
+                      <div className="or-history-frame">
+                        <Tabs
+                          value={activeTab}
+                          onChange={(_e, newVal) => setActiveTab(newVal)}
+                          className="or-tabs"
+                        >
+                          <Tab label="Δηλώσεις Απώλειας" value="loss" />
+                          <Tab label="Δηλώσεις Εύρεσης" value="found" />
+                        </Tabs>
+                        {events
+                          .filter((e) =>
+                            activeTab === "loss" ? e.type === "Απώλεια" : e.type === "Εύρεση"
+                          )
+                          .map((event) => {
+                            const details = event.details || {};
+                            const statusLabel =
+                              event.status === "draft" ? "Εκκρεμής" : "Οριστικοποιημένη";
+                            const statusClass =
+                              event.status === "draft" ? "or-status-pill is-draft" : "or-status-pill is-final";
+                            return (
+                              <Paper key={event.id} elevation={0} className="or-card">
+                                <div className="or-status-right">
+                                  <div className={statusClass}>{statusLabel}</div>
+                                </div>
+                                <div className="or-photo">
+                                  {details.petPhoto ? (
+                                    <img src={details.petPhoto} alt={details.petName || "pet"} />
+                                  ) : (
+                                    "—"
+                                  )}
+                                </div>
+                                <div className="or-info">
+                                  <div><b>{details.petName || "Κατοικίδιο"}</b></div>
+                                  <div>{details.petType || "—"}, {details.petBreed || "—"}</div>
+                                  <div>Microchip: {details.petMicrochip || "—"}</div>
+                                  <div>Ημ/νία: {event.date || details.lossDate || "—"}</div>
+                                  <div className="or-actions-inline">
+                                    {event.status === "draft" ? (
+                                      <>
+                                        <Button
+                                          variant="outlined"
+                                          className="or-btn-red"
+                                          onClick={() => handleDelete(event.id)}
+                                        >
+                                          Διαγραφή
+                                        </Button>
+                                        <Button
+                                          variant="outlined"
+                                          className="or-btn-blue"
+                                      onClick={() =>
+                                        navigate(
+                                          event.type === "Εύρεση"
+                                            ? `/owner_main/${userId}/found_report?editId=${event.id}`
+                                            : `/owner_main/${userId}/lost_report?editId=${event.id}`
+                                        )
+                                      }
+                                        >
+                                          Επεξεργασία
+                                        </Button>
+                                      </>
+                                    ) : (
+                                      <Button
+                                        variant="outlined"
+                                        className="or-btn"
+                                        onClick={() =>
+                                          navigate(
+                                            `/owner_main/${userId}/history_report/${event.id}`
+                                          )
+                                        }
+                                      >
+                                        Προεπισκόπηση
+                                      </Button>
+                                    )}
+                                  </div>
+                                </div>
+                              </Paper>
+                            );
+                          })}
+                        {events.filter((e) =>
+                          activeTab === "loss" ? e.type === "Απώλεια" : e.type === "Εύρεση"
+                        ).length === 0 && (
+                          <div>— Δεν υπάρχουν καταχωρίσεις</div>
+                        )}
+                      </div>
+                    )}
                 </Box>
             </header>
             </Box>

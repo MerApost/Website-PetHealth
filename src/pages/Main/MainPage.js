@@ -170,9 +170,8 @@ export default function MainPage(){
         // Ενίσχυσε τα δεδομένα
         const enrichedData = enrichLostPetsData(lostData, usersData);
         
-        // Φίλτρα και ταξινόμηση: μόνο τα τελευταία 7 ημερών και max 3
+        // Ταξινόμηση: τα πιο πρόσφατα πρώτα, max 3
         const recentPets = enrichedData
-          .filter(pet => pet.daysLost <= 7)
           .sort((a, b) => a.daysLost - b.daysLost)
           .slice(0, 3);
         

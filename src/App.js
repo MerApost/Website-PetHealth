@@ -27,6 +27,7 @@ import Appointments from "./pages/Owner/Appointments";
 import LostReport from "./pages/Owner/LostReport";
 import OwnerFoundReport from "./pages/Owner/FoundReport";
 import HistoryReport from "./pages/Owner/HistoryReport";
+import OwnerLossPreview from "./pages/Owner/OwnerLossPreview";
 import PetHealthBook from './pages/Owner/PetHealthBook';
 import FindVetViewProfileBio from './pages/Owner/FindVetViewProfileBio';
 import FindVetArrangeMeeting from './pages/Owner/FindVetArrangeMeeting';
@@ -81,6 +82,7 @@ export default function App() {
           <Route path="/owner_main/:id/lost_report" element={<LostReport />} />
           <Route path="/owner_main/:id/found_report" element={<OwnerFoundReport />} />
           <Route path="/owner_main/:id/history_report" element={<HistoryReport />} />
+          <Route path="/owner_main/:id/history_report/:eventId" element={<OwnerLossPreview />} />
           <Route path="/owner_main/:id/pet/:petid/health_book" element={<PetHealthBook />} />
           <Route path="/owner_main/:id/find_vet/:vetid" element={<FindVetViewProfileBio />} />
           <Route path="/owner_main/:id/find_vet/:vetid/arrange_meeting" element={<FindVetArrangeMeeting />} />
