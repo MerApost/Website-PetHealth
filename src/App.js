@@ -35,7 +35,6 @@ import VetPetRegister from "./pages/Vet/VetPetRegister";
 import VetPetRegisterHistory from "./pages/Vet/VetPetRegisterHistory";
 import VetPetRegisterPreview from "./pages/Vet/VetPetRegisterPreview";
 import VetPetRegisterEdit from "./pages/Vet/VetPetRegisterEdit";
-
 import VetHealthBook from "./pages/Vet/VetHealthBook";
 import VetMedicalActCreate from "./pages/Vet/VetMedicalActCreate";
 import VetMicrochip from './pages/Vet/VetMicrochip';
@@ -69,6 +68,7 @@ export default function App() {
           <Route path="/forgot-password" element={<PasswordRecovery />} />
           <Route path="/owner/profile" element={<OwnerProfileView />} />
           <Route path="/owner/profile/edit" element={<OwnerProfileEdit />} />
+
           <Route path="/lost_pets" element={<LostPets/>} />
           <Route path="/vet/profile" element={<VetProfileView />} />
           <Route path="/vet/profile/edit" element={<VetProfileEdit />} />
@@ -89,7 +89,6 @@ export default function App() {
           <Route path="/vet/pet-history" element={<VetPetRegisterHistory />} />
           <Route path="/vet/pet-preview/:id" element={<VetPetRegisterPreview />} />
           <Route path="/vet/pet-edit/:id" element={<VetPetRegisterEdit />} />
-
 
           <Route path="/vet/health-book/:ownerId/:petId" element={<VetHealthBook />} />
           <Route path="/vet/health-book/:ownerId/:petId/new-act" element={<VetMedicalActCreate />} />
