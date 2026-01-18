@@ -1,0 +1,223 @@
+.vad-page {
+  background: #d7d3cb;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.vad-card {
+  width: min(760px, 94%);
+  background: #ffffff;
+  border: 1px solid #8e8e8e;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.vad-title {
+  text-align: center;
+  font-weight: 700 !important;
+  font-size: 18px !important;
+}
+
+.vad-subtitle {
+  text-align: center;
+  font-size: 12px !important;
+  color: #555;
+  margin-bottom: 10px !important;
+}
+
+.vad-date-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.vad-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #b0b0b0;
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 12px;
+  background: #f5f5f5;
+}
+
+.vad-pill-icon {
+  font-size: 16px;
+  color: #5a5a5a;
+}
+
+.vad-panel {
+  border: 1px solid #c7bdb5;
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: #ffffff;
+}
+
+.vad-section-title {
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  text-align: left;
+  margin-top: 12px !important;
+  margin-bottom: 6px !important;
+}
+
+.vad-pet {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.vad-photo {
+  width: 120px;
+  height: 90px;
+  border-radius: 8px;
+  border: 1px solid #b0b0b0;
+  background: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.vad-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vad-photo-placeholder {
+  color: #888;
+  font-size: 14px;
+}
+
+.vad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+  font-size: 12px;
+  text-align: left;
+}
+
+.vad-service {
+  font-size: 12px;
+  padding: 6px 8px;
+  border: 1px solid #b0b0b0;
+  border-radius: 8px;
+  width: fit-content;
+  background: #f7f7f7;
+}
+
+.vad-notes {
+  font-size: 12px;
+  color: #333;
+  background: #f7f7f7;
+  border: 1px solid #b0b0b0;
+  border-radius: 8px;
+  padding: 8px;
+  min-height: 40px;
+  text-align: left;
+}
+
+.vad-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12px;
+  color: #333;
+  text-align: left;
+}
+
+.vad-owner {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.vad-owner-photo {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  border: 1px solid #b0b0b0;
+  overflow: hidden;
+  background: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vad-owner-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vad-owner-info {
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+  text-align: left;
+}
+
+.vad-owner-name {
+  font-weight: 700;
+}
+
+.vad-owner-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vad-owner-icon {
+  font-size: 16px;
+  color: #6f7f8f;
+}
+
+.vad-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.vad-btn {
+  text-transform: none !important;
+  border-radius: 8px !important;
+  padding: 6px 14px !important;
+  font-size: 12px !important;
+  min-width: 120px !important;
+}
+
+.vad-btn.reject {
+  border-color: #e58f8f !important;
+  color: #c93434 !important;
+}
+
+.vad-btn.back {
+  border-color: #8fb3e5 !important;
+  color: #225ab0 !important;
+}
+
+@media (max-width: 700px) {
+  .vad-pet {
+    grid-template-columns: 1fr;
+  }
+
+  .vad-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vad-owner {
+    grid-template-columns: 1fr;
+  }
+
+  .vad-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

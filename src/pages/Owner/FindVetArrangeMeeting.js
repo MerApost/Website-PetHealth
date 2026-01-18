@@ -368,6 +368,7 @@ export default function FindVetArrangeMeeting() {
         time: form.time,
         service: form.service,
         notes: form.notes,
+        urgent: form.urgent,
         ownerInfo,
         status,
         createdAt: new Date().toISOString(),

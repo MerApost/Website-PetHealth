@@ -228,7 +228,13 @@ export default function Appointments(){
                       appointments.map((a) => {
                         const meta = statusMeta(a.status);
                         return (
-                          <div key={a.id} className="appt-card">
+                          <div
+                            key={a.id}
+                            className="appt-card"
+                            onClick={() =>
+                              navigate(`/owner_main/${userId}/appointments/${a.id}`)
+                            }
+                          >
                             <div className="appt-icon">{meta.icon}</div>
                             <div className="appt-info">
                               <div className="appt-name">
@@ -254,7 +260,10 @@ export default function Appointments(){
                                 <Button
                                   variant="outlined"
                                   className="appt-btn reject"
-                                  onClick={() => onReject(a.id)}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    onReject(a.id);
+                                  }}
                                 >
                                   Απόρριψη
                                 </Button>
@@ -263,9 +272,12 @@ export default function Appointments(){
                                 <Button
                                   variant="outlined"
                                   className="appt-btn reschedule"
-                                  onClick={() =>
-                                    navigate(`/owner_main/${userId}/find_vet/${a.vetId}/arrange_meeting`)
-                                  }
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(
+                                      `/owner_main/${userId}/find_vet/${a.vetId}/arrange_meeting`
+                                    );
+                                  }}
                                 >
                                   Αναπρογραμματισμός
                                 </Button>
@@ -274,9 +286,12 @@ export default function Appointments(){
                                 <Button
                                   variant="outlined"
                                   className="appt-btn review"
-                                  onClick={() =>
-                                    navigate(`/owner_main/${userId}/appointments/review/${a.id}`)
-                                  }
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(
+                                      `/owner_main/${userId}/appointments/review/${a.id}`
+                                    );
+                                  }}
                                 >
                                   Αξιολόγηση
                                 </Button>
