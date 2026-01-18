@@ -15,8 +15,10 @@ import {
   Radio,
   TextField,
   Button,
+  CssBaseline,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import VetDashboard from "./VetDashboard";
 import LossRequestForm from "./Request/LossRequestForm";
 import LossRequestPreview from "./Request/LossRequestPreview";
 import FindRequestForm from "./Request/FindRequestForm";
@@ -700,7 +702,7 @@ export default function VetNewEvent() {
           alert("Η δήλωση αποθηκεύτηκε αλλά απέτυχε η ενημέρωση απωλειών.");
         }
       }
-      navigate(`/vet/health-book/${ownerId}/${petId}`);
+      navigate(`/vet_main/${vetId}/health-book/${ownerId}/${petId}`);
     } catch (e) {
       console.error(e);
       alert("Αποτυχία αποθήκευσης.");
@@ -710,10 +712,14 @@ export default function VetNewEvent() {
   };
 
   return (
-    <div className="ve-page">
-      <Typography className="ve-title">Καταγραφή Συμβάντος</Typography>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="microchip" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="ve-page">
+          <Typography className="ve-title">Καταγραφή Συμβάντος</Typography>
 
-      <Paper elevation={0} className="ve-card">
+          <Paper elevation={0} className="ve-card">
         <Stepper
           nonLinear
           activeStep={activeStep}
@@ -989,7 +995,7 @@ export default function VetNewEvent() {
             className="ve-btn"
             onClick={() => {
               if (activeStep === 0) {
-                navigate(`/vet/health-book/${ownerId}/${petId}`);
+                navigate(`/vet_main/${vetId}/health-book/${ownerId}/${petId}`);
               } else {
                 setActiveStep((s) => Math.max(s - 1, 0));
               }
@@ -1055,7 +1061,9 @@ export default function VetNewEvent() {
             </Button>
           )}
         </Box>
-      </Paper>
-    </div>
+          </Paper>
+        </div>
+      </Box>
+    </Box>
   );
 }

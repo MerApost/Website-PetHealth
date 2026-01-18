@@ -10,10 +10,12 @@ import {
   TextField,
   Button,
   Box,
+  CssBaseline,
 } from "@mui/material";
 
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import BackButton from "../../components/BackButton/BackButton";
+import VetDashboard from "./VetDashboard";
 
 const initial = {
   microchip: "",
@@ -98,7 +100,7 @@ export default function VetPetRegister() {
 
       if (!res.ok) throw new Error("POST failed");
 
-      navigate("/vet/pet-history");
+      navigate(`/vet_main/${vetId}/pet-history`);
     } catch (e) {
       console.error(e);
       alert("Αποτυχία αποθήκευσης.");
@@ -108,10 +110,14 @@ export default function VetPetRegister() {
   };
 
   return (
-    <div className="vetpet-page">
-      <Typography className="vetpet-title">Καταγραφή Στοιχείων Κατοικιδίου</Typography>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="pet-register" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="vetpet-page">
+          <Typography className="vetpet-title">Καταγραφή Στοιχείων Κατοικιδίου</Typography>
 
-      <Paper elevation={0} className="vetpet-card">
+          <Paper elevation={0} className="vetpet-card">
         <Typography className="vetpet-section">Στοιχεία Κατοικιδίου</Typography>
         <Divider className="vetpet-divider" />
 
@@ -228,11 +234,13 @@ export default function VetPetRegister() {
             Οριστική Υποβολή
           </Button>
         </Box>
-      </Paper>
+          </Paper>
 
-      <div className="vetpet-back">
-        <BackButton />
-      </div>
-    </div>
+          <div className="vetpet-back">
+            <BackButton />
+          </div>
+        </div>
+      </Box>
+    </Box>
   );
 }

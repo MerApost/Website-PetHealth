@@ -2,9 +2,10 @@ import * as React from "react";
 import { useParams } from "react-router-dom";
 import "./VetMedicalActPreview.css";
 
-import { Paper, Typography, Box, Button } from "@mui/material";
+import { Paper, Typography, Box, Button, CssBaseline } from "@mui/material";
 import PrintIcon from "@mui/icons-material/Print";
 import BackButton from "../../components/BackButton/BackButton";
+import VetDashboard from "./VetDashboard";
 
 export default function VetMedicalActPreview() {
   const { actId } = useParams();
@@ -31,8 +32,12 @@ export default function VetMedicalActPreview() {
   }, [actId]);
 
   return (
-    <div className="map-page">
-      <Paper elevation={0} className="map-card">
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="microchip" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="map-page">
+          <Paper elevation={0} className="map-card">
         <Box className="map-actions">
           <Button
             variant="contained"
@@ -65,11 +70,13 @@ export default function VetMedicalActPreview() {
             </div>
           </Paper>
         )}
-      </Paper>
+          </Paper>
 
-      <div className="map-back">
-        <BackButton />
-      </div>
-    </div>
+          <div className="map-back">
+            <BackButton />
+          </div>
+        </div>
+      </Box>
+    </Box>
   );
 }

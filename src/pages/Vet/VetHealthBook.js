@@ -13,9 +13,11 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  CssBaseline,
 } from "@mui/material";
 import PrintIcon from "@mui/icons-material/Print";
 import BackButton from "../../components/BackButton/BackButton";
+import VetDashboard from "./VetDashboard";
 
 export default function VetHealthBook() {
   const navigate = useNavigate();
@@ -138,8 +140,12 @@ export default function VetHealthBook() {
   }, [petId, ownerId, vetId, navigate]);
 
   return (
-    <div className="hb-page">
-      <Paper elevation={0} className="hb-card">
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="microchip" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="hb-page">
+          <Paper elevation={0} className="hb-card">
         <Box className="hb-card-header">
           <Typography className="hb-card-title">
             Καταγραφή Ιατρικών Πράξεων
@@ -266,7 +272,7 @@ export default function VetHealthBook() {
                               className="hb-btn-outline hb-btn-table"
                               onClick={() =>
                                 navigate(
-                                  `/vet/health-book/${ownerId}/${petId}/new-event?editId=${ev.id || ""}`
+                                  `/vet_main/${vetId}/health-book/${ownerId}/${petId}/new-event?editId=${ev.id || ""}`
                                 )
                               }
                             >
@@ -286,7 +292,7 @@ export default function VetHealthBook() {
                             className="hb-btn-outline hb-btn-table"
                             onClick={() =>
                               navigate(
-                                `/vet/health-book/event-preview/${ev.id || ""}`
+                                `/vet_main/${vetId}/health-book/event-preview/${ev.id || ""}`
                               )
                             }
                           >
@@ -304,7 +310,7 @@ export default function VetHealthBook() {
             <Button
               variant="outlined"
               className="hb-btn-outline"
-              onClick={() => navigate(`/vet/health-book/${ownerId}/${petId}/new-event`)}
+              onClick={() => navigate(`/vet_main/${vetId}/health-book/${ownerId}/${petId}/new-event`)}
             >
               + Νέο Συμβάν
             </Button>
@@ -372,7 +378,7 @@ export default function VetHealthBook() {
                               className="hb-btn-outline hb-btn-table"
                               onClick={() =>
                                 navigate(
-                                  `/vet/health-book/${ownerId}/${petId}/new-act?editId=${a.id || ""}`
+                                  `/vet_main/${vetId}/health-book/${ownerId}/${petId}/new-act?editId=${a.id || ""}`
                                 )
                               }
                             >
@@ -392,7 +398,7 @@ export default function VetHealthBook() {
                             className="hb-btn-outline hb-btn-table"
                             onClick={() =>
                               navigate(
-                                `/vet/health-book/act-preview/${a.id || ""}`
+                                `/vet_main/${vetId}/health-book/act-preview/${a.id || ""}`
                               )
                             }
                           >
@@ -410,7 +416,7 @@ export default function VetHealthBook() {
             <Button
               variant="outlined"
               className="hb-btn-outline"
-              onClick={() => navigate(`/vet/health-book/${ownerId}/${petId}/new-act`)}
+              onClick={() => navigate(`/vet_main/${vetId}/health-book/${ownerId}/${petId}/new-act`)}
             >
               + Νέα Ιατρική Πράξη
             </Button>
@@ -426,9 +432,11 @@ export default function VetHealthBook() {
         </Paper>
       </Paper>
 
-      <div className="hb-back">
-        <BackButton />
-      </div>
-    </div>
+          <div className="hb-back">
+            <BackButton />
+          </div>
+        </div>
+      </Box>
+    </Box>
   );
 }

@@ -6,11 +6,13 @@ import {
   Paper,
   Typography,
   Button,
+  CssBaseline,
 } from "@mui/material";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
+import VetDashboard from "./VetDashboard";
 
 export default function VetAppointmentDetails() {
   const { appointmentId } = useParams();
@@ -50,17 +52,27 @@ export default function VetAppointmentDetails() {
 
   if (!appointment) {
     return (
-      <div className="vad-page">
-        <Paper elevation={0} className="vad-card">
-          <Typography>Φόρτωση…</Typography>
-        </Paper>
-      </div>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <VetDashboard active="appointments" />
+        <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+          <div className="vad-page">
+            <Paper elevation={0} className="vad-card">
+              <Typography>Φόρτωση…</Typography>
+            </Paper>
+          </div>
+        </Box>
+      </Box>
     );
   }
 
   return (
-    <div className="vad-page">
-      <Paper elevation={0} className="vad-card">
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="appointments" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="vad-page">
+          <Paper elevation={0} className="vad-card">
         <Typography className="vad-title">Πληροφορίες Ραντεβού</Typography>
         <Typography className="vad-subtitle">
           Προβολή στοιχείων ραντεβού
@@ -153,8 +165,10 @@ export default function VetAppointmentDetails() {
           >
             Επιστροφή
           </Button>
+          </div>
+        </Paper>
         </div>
-      </Paper>
-    </div>
+      </Box>
+    </Box>
   );
 }

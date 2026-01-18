@@ -47,7 +47,6 @@ import VetMedicalActPreview from "./pages/Vet/VetMedicalActPreview";
 import VetSchedule from "./pages/Vet/VetSchedule";
 import VetAppointmentsManage from "./pages/Vet/VetAppointmentsManage";
 import VetAppointmentDetails from "./pages/Vet/VetAppointmentDetails";
-import VetLogIn from "./pages/Vet/VetLogIn";
 
 import { useState } from "react";
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -76,8 +75,8 @@ export default function App() {
           <Route path="/owner/profile/edit" element={<OwnerProfileEdit />} />
 
           <Route path="/lost_pets" element={<LostPets/>} />
-          <Route path="/vet/profile" element={<VetProfileView />} />
-          <Route path="/vet/profile/edit" element={<VetProfileEdit />} />
+          <Route path="/vet_main/:vetId/profile" element={<VetProfileView />} />
+          <Route path="/vet_main/:vetId/profile/edit" element={<VetProfileEdit />} />
           <Route path="/delete-account" element={<DeleteAccount />} />
           <Route path="/lost_pets/:id" element={<ViewLostPet/>} />
           <Route path="/lost_pets/:id/found_report" element={<FoundReport/>} />
@@ -94,21 +93,21 @@ export default function App() {
           <Route path="/owner_main/:id/find_vet/:vetid" element={<FindVetViewProfileBio />} />
           <Route path="/owner_main/:id/find_vet/:vetid/arrange_meeting" element={<FindVetArrangeMeeting />} />
 
-          <Route path="/vet/pet-register" element={<VetPetRegister />} />
-          <Route path="/vet/pet-history" element={<VetPetRegisterHistory />} />
-          <Route path="/vet/pet-preview/:id" element={<VetPetRegisterPreview />} />
-          <Route path="/vet/pet-edit/:id" element={<VetPetRegisterEdit />} />
+          <Route path="/vet_main/:vetId/pet-register" element={<VetPetRegister />} />
+          <Route path="/vet_main/:vetId/pet-history" element={<VetPetRegisterHistory />} />
+          <Route path="/vet_main/:vetId/pet-preview/:id" element={<VetPetRegisterPreview />} />
+          <Route path="/vet_main/:vetId/pet-edit/:id" element={<VetPetRegisterEdit />} />
 
-          <Route path="/vet_main/:id" element={<VetLogIn />} />
-          <Route path="/vet/health-book/:ownerId/:petId" element={<VetHealthBook />} />
-          <Route path="/vet/health-book/:ownerId/:petId/new-act" element={<VetMedicalActCreate />} />
-          <Route path="/vet/health-book/:ownerId/:petId/new-event" element={<VetNewEvent />} />
-          <Route path="/vet/health-book/event-preview/:eventId" element={<VetEventPreview />} />
-          <Route path="/vet/health-book/act-preview/:actId" element={<VetMedicalActPreview />} />
-          <Route path="/vet/microchip" element={<VetMicrochip />} />
-          <Route path="/vet/schedule" element={<VetSchedule />} />
-          <Route path="/vet/arrange_appointment" element={<VetAppointmentsManage />} />
-          <Route path="/vet/appointments/:appointmentId" element={<VetAppointmentDetails />} />
+          <Route path="/vet_main/:id" element={<VetMicrochip />} />
+          <Route path="/vet_main/:vetId/health-book/:ownerId/:petId" element={<VetHealthBook />} />
+          <Route path="/vet_main/:vetId/health-book/:ownerId/:petId/new-act" element={<VetMedicalActCreate />} />
+          <Route path="/vet_main/:vetId/health-book/:ownerId/:petId/new-event" element={<VetNewEvent />} />
+          <Route path="/vet_main/:vetId/health-book/event-preview/:eventId" element={<VetEventPreview />} />
+          <Route path="/vet_main/:vetId/health-book/act-preview/:actId" element={<VetMedicalActPreview />} />
+          <Route path="/vet_main/:vetId/microchip" element={<VetMicrochip />} />
+          <Route path="/vet_main/:vetId/schedule" element={<VetSchedule />} />
+          <Route path="/vet_main/:vetId/arrange_appointment" element={<VetAppointmentsManage />} />
+          <Route path="/vet_main/:vetId/appointments/:appointmentId" element={<VetAppointmentDetails />} />
 
         </Routes>
       </div>

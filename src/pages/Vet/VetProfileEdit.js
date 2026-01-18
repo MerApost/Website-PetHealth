@@ -11,14 +11,17 @@ import {
   Grid,
   TextField,
   IconButton,
+  CssBaseline,
 } from "@mui/material";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import BackButton from "../../components/BackButton/BackButton";
+import VetDashboard from "./VetDashboard";
 
 export default function VetProfileEdit() {
   const navigate = useNavigate();
+  const vetId = (localStorage.getItem("userId") || "").trim();
 
   const [form, setForm] = React.useState(null);
   const [services, setServices] = React.useState([]);
@@ -30,15 +33,12 @@ export default function VetProfileEdit() {
   });
 
   React.useEffect(() => {
-    const rawId = localStorage.getItem("userId");
-    const id = (rawId || "".trim());
-
-    if (!id) {
+    if (!vetId) {
       navigate("/login");
       return;
     }
 
-    fetch(`http://localhost:3004/users/${id}`)
+    fetch(`http://localhost:3004/users/${vetId}`)
       .then((r) => r.json())
       .then((u) => {
         if (u.role !== "vet") {
@@ -67,7 +67,7 @@ export default function VetProfileEdit() {
         setServices(u.services || []);
       })
       .catch(() => alert("Σφάλμα φόρτωσης προφίλ κτηνίατρου"));
-  }, [navigate]);
+  }, [navigate, vetId]);
 
   const change = (key) => (e) => setForm((p) => ({ ...p, [key]: e.target.value }));
 
@@ -103,29 +103,38 @@ export default function VetProfileEdit() {
 
   const onSave = async (e) => {
     e.preventDefault();
-    const rawId = localStorage.getItem("userId");
-    const id = (rawId || "".trim());
-
     const payload = { ...form, services };
 
-    await fetch(`http://localhost:3004/users/${id}`, {
+    await fetch(`http://localhost:3004/users/${vetId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
-    navigate("/vet/profile");
+    navigate(`/vet_main/${vetId}/profile`);
   };
 
   if (!form) {
-    return <div className="loading">Φόρτωση...</div>;
+    return (
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <VetDashboard />
+        <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+          <div className="loading">Φόρτωση...</div>
+        </Box>
+      </Box>
+    );
   }
 
   return (
-    <div className="profile-page">
-      <Typography className="profile-title">Επεξεργασία Προφίλ</Typography>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="profile-page">
+          <Typography className="profile-title">Επεξεργασία Προφίλ</Typography>
 
-      <Paper elevation={0} className="profile-card">
+          <Paper elevation={0} className="profile-card">
         <Box className="profile-top edit-top">
           <Box className="edit-actions">
             <Button
@@ -138,7 +147,7 @@ export default function VetProfileEdit() {
             </Button>
 
             <Box className="edit-actions-right">
-              <Button variant="outlined" className="cancel-btn" onClick={() => navigate("/vet/profile")}>
+              <Button variant="outlined" className="cancel-btn" onClick={() => navigate(`/vet_main/${vetId}/profile`)}>
                 Ακύρωση
               </Button>
 
@@ -234,11 +243,13 @@ export default function VetProfileEdit() {
 
           {services.length === 0 && <div className="services-empty">—</div>}
         </div>
-      </Paper>
+          </Paper>
 
-      <div className="profile-back">
-        <BackButton />
-      </div>
-    </div>
+          <div className="profile-back">
+            <BackButton />
+          </div>
+        </div>
+      </Box>
+    </Box>
   );
 }

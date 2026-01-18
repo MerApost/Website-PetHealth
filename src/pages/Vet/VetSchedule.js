@@ -8,11 +8,14 @@ import {
   Button,
   IconButton,
   MenuItem,
+  Box,
+  CssBaseline,
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EventBusyIcon from "@mui/icons-material/EventBusy";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
+import VetDashboard from "./VetDashboard";
 
 const days = [
   { key: "monday", label: "Δευτέρα" },
@@ -167,10 +170,14 @@ export default function VetSchedule() {
   };
 
   return (
-    <div className="vs-page">
-      <Typography className="vs-title">Προγραμματισμός Διαθεσιμότητας</Typography>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="schedule" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="vs-page">
+          <Typography className="vs-title">Προγραμματισμός Διαθεσιμότητας</Typography>
 
-      <Paper elevation={0} className="vs-card">
+          <Paper elevation={0} className="vs-card">
         <div className="vs-section">
           <Typography className="vs-section-title">Γιορτές και Αργίες</Typography>
           <Typography className="vs-section-note">
@@ -321,7 +328,9 @@ export default function VetSchedule() {
             Αποθήκευση
           </Button>
         </div>
-      </Paper>
-    </div>
+          </Paper>
+        </div>
+      </Box>
+    </Box>
   );
 }

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useParams } from "react-router-dom";
 import "./VetEventPreview.css";
 
-import { Paper, Typography, Box, Button } from "@mui/material";
+import { Paper, Typography, Box, Button, CssBaseline } from "@mui/material";
 import PrintIcon from "@mui/icons-material/Print";
 import LossRequestPreview from "./Request/LossRequestPreview";
 import FindRequestPreview from "./Request/FindRequestPreview";
@@ -10,6 +10,7 @@ import AdoptionRequestPreview from "./Request/AdoptionRequestPreview";
 import TransferRequestPreview from "./Request/TransferRequestPreview";
 import FosterRequestPreview from "./Request/FosterRequestPreview";
 import BackButton from "../../components/BackButton/BackButton";
+import VetDashboard from "./VetDashboard";
 
 export default function VetEventPreview() {
   const { eventId } = useParams();
@@ -36,8 +37,12 @@ export default function VetEventPreview() {
   }, [eventId]);
 
   return (
-    <div className="vep-page">
-      <Paper elevation={0} className="vep-card">
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="microchip" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="vep-page">
+          <Paper elevation={0} className="vep-card">
         <Box className="vep-actions">
           <Button
             variant="contained"
@@ -90,11 +95,13 @@ export default function VetEventPreview() {
             </div>
           </Paper>
         )}
-      </Paper>
+          </Paper>
 
-      <div className="vep-back">
-        <BackButton />
-      </div>
-    </div>
+          <div className="vep-back">
+            <BackButton />
+          </div>
+        </div>
+      </Box>
+    </Box>
   );
 }

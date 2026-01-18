@@ -10,9 +10,11 @@ import {
   Button,
   Box,
   MenuItem,
+  CssBaseline,
 } from "@mui/material";
 
 import BackButton from "../../components/BackButton/BackButton";
+import VetDashboard from "./VetDashboard";
 
 const initial = {
   actType: "",
@@ -159,7 +161,7 @@ export default function VetMedicalActCreate() {
 
       if (!res.ok) throw new Error("POST failed");
 
-      navigate(`/vet/health-book/${ownerId}/${petId}`);
+      navigate(`/vet_main/${vetId}/health-book/${ownerId}/${petId}`);
     } catch (e) {
       console.error(e);
       alert("Αποτυχία αποθήκευσης.");
@@ -180,7 +182,7 @@ export default function VetMedicalActCreate() {
         { method: "DELETE" }
       );
       if (!res.ok) throw new Error("DELETE failed");
-      navigate(`/vet/health-book/${ownerId}/${petId}`);
+      navigate(`/vet_main/${vetId}/health-book/${ownerId}/${petId}`);
     } catch (e) {
       console.error(e);
       alert("Αποτυχία διαγραφής.");
@@ -190,10 +192,14 @@ export default function VetMedicalActCreate() {
   };
 
   return (
-    <div className="ma-page">
-      <Typography className="ma-title">Καταγραφή Ιατρικών Πράξεων</Typography>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="microchip" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="ma-page">
+          <Typography className="ma-title">Καταγραφή Ιατρικών Πράξεων</Typography>
 
-      <Paper elevation={0} className="ma-card">
+          <Paper elevation={0} className="ma-card">
         <Grid container spacing={2} className="ma-grid">
           <Grid item xs={12} md={4} className="ma-labels">
             <div className="ma-label bold">Ιατρική Πράξη: *</div>
@@ -335,11 +341,13 @@ export default function VetMedicalActCreate() {
             Οριστική Υποβολή
           </Button>
         </Box>
-      </Paper>
+          </Paper>
 
-      <div className="ma-back">
-        <BackButton />
-      </div>
-    </div>
+          <div className="ma-back">
+            <BackButton />
+          </div>
+        </div>
+      </Box>
+    </Box>
   );
 }

@@ -8,7 +8,9 @@ import {
   Tab,
   Paper,
   Button,
+  CssBaseline,
 } from "@mui/material";
+import VetDashboard from "./VetDashboard";
 
 const statusTabs = [
   { key: "pending", label: "Εκκρεμή" },
@@ -84,8 +86,12 @@ export default function VetAppointmentsManage() {
   }, {});
 
   return (
-    <div className="vam-page">
-      <div className="vam-card">
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="appointments" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="vam-page">
+          <div className="vam-card">
         <Typography className="vam-title">Διαχείριση Ραντεβού</Typography>
         <Typography className="vam-subtitle">
           Επιβεβαιώστε ή απορρίψτε εκκρεμή αιτήματα ραντεβού
@@ -178,7 +184,7 @@ export default function VetAppointmentsManage() {
                         <Button
                           variant="outlined"
                           className="vam-btn more"
-                          onClick={() => navigate(`/vet/appointments/${a.id}`)}
+                          onClick={() => navigate(`/vet_main/${vetId}/appointments/${a.id}`)}
                         >
                           Περισσότερα
                         </Button>
@@ -196,7 +202,7 @@ export default function VetAppointmentsManage() {
                         <Button
                           variant="outlined"
                           className="vam-btn more"
-                          onClick={() => navigate(`/vet/appointments/${a.id}`)}
+                          onClick={() => navigate(`/vet_main/${vetId}/appointments/${a.id}`)}
                         >
                           Περισσότερα
                         </Button>
@@ -206,7 +212,7 @@ export default function VetAppointmentsManage() {
                       <Button
                         variant="outlined"
                         className="vam-btn more"
-                        onClick={() => navigate(`/vet/appointments/${a.id}`)}
+                        onClick={() => navigate(`/vet_main/${vetId}/appointments/${a.id}`)}
                       >
                         Περισσότερα
                       </Button>
@@ -222,7 +228,9 @@ export default function VetAppointmentsManage() {
             ‹ Επιστροφή
           </Button>
         </div>
-      </div>
-    </div>
+          </div>
+        </div>
+      </Box>
+    </Box>
   );
 }

@@ -2,9 +2,10 @@ import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./VetPetRegister.css";
 
-import { Paper, Typography } from "@mui/material";
+import { Paper, Typography, Box, CssBaseline } from "@mui/material";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import BackButton from "../../components/BackButton/BackButton";
+import VetDashboard from "./VetDashboard";
 
 export default function VetPetRegisterPreview() {
   const { id } = useParams();
@@ -27,7 +28,7 @@ export default function VetPetRegisterPreview() {
 
         if (String(data.vetId) !== String(vetId)) {
           alert("Δεν έχετε πρόσβαση σε αυτή την καταχώριση.");
-          navigate("/vet/pet-history");
+          navigate(`/vet_main/${vetId}/pet-history`);
           return;
         }
 
@@ -35,48 +36,64 @@ export default function VetPetRegisterPreview() {
       } catch (e) {
         console.error(e);
         alert("Σφάλμα φόρτωσης.");
-        navigate("/vet/pet-history");
+        navigate(`/vet_main/${vetId}/pet-history`);
       }
     };
 
     load();
   }, [id, vetId, navigate]);
 
-  if (!item) return <div style={{ paddingTop: 120, textAlign: "center" }}>Φόρτωση...</div>;
+  if (!item) {
+    return (
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <VetDashboard active="pet-history" />
+        <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+          <div style={{ paddingTop: 120, textAlign: "center" }}>Φόρτωση...</div>
+        </Box>
+      </Box>
+    );
+  }
 
   return (
-    <div className="vetpet-page">
-      <Typography className="vetpet-title">Προεπισκόπηση Καταχώρισης</Typography>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="pet-history" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="vetpet-page">
+          <Typography className="vetpet-title">Προεπισκόπηση Καταχώρισης</Typography>
 
-      <Paper elevation={0} className="vetpet-card vetpet-card-narrow">
-        <Typography className="vetpet-section-center">Στοιχεία Κατοικιδίου</Typography>
+          <Paper elevation={0} className="vetpet-card vetpet-card-narrow">
+            <Typography className="vetpet-section-center">Στοιχεία Κατοικιδίου</Typography>
 
-        <div className="vetpet-preview">
-          <div className="vetpet-preview-photo">
-            {item.photo ? (
-              <img src={item.photo} alt={item.name} className="vetpet-preview-img" />
-            ) : (
-              <div className="vetpet-preview-placeholder">
-                <InsertPhotoIcon />
+            <div className="vetpet-preview">
+              <div className="vetpet-preview-photo">
+                {item.photo ? (
+                  <img src={item.photo} alt={item.name} className="vetpet-preview-img" />
+                ) : (
+                  <div className="vetpet-preview-placeholder">
+                    <InsertPhotoIcon />
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
-          <div className="vetpet-preview-info">
-            <div className="vetpet-prev-row"><span>Microchip:</span><b>{item.microchip || "—"}</b></div>
-            <div className="vetpet-prev-row"><span>Όνομα:</span><b>{item.name || "—"}</b></div>
-            <div className="vetpet-prev-row"><span>Είδος:</span><b>{item.species || "—"}</b></div>
-            <div className="vetpet-prev-row"><span>Ράτσα:</span><b>{item.breed || "—"}</b></div>
-            <div className="vetpet-prev-row"><span>Φύλο:</span><b>{item.gender || "—"}</b></div>
-            <div className="vetpet-prev-row"><span>Ημ/νία Γέννησης:</span><b>{item.birthDate || "—"}</b></div>
+              <div className="vetpet-preview-info">
+                <div className="vetpet-prev-row"><span>Microchip:</span><b>{item.microchip || "—"}</b></div>
+                <div className="vetpet-prev-row"><span>Όνομα:</span><b>{item.name || "—"}</b></div>
+                <div className="vetpet-prev-row"><span>Είδος:</span><b>{item.species || "—"}</b></div>
+                <div className="vetpet-prev-row"><span>Ράτσα:</span><b>{item.breed || "—"}</b></div>
+                <div className="vetpet-prev-row"><span>Φύλο:</span><b>{item.gender || "—"}</b></div>
+                <div className="vetpet-prev-row"><span>Ημ/νία Γέννησης:</span><b>{item.birthDate || "—"}</b></div>
+              </div>
+            </div>
+
+          </Paper>
+
+          <div className="vetpet-back">
+            <BackButton />
           </div>
         </div>
-
-      </Paper>
-
-      <div className="vetpet-back">
-        <BackButton />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

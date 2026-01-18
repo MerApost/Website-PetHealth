@@ -51,7 +51,7 @@ export default function VetLogIn() {
           </ListItem>
           
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`./appointment_management`)}>
+            <ListItemButton onClick={() => navigate(`/vet_main/${userId}/arrange_appointment`)}>
               <ListItemIcon>
                 <SearchIcon sx={{color: 'black'}}/>
               </ListItemIcon>
@@ -60,7 +60,7 @@ export default function VetLogIn() {
           </ListItem>
           
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`./availability_definition`)}>
+            <ListItemButton onClick={() => navigate(`/vet_main/${userId}/schedule`)}>
               <ListItemIcon>
                 <CalendarMonthIcon sx={{color: 'black'}}/>
               </ListItemIcon>
@@ -69,7 +69,7 @@ export default function VetLogIn() {
           </ListItem>
           
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`./pet_identity_registration`)}>
+            <ListItemButton onClick={() => navigate(`/vet_main/${userId}/pet-register`)}>
               <ListItemIcon>
                 <DescriptionIcon sx={{color: 'black'}}/>
               </ListItemIcon>
@@ -78,7 +78,7 @@ export default function VetLogIn() {
           </ListItem>
 
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`./recording_medical_acts_incidents`)}>
+            <ListItemButton onClick={() => navigate(`/vet_main/${userId}/microchip`)}>
               <ListItemIcon>
                 <DescriptionIcon sx={{color: 'black'}}/>
               </ListItemIcon>

@@ -41,9 +41,13 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
 
   // Έλεγχος αν είμαστε στη σελίδα owner ή σε υποσελίδες του owner
   const isOwnerPage = location.pathname.startsWith('/owner');
-  const isVetPage = location.pathname.startsWith('/vet');
+  const isVetPage = location.pathname.startsWith('/vet') || location.pathname.startsWith('/vet_main');
 
   const role = localStorage.getItem("role");
+  const vetId = localStorage.getItem("userId");
+  const isVetAuthed = isLoggedIn && role === "vet" && vetId;
+  const vetBase = isVetAuthed ? `/vet_main/${vetId}` : "/vet";
+  const vetMenuBase = isVetAuthed ? vetBase : "/login";
 
   return (
     <AppBar position="fixed" sx={{ bgcolor: "rgba(0,0,0,0.92)", backdropFilter: "blur(10px)" }}>
@@ -138,7 +142,7 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Button
               component={RouterLink}
-              to="/vet"
+              to={vetBase}
               sx={{ 
                 color: "white",
                 minWidth: "auto",
@@ -164,11 +168,19 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
           </Box>
 
           <Menu anchorEl={vetAnchor} open={vetOpen} onClose={closeAll}>
-            <MenuItem component={RouterLink} to="/vet/arrange_appointment" onClick={closeAll}>
+            <MenuItem
+              component={RouterLink}
+              to={isVetAuthed ? `${vetMenuBase}/arrange_appointment` : vetMenuBase}
+              onClick={closeAll}
+            >
               Διαχείριση Ραντεβού
             </MenuItem>
 
-            <MenuItem component={RouterLink} to="/vet/schedule" onClick={closeAll}>
+            <MenuItem
+              component={RouterLink}
+              to={isVetAuthed ? `${vetMenuBase}/schedule` : vetMenuBase}
+              onClick={closeAll}
+            >
               Διαθεσιμότητα
             </MenuItem>
 
@@ -190,13 +202,25 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
               anchorOrigin={{ vertical: "top", horizontal: "right" }}
               transformOrigin={{ vertical: "top", horizontal: "left" }}
             >
-              <MenuItem component={RouterLink} to="/vet/pet-register" onClick={closeAll}>
+              <MenuItem
+                component={RouterLink}
+                to={isVetAuthed ? `${vetMenuBase}/pet-register` : vetMenuBase}
+                onClick={closeAll}
+              >
                 Ταυτότητα Κατοικιδίου
               </MenuItem>
-              <MenuItem component={RouterLink} to="/vet/microchip" onClick={closeAll}>
+              <MenuItem
+                component={RouterLink}
+                to={isVetAuthed ? `${vetMenuBase}/microchip` : vetMenuBase}
+                onClick={closeAll}
+              >
                 Ιατρικών Πράξεων
               </MenuItem>
-              <MenuItem component={RouterLink} to="/vet/registration/incident" onClick={closeAll}>
+              <MenuItem
+                component={RouterLink}
+                to={isVetAuthed ? `${vetMenuBase}/microchip` : vetMenuBase}
+                onClick={closeAll}
+              >
                 Συμβάντος
               </MenuItem>
             </Menu>
@@ -239,7 +263,7 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
           <>
             <Button
               component={RouterLink}
-              to={role === "vet" ? "/vet/profile" : "/owner/profile"}
+              to={role === "vet" ? `${vetBase}/profile` : "/owner/profile"}
               startIcon={<PersonIcon />}
               sx={{ color: "white", textTransform: "none" }}
             >

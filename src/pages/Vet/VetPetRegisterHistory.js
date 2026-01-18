@@ -2,9 +2,10 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import "./VetPetRegister.css";
 
-import { Paper, Typography, Button } from "@mui/material";
+import { Paper, Typography, Button, Box, CssBaseline } from "@mui/material";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import BackButton from "../../components/BackButton/BackButton";
+import VetDashboard from "./VetDashboard";
 
 export default function VetPetRegisterHistory() {
   const navigate = useNavigate();
@@ -55,10 +56,14 @@ export default function VetPetRegisterHistory() {
   };
 
   return (
-    <div className="vetpet-page">
-      <Typography className="vetpet-title">Ιστορικό Καταχωρίσεων</Typography>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="pet-history" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="vetpet-page">
+          <Typography className="vetpet-title">Ιστορικό Καταχωρίσεων</Typography>
 
-      <Paper elevation={0} className="vetpet-card vetpet-card-narrow">
+          <Paper elevation={0} className="vetpet-card vetpet-card-narrow">
         <Typography className="vetpet-section-left">Καταχωρίσεις Κατοικιδίων</Typography>
 
         {loading && <div style={{ padding: 18, textAlign: "center" }}>Φόρτωση...</div>}
@@ -105,7 +110,7 @@ export default function VetPetRegisterHistory() {
                     variant="contained"
                     size="small"
                     className="vetpet-small-blue"
-                    onClick={() => navigate(`/vet/pet-preview/${p.id}`)}
+                    onClick={() => navigate(`/vet_main/${vetId}/pet-preview/${p.id}`)}
                   >
                     Προεπισκόπηση
                   </Button>
@@ -125,7 +130,7 @@ export default function VetPetRegisterHistory() {
                       variant="outlined"
                       size="small"
                       className="vetpet-small-gray"
-                      onClick={() => navigate(`/vet/pet-edit/${p.id}`)}
+                      onClick={() => navigate(`/vet_main/${vetId}/pet-edit/${p.id}`)}
                     >
                       Επεξεργασία
                     </Button>
@@ -135,11 +140,13 @@ export default function VetPetRegisterHistory() {
               </div>
             </div>
           ))}
-      </Paper>
+          </Paper>
 
-      <div className="vetpet-back">
-        <BackButton />
-      </div>
-    </div>
+          <div className="vetpet-back">
+            <BackButton />
+          </div>
+        </div>
+      </Box>
+    </Box>
   );
 }

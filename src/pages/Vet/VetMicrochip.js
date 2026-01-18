@@ -9,12 +9,15 @@ import {
   Box,
   TextField,
   Button,
+  CssBaseline,
 } from "@mui/material";
 import MemoryIcon from "@mui/icons-material/Memory";
 import SearchIcon from "@mui/icons-material/Search";
+import VetDashboard from "./VetDashboard";
 
 export default function VetMicrochip() {
   const navigate = useNavigate();
+  const vetId = (localStorage.getItem("userId") || "").trim();
   const [query, setQuery] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [message, setMessage] = React.useState("");
@@ -55,7 +58,11 @@ export default function VetMicrochip() {
         return;
       }
 
-      navigate(`/vet/health-book/${foundOwner.id}/${foundPet.id}`);
+      if (!vetId) {
+        setMessage("Απαιτείται σύνδεση κτηνιάτρου.");
+        return;
+      }
+      navigate(`/vet_main/${vetId}/health-book/${foundOwner.id}/${foundPet.id}`);
     } catch (e) {
       console.error(e);
       setMessage("Σφάλμα φόρτωσης δεδομένων.");
@@ -65,38 +72,44 @@ export default function VetMicrochip() {
   };
 
   return (
-    <div className="vm-page">
-      <Typography className="vm-title">Καταγραφή Ιατρικών Πράξεων</Typography>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="microchip" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="vm-page">
+          <Typography className="vm-title">Καταγραφή Ιατρικών Πράξεων</Typography>
 
-      <Box className="find_vet-vet">
-        <Box className="input_group_vet">
-          <MemoryIcon className="icons" />
-          <TextField
-            variant="filled"
-            label="Εισαγωγή κωδικού Microchip"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="input_field_vet"
-            sx={{
-              "& .MuiInputBase-root": {
-                height: "56px",
-                width: "400px",
-              },
-            }}
-          />
-        </Box>
+          <Box className="find_vet-vet">
+            <Box className="input_group_vet">
+              <MemoryIcon className="icons" />
+              <TextField
+                variant="filled"
+                label="Εισαγωγή κωδικού Microchip"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="input_field_vet"
+                sx={{
+                  "& .MuiInputBase-root": {
+                    height: "56px",
+                    width: "400px",
+                  },
+                }}
+              />
+            </Box>
 
-        <Button
-          className="search-button"
-          onClick={handleSearch}
-          disabled={loading}
-        >
-          <SearchIcon className="search_icon" />
-          Αναζήτηση
-        </Button>
+            <Button
+              className="search-button"
+              onClick={handleSearch}
+              disabled={loading}
+            >
+              <SearchIcon className="search_icon" />
+              Αναζήτηση
+            </Button>
+          </Box>
+
+          {message && <div className="vm-message">{message}</div>}
+        </div>
       </Box>
-
-      {message && <div className="vm-message">{message}</div>}
-    </div>
+    </Box>
   );
 }

@@ -10,10 +10,12 @@ import {
   TextField,
   Button,
   Box,
+  CssBaseline,
 } from "@mui/material";
 
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import BackButton from "../../components/BackButton/BackButton";
+import VetDashboard from "./VetDashboard";
 
 export default function VetPetRegisterEdit() {
   const { id } = useParams();
@@ -46,12 +48,12 @@ export default function VetPetRegisterEdit() {
 
         if (String(data.vetId) !== String(vetId)) {
           alert("Δεν έχετε πρόσβαση σε αυτή την καταχώριση.");
-          navigate("/vet/pet-history");
+          navigate(`/vet_main/${vetId}/pet-history`);
           return;
         }
 
         if (data.status !== "draft") {
-          navigate(`/vet/pet-preview/${data.id}`);
+          navigate(`/vet_main/${vetId}/pet-preview/${data.id}`);
           return;
         }
 
@@ -67,7 +69,7 @@ export default function VetPetRegisterEdit() {
       } catch (e) {
         console.error(e);
         alert("Σφάλμα φόρτωσης καταχώρισης.");
-        navigate("/vet/pet-history");
+        navigate(`/vet_main/${vetId}/pet-history`);
       }
     };
 
@@ -111,7 +113,7 @@ export default function VetPetRegisterEdit() {
 
       if (!res.ok) throw new Error("PATCH failed");
 
-      navigate("/vet/pet-history");
+      navigate(`/vet_main/${vetId}/pet-history`);
     } catch (e) {
       console.error(e);
       alert("Αποτυχία αποθήκευσης.");
@@ -121,14 +123,26 @@ export default function VetPetRegisterEdit() {
   };
 
   if (!form) {
-    return <div style={{ paddingTop: 120, textAlign: "center" }}>Φόρτωση...</div>;
+    return (
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <VetDashboard active="pet-history" />
+        <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+          <div style={{ paddingTop: 120, textAlign: "center" }}>Φόρτωση...</div>
+        </Box>
+      </Box>
+    );
   }
 
   return (
-    <div className="vetpet-page">
-      <Typography className="vetpet-title">Καταγραφή Στοιχείων Κατοικιδίου</Typography>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard active="pet-history" />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="vetpet-page">
+          <Typography className="vetpet-title">Καταγραφή Στοιχείων Κατοικιδίου</Typography>
 
-      <Paper elevation={0} className="vetpet-card">
+          <Paper elevation={0} className="vetpet-card">
         <Box className="vetpet-topline">
           <div className="vetpet-badge badge-blue">Προσωρινά αποθηκευμένο</div>
         </Box>
@@ -205,11 +219,13 @@ export default function VetPetRegisterEdit() {
             Οριστική Υποβολή
           </Button>
         </Box>
-      </Paper>
+          </Paper>
 
-      <div className="vetpet-back">
-        <BackButton />
-      </div>
-    </div>
+          <div className="vetpet-back">
+            <BackButton />
+          </div>
+        </div>
+      </Box>
+    </Box>
   );
 }

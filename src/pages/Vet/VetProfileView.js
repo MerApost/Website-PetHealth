@@ -9,25 +9,25 @@ import {
   Button,
   Divider,
   Grid,
+  CssBaseline,
 } from "@mui/material";
 
 import BackButton from "../../components/BackButton/BackButton";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
+import VetDashboard from "./VetDashboard";
 
 export default function VetProfileView() {
   const navigate = useNavigate();
   const [vet, setVet] = React.useState(null);
+  const vetId = (localStorage.getItem("userId") || "").trim();
 
   React.useEffect(() => {
-    const rawId = localStorage.getItem("userId");
-    const id = (rawId || "".trim());
-
-    if (!id) {
+    if (!vetId) {
       navigate("/login");
       return;
     }
 
-    fetch(`http://localhost:3004/users/${id}`)
+    fetch(`http://localhost:3004/users/${vetId}`)
       .then((r) => r.json())
       .then((u) => {
         if (u.role !== "vet") {
@@ -47,10 +47,14 @@ export default function VetProfileView() {
   const fullName = `${vet.name || ""} ${vet.surname || ""}`.trim();
 
   return (
-    <div className="profile-page">
-      <Typography className="profile-title">Προβολή Προφίλ</Typography>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <VetDashboard />
+      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", minHeight: "100vh" }}>
+        <div className="profile-page">
+          <Typography className="profile-title">Προβολή Προφίλ</Typography>
 
-      <Paper elevation={0} className="profile-card">
+          <Paper elevation={0} className="profile-card">
         <Box className="profile-top">
           <Typography className="profile-section-title">Προσωπικά Στοιχεία</Typography>
 
@@ -58,7 +62,7 @@ export default function VetProfileView() {
             variant="outlined"
             size="small"
             className="profile-edit-btn"
-            onClick={() => navigate("/vet/profile/edit")}
+            onClick={() => navigate(`/vet_main/${vetId}/profile/edit`)}
           >
             Επεξεργασία
           </Button>
@@ -120,11 +124,13 @@ export default function VetProfileView() {
             <div className="services-empty">—</div>
           )}
         </div>
-      </Paper>
+          </Paper>
 
-      <div className="profile-back">
-        <BackButton />
-      </div>
-    </div>
+          <div className="profile-back">
+            <BackButton />
+          </div>
+        </div>
+      </Box>
+    </Box>
   );
 }
