@@ -31,6 +31,10 @@ export default function FindVetViewProfileBio() {
   const hasScrolled = useRef(false);
   const { id: userId, vetid } = useParams();
   const navigate = useNavigate();
+  const storedRole = (localStorage.getItem("role") || "").trim();
+  const storedUserId = (localStorage.getItem("userId") || "").trim();
+  const ownerId = userId || storedUserId;
+  const showDrawer = storedRole === "owner" && ownerId;
 
   const [vetData, setVetData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -67,28 +71,33 @@ export default function FindVetViewProfileBio() {
 
   // Στο top level του component, προσθέστε αυτά τα states
 const [reviewFilter, setReviewFilter] = React.useState(0);
-const [reviews, setReviews] = useState([]); // Θα φορτώσετε πραγματικές αξιολογήσεις από API
+const [reviews, setReviews] = useState([]);
 
 const handleReviewFilterChange = (event, newValue) => {
     setReviewFilter(newValue);
 };
 
-// Πλαστικές αξιολογήσεις για demo - θα τις αντικαταστήσετε με πραγματικά δεδομένα
 useEffect(() => {
-    // Αυτά είναι demo δεδομένα. Στην πραγματικότητα θα τα φορτώνετε από API
-    const demoReviews = [
-        { id: 1, userName: "Μαρία Π.", rating: 5, date: "15 Μαρτίου 2024", comment: "Εξαιρετικός επαγγελματίας! Πολύ ευγενικός και εξυπηρετικός με το σκυλάκι μου." },
-        { id: 2, userName: "Γιάννης Κ.", rating: 4, date: "10 Μαρτίου 2024", comment: "Καλή εξυπηρέτηση, λίγο ακριβός όμως." },
-        { id: 3, userName: "Ελένη Μ.", rating: 2, date: "5 Μαρτίου 2024", comment: "Δεν μου άρεσε η συμπεριφορά του, ήταν πολύ βιαστικός." },
-        { id: 4, userName: "Νίκος Σ.", rating: 5, date: "1 Μαρτίου 2024", comment: "Ο καλύτερος κτηνίατρος που έχω επισκεφτεί ποτέ!" },
-        { id: 5, userName: "Σοφία Α.", rating: 3, date: "28 Φεβρουαρίου 2024", comment: "Μέτρια εμπειρία, οκ για βασικές εξετάσεις." },
-        { id: 6, userName: "Δημήτρης Π.", rating: 1, date: "25 Φεβρουαρίου 2024", comment: "Δεν θα ξαναπάω. Πολύ κακή εξυπηρέτηση." },
-        { id: 7, userName: "Ανθή Λ.", rating: 5, date: "20 Φεβρουαρίου 2024", comment: "Πολύ επαγγελματίας, εξήγησε τα πάντα με λεπτομέρεια." },
-        { id: 8, userName: "Κώστας Γ.", rating: 4, date: "18 Φεβρουαρίου 2024", comment: "Καλή δουλειά, τα κατοικίδια του εμπιστεύομαι πλήρως." }
-    ];
-    
-    setReviews(demoReviews);
-}, []);
+    const loadReviews = async () => {
+        if (!vetid) return;
+        try {
+            const res = await fetch(`http://localhost:3004/reviews?vetId=${vetid}&_sort=createdAt&_order=desc`);
+            const data = res.ok ? await res.json() : [];
+            const mapped = (Array.isArray(data) ? data : []).map((r) => ({
+                id: r.id,
+                userName: r.ownerName || "Ανώνυμος",
+                rating: Number(r.rating) || 0,
+                date: r.createdAt ? new Date(r.createdAt).toLocaleDateString("el-GR") : "—",
+                comment: r.comment || "—",
+            }));
+            setReviews(mapped);
+        } catch (e) {
+            console.error(e);
+            setReviews([]);
+        }
+    };
+    loadReviews();
+}, [vetid]);
 
 // Φιλτράρισμα αξιολογήσεων βάσει του επιλεγμένου tab
 const filteredReviews = React.useMemo(() => {
@@ -106,10 +115,20 @@ const filteredReviews = React.useMemo(() => {
     }
 }, [reviews, reviewFilter]);
 
+  const avgRating = React.useMemo(() => {
+    if (!reviews.length) return Number(vetData?.rating) || 0;
+    const total = reviews.reduce((sum, r) => sum + (Number(r.rating) || 0), 0);
+    return total / reviews.length;
+  }, [reviews, vetData]);
+
   // Συνάρτηση για μεταφορά σε σελίδα κτηνίατρου
   const handleArrangeMeeting = useCallback((vetId) => {
-    navigate(`/owner_main/${userId}/find_vet/${vetId}/arrange_meeting`);
-  }, [navigate, userId]);
+    if (!showDrawer) {
+      navigate("/login");
+      return;
+    }
+    navigate(`/owner_main/${ownerId}/find_vet/${vetId}/arrange_meeting`);
+  }, [navigate, ownerId, showDrawer]);
   
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
@@ -214,42 +233,44 @@ const filteredReviews = React.useMemo(() => {
     return (
       <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <CssBaseline />
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
+        {showDrawer && (
+          <Drawer
+            sx={{
               width: drawerWidth,
-              boxSizing: 'border-box',
-              top: '64px',
-              height: 'calc(100% - 64px)',
-            },
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate(`/owner_main/${userId}`)}>
-                <ListItemIcon>
-                  <PetsIcon sx={{ color: 'black' }} />
-                </ListItemIcon>
-                <ListItemText primary="Τα Κατοικίδιά μου" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => navigate(`/owner_main/${userId}/find_vet`)}
-                sx={{ backgroundColor: '#D7D3CB' }}
-              >
-                <ListItemIcon>
-                  <SearchIcon sx={{ color: 'black' }} />
-                </ListItemIcon>
-                <ListItemText primary="Εύρεση Κτηνίατρου" />
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Drawer>
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
+                width: drawerWidth,
+                boxSizing: 'border-box',
+                top: '64px',
+                height: 'calc(100% - 64px)',
+              },
+            }}
+            variant="permanent"
+            anchor="left"
+          >
+            <List>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate(`/owner_main/${ownerId}`)}>
+                  <ListItemIcon>
+                    <PetsIcon sx={{ color: 'black' }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Τα Κατοικίδιά μου" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton
+                  onClick={() => navigate(`/owner_main/${ownerId}/find_vet`)}
+                  sx={{ backgroundColor: '#D7D3CB' }}
+                >
+                  <ListItemIcon>
+                    <SearchIcon sx={{ color: 'black' }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Εύρεση Κτηνίατρου" />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </Drawer>
+        )}
         <Box
           component="main"
           sx={{ 
@@ -271,42 +292,44 @@ const filteredReviews = React.useMemo(() => {
     return (
       <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <CssBaseline />
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
+        {showDrawer && (
+          <Drawer
+            sx={{
               width: drawerWidth,
-              boxSizing: 'border-box',
-              top: '64px',
-              height: 'calc(100% - 64px)',
-            },
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate(`/owner_main/${userId}`)}>
-                <ListItemIcon>
-                  <PetsIcon sx={{ color: 'black' }} />
-                </ListItemIcon>
-                <ListItemText primary="Τα Κατοικίδιά μου" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton
-                onClick={() => navigate(`/owner_main/${userId}/find_vet`)}
-                sx={{ backgroundColor: '#D7D3CB' }}
-              >
-                <ListItemIcon>
-                  <SearchIcon sx={{ color: 'black' }} />
-                </ListItemIcon>
-                <ListItemText primary="Εύρεση Κτηνίατρου" />
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Drawer>
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
+                width: drawerWidth,
+                boxSizing: 'border-box',
+                top: '64px',
+                height: 'calc(100% - 64px)',
+              },
+            }}
+            variant="permanent"
+            anchor="left"
+          >
+            <List>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate(`/owner_main/${ownerId}`)}>
+                  <ListItemIcon>
+                    <PetsIcon sx={{ color: 'black' }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Τα Κατοικίδιά μου" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton
+                  onClick={() => navigate(`/owner_main/${ownerId}/find_vet`)}
+                  sx={{ backgroundColor: '#D7D3CB' }}
+                >
+                  <ListItemIcon>
+                    <SearchIcon sx={{ color: 'black' }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Εύρεση Κτηνίατρου" />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </Drawer>
+        )}
         <Box
           component="main"
           sx={{ 
@@ -324,7 +347,7 @@ const filteredReviews = React.useMemo(() => {
           </Alert>
           <Button 
             variant="contained" 
-            onClick={() => navigate(`/owner_main/${userId}/find_vet`)}
+            onClick={() => navigate(showDrawer ? `/owner_main/${ownerId}/find_vet` : "/find_vet")}
             sx={{ mt: 2 }}
           >
             Επιστροφή στη λίστα κτηνιάτρων
@@ -337,82 +360,84 @@ const filteredReviews = React.useMemo(() => {
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
       <CssBaseline />
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
+      {showDrawer && (
+        <Drawer
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
-            top: '64px',
-            height: 'calc(100% - 64px)',
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(`/owner_main/${userId}`)}>
-              <ListItemIcon>
-                <PetsIcon sx={{ color: 'black' }} />
-              </ListItemIcon>
-              <ListItemText primary="Τα Κατοικίδιά μου" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => navigate(`/owner_main/${userId}/find_vet`)}
-              sx={{ backgroundColor: '#D7D3CB' }}
-            >
-              <ListItemIcon>
-                <SearchIcon sx={{ color: 'black' }} />
-              </ListItemIcon>
-              <ListItemText primary="Εύρεση Κτηνίατρου" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => navigate(`/owner_main/${userId}/appointments`)}
-            >
-              <ListItemIcon>
-                <CalendarMonthIcon sx={{ color: 'black' }} />
-              </ListItemIcon>
-              <ListItemText primary="Ιστορικό / Διαχείριση Ραντεβού" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => navigate(`/owner_main/${userId}/lost_report`)}
-            >
-              <ListItemIcon>
-                <DescriptionIcon sx={{ color: 'black' }} />
-              </ListItemIcon>
-              <ListItemText primary="Δήλωση Απώλειας" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => navigate(`/owner_main/${userId}/found_report`)}
-            >
-              <ListItemIcon>
-                <DescriptionIcon sx={{ color: 'black' }} />
-              </ListItemIcon>
-              <ListItemText primary="Δήλωση Εύρεσης" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              onClick={() => navigate(`/owner_main/${userId}/history_report`)}
-            >
-              <ListItemIcon>
-                <HistoryIcon sx={{ color: 'black' }} />
-              </ListItemIcon>
-              <ListItemText primary="Ιστορικό Δηλώσεων" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Drawer>
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+              top: '64px',
+              height: 'calc(100% - 64px)',
+            },
+          }}
+          variant="permanent"
+          anchor="left"
+        >
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => navigate(`/owner_main/${ownerId}`)}>
+                <ListItemIcon>
+                  <PetsIcon sx={{ color: 'black' }} />
+                </ListItemIcon>
+                <ListItemText primary="Τα Κατοικίδιά μου" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => navigate(`/owner_main/${ownerId}/find_vet`)}
+                sx={{ backgroundColor: '#D7D3CB' }}
+              >
+                <ListItemIcon>
+                  <SearchIcon sx={{ color: 'black' }} />
+                </ListItemIcon>
+                <ListItemText primary="Εύρεση Κτηνίατρου" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => navigate(`/owner_main/${ownerId}/appointments`)}
+              >
+                <ListItemIcon>
+                  <CalendarMonthIcon sx={{ color: 'black' }} />
+                </ListItemIcon>
+                <ListItemText primary="Ιστορικό / Διαχείριση Ραντεβού" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => navigate(`/owner_main/${ownerId}/lost_report`)}
+              >
+                <ListItemIcon>
+                  <DescriptionIcon sx={{ color: 'black' }} />
+                </ListItemIcon>
+                <ListItemText primary="Δήλωση Απώλειας" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => navigate(`/owner_main/${ownerId}/found_report`)}
+              >
+                <ListItemIcon>
+                  <DescriptionIcon sx={{ color: 'black' }} />
+                </ListItemIcon>
+                <ListItemText primary="Δήλωση Εύρεσης" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => navigate(`/owner_main/${ownerId}/history_report`)}
+              >
+                <ListItemIcon>
+                  <HistoryIcon sx={{ color: 'black' }} />
+                </ListItemIcon>
+                <ListItemText primary="Ιστορικό Δηλώσεων" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Drawer>
+      )}
       <Box
         component="main"
         sx={{ 
@@ -502,13 +527,13 @@ const filteredReviews = React.useMemo(() => {
                         }}>
                         <Rating
                             name="text-feedback"
-                            value={Number(vetData.rating)}
+                            value={avgRating}
                             readOnly
                             precision={0.5}
                             emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                         />
                         <Box sx={{ ml: 1, fontSize: '1.0rem', whiteSpace: 'nowrap' }}>
-                            {vetData.rating.toFixed(1)}
+                            {avgRating.toFixed(1)}
                         </Box>
                         <Typography 
                             variant="caption" 
@@ -518,7 +543,7 @@ const filteredReviews = React.useMemo(() => {
                             whiteSpace: 'nowrap'
                             }}
                         >
-                            ({vetData.reviewsCount} αξιολογήσεις)
+                            ({reviews.length} αξιολογήσεις)
                         </Typography>
                     </Box>
                   </Box>
@@ -810,11 +835,11 @@ const filteredReviews = React.useMemo(() => {
                                         fontSize: '2.5rem',
                                         mb: 1 // Προσθήκη margin bottom για χώρο μεταξύ rating και αστεριών
                                     }}>
-                                        {vetData.rating.toFixed(1)}
+                                        {avgRating.toFixed(1)}
                                     </Typography>
                                     
                                     <Rating 
-                                        value={Number(vetData.rating)} 
+                                        value={avgRating} 
                                         readOnly 
                                         precision={0.5} 
                                         sx={{ fontSize: '1.5rem', mb: 0.5 }} 

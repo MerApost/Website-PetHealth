@@ -329,7 +329,7 @@ export default function FindVet(){
     // Συνάρτηση για μεταφορά σε σελίδα κτηνίατρου
     const handleViewVetProfile = useCallback((vetId) => {
         if (!ownerBase) {
-            navigate("/login");
+            navigate(`/find_vet/${vetId}`);
             return;
         }
         navigate(`${ownerBase}/find_vet/${vetId}`);

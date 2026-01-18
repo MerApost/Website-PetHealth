@@ -327,10 +327,13 @@ export default function LostPets() {
         }
         
         const lostData = await lostResponse.json();
+        const activeLost = Array.isArray(lostData)
+          ? lostData.filter((p) => p.status !== "found")
+          : [];
         const usersData = await usersResponse.json();
         
         // Ενίσχυσε τα δεδομένα
-        const enrichedData = enrichLostPetsData(lostData, usersData);
+        const enrichedData = enrichLostPetsData(activeLost, usersData);
         
         console.log('Loaded enriched lost pets:', enrichedData.length, enrichedData);
         

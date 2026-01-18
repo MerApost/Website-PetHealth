@@ -109,7 +109,7 @@ export default function FoundReport(){
       return Array.isArray(data) && data.length > 0 ? data[0] : null;
     };
 
-    const removeLostPet = async (microchip) => {
+    const markLostPetFound = async (microchip) => {
       if (!microchip) return;
       const res = await fetch(
         `http://localhost:3004/lostPets?microchip=${microchip}`
@@ -119,7 +119,9 @@ export default function FoundReport(){
       await Promise.all(
         data.map((item) =>
           fetch(`http://localhost:3004/lostPets/${item.id}`, {
-            method: "DELETE",
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: "found", foundAt: new Date().toISOString() }),
           })
         )
       );
@@ -240,7 +242,7 @@ export default function FoundReport(){
 
         if (status === "final") {
           await updatePetLostFlag(false, lostEntry.ownerId, lostEntry.petId);
-          await removeLostPet(microchip);
+          await markLostPetFound(microchip);
           setSubmittedFinal(true);
         } else {
           navigate(`/owner_main/${userId}/history_report`);

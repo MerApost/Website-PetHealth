@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import {
@@ -37,10 +37,14 @@ const initial = {
 
 export default function FoundReport() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [step, setStep] = React.useState(0);
   const [form, setForm] = React.useState(initial);
   const [saving, setSaving] = React.useState(false);
   const [errors, setErrors] = React.useState({});
+  const lostPetFromState = location.state?.petData || null;
+  const lostPetId = lostPetFromState?.id || "";
+  const lostMicrochip = lostPetFromState?.microchip || "";
 
   const sanitizePhone = (value) =>
     String(value || "")
@@ -114,6 +118,33 @@ export default function FoundReport() {
       });
 
       if (!res.ok) throw new Error("POST failed");
+      if (lostPetId || lostMicrochip) {
+        try {
+          if (lostPetId) {
+            await fetch(`http://localhost:3004/lostPets/${lostPetId}`, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ status: "found", foundAt: new Date().toISOString() }),
+            });
+          } else {
+            const matchRes = await fetch(
+              `http://localhost:3004/lostPets?microchip=${lostMicrochip}`
+            );
+            const matchData = matchRes.ok ? await matchRes.json() : [];
+            await Promise.all(
+              (Array.isArray(matchData) ? matchData : []).map((item) =>
+                fetch(`http://localhost:3004/lostPets/${item.id}`, {
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ status: "found", foundAt: new Date().toISOString() }),
+                })
+              )
+            );
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
       setStep(3); // success
     } catch (e) {
       console.error(e);

@@ -45,7 +45,17 @@ function a11yProps(index) {
 }
 
 // Helper function για να επιστρέφει τα δεδομένα ενός κατοικίδιου
-const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPageHealth, setCurrentPageHealth, printRef, eventsData, healthData) => {
+const getPetContent = (
+  pet,
+  currentPageEvents,
+  setCurrentPageEvents,
+  currentPageHealth,
+  setCurrentPageHealth,
+  printRef,
+  eventsData,
+  healthData,
+  birthDate
+) => {
   // Ρυθμίσεις pagination
   const rowsPerPage = 5;
   
@@ -231,6 +241,9 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
                   <div class="print-detail-item">
                     <span class="print-detail-label">Ηλικία:</span> ${pet.age || 'Άγνωστη'} ${pet.age === "1" ? "έτους" : "ετών"}
                   </div>
+                  <div class="print-detail-item">
+                    <span class="print-detail-label">Ημ/νία Γέννησης:</span> ${birthDate || "Άγνωστο"}
+                  </div>
                 </div>
               </div>
             </div>
@@ -404,6 +417,11 @@ const getPetContent = (pet, currentPageEvents, setCurrentPageEvents, currentPage
               <Box className="detail-item">
                 <Typography variant="body1" className="detail-text">
                   <strong>Ηλικία:</strong> {pet.age || 'Άγνωστη'} {pet.age === "1" ? "έτους" : "ετών"}
+                </Typography>
+              </Box>
+              <Box className="detail-item">
+                <Typography variant="body1" className="detail-text">
+                  <strong>Ημ/νία Γέννησης:</strong> {birthDate || "Άγνωστο"}
                 </Typography>
               </Box>
             </Box>
@@ -585,6 +603,9 @@ export default function PetHealthBook() {
   const [userData, setUserData] = useState(null);
   const [pets, setPets] = useState([]);
   const [selectedPetIndex, setSelectedPetIndex] = useState(0);
+  const [eventsByPet, setEventsByPet] = useState({});
+  const [healthByPet, setHealthByPet] = useState({});
+  const [birthByPet, setBirthByPet] = useState({});
   
   // State για τα tabs
   const [value, setValue] = React.useState(0);
@@ -596,36 +617,27 @@ export default function PetHealthBook() {
   // Ref για το περιεχόμενο που θα εκτυπωθεί
   const printRef = useRef(null);
   
-  // Δεδομένα για τους πίνακες
-  const eventsData = [
-    { id: 1, event: "Ετήσιος εμβολιασμός", date: "15/03/2024" },
-    { id: 2, event: "Καθαρισμός δοντιών", date: "20/02/2024" },
-    { id: 3, event: "Επέμβαση στειρώσεως", date: "10/01/2024" },
-    { id: 4, event: "Έλεγχος παρασίτων", date: "05/12/2023" },
-    { id: 5, event: "Πρώτη επισκέψη κτηνίατρου", date: "20/10/2023" },
-    { id: 6, event: "Εμβολιασμός λύσσας", date: "10/09/2023" },
-    { id: 7, event: "Έλεγχος βάρους", date: "05/08/2023" },
-    { id: 8, event: "Αφαίρεση κοντιλοματώδους", date: "15/07/2023" },
-    { id: 9, event: "Ρουτίνα ελέγχου", date: "20/06/2023" },
-    { id: 10, event: "Ετήσιος εμβολιασμός", date: "15/05/2023" },
-    { id: 11, event: "Έλεγχος δέρματος", date: "10/04/2023" },
-    { id: 12, event: "Διόρθωση προσθίου", date: "01/03/2023" },
-  ];
+  const mapEvents = (items) =>
+    (Array.isArray(items) ? items : []).map((item) => ({
+      id: item.id,
+      event: item.type || "—",
+      date: item.date || "—",
+    }));
 
-  const healthData = [
-    { id: 1, procedure: "Ετήσιος εμβολιασμός", medication: "Parvovirus vaccine", dosage: "1 δόση", date: "15/03/2024" },
-    { id: 2, procedure: "Καθαρισμός δοντιών", medication: "Antibiotic", dosage: "2 φορές ημερησίως για 7 ημέρες", date: "20/02/2024" },
-    { id: 3, procedure: "Επέμβαση στειρώσεως", medication: "Pain medication", dosage: "1 φορά ημερησίως για 5 ημέρες", date: "10/01/2024" },
-    { id: 4, procedure: "Έλεγχος παρασίτων", medication: "Flea treatment", dosage: "Μηνιαία εφαρμογή", date: "05/12/2023" },
-    { id: 5, procedure: "Πρώτη επισκέψη κτηνίατρου", medication: "Vitamin supplements", dosage: "Καθημερινά", date: "20/10/2023" },
-    { id: 6, procedure: "Εμβολιασμός λύσσας", medication: "Rabies vaccine", dosage: "1 δόση", date: "10/09/2023" },
-    { id: 7, procedure: "Αντιμετώπιση αλλεργίας", medication: "Antihistamine", dosage: "1 φορά ημερησίως για 3 ημέρες", date: "05/08/2023" },
-    { id: 8, procedure: "Χειρουργική επέμβαση", medication: "Painkiller", dosage: "2 φορές ημερησίως για 10 ημέρες", date: "15/07/2023" },
-    { id: 9, procedure: "Ρουτίνα ελέγχου", medication: "-", dosage: "-", date: "20/06/2023" },
-    { id: 10, procedure: "Εμβολιασμός", medication: "Combination vaccine", dosage: "1 δόση", date: "15/05/2023" },
-    { id: 11, procedure: "Αντιμετώπιση μόλυνσης", medication: "Antibiotic", dosage: "3 φορές ημερησίως για 14 ημέρες", date: "01/04/2023" },
-    { id: 12, procedure: "Έλεγχος όρασης", medication: "Eye drops", dosage: "2 φορές ημερησίως για 5 ημέρες", date: "15/03/2023" },
-  ];
+  const mapHealth = (items) =>
+    (Array.isArray(items) ? items : []).map((item) => {
+      const dosage = item.dosage ? String(item.dosage) : "";
+      const frequency = item.frequency ? String(item.frequency) : "";
+      const dosageText =
+        dosage && frequency ? `${dosage} / ${frequency}` : dosage || frequency || "—";
+      return {
+        id: item.id,
+        procedure: item.actType || "—",
+        medication: item.medication || "—",
+        dosage: dosageText,
+        date: item.actDate || "—",
+      };
+    });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -657,15 +669,57 @@ export default function PetHealthBook() {
         if (user) {
           console.log('Found user:', user.name);
           setUserData(user);
-          setPets(user.pets || []);
+          const nextPets = user.pets || [];
+          setPets(nextPets);
           
           // Βρίσκουμε το index του τρέχοντος κατοικίδιου
-          if (petId && user.pets) {
-            const petIndex = user.pets.findIndex(p => p.id.toString() === petId.toString());
+          if (petId && nextPets) {
+            const petIndex = nextPets.findIndex(p => p.id.toString() === petId.toString());
             if (petIndex !== -1) {
               setSelectedPetIndex(petIndex);
               setValue(petIndex);
             }
+          }
+
+          if (nextPets.length > 0) {
+            const eventsEntries = await Promise.all(
+              nextPets.map(async (pet) => {
+                const res = await fetch(
+                  `http://localhost:3004/lifeEvents?petId=${pet.id}&ownerId=${userId}&_sort=date&_order=desc`
+                );
+                const data = res.ok ? await res.json() : [];
+                return [String(pet.id), mapEvents(data)];
+              })
+            );
+            setEventsByPet(Object.fromEntries(eventsEntries));
+
+            const healthEntries = await Promise.all(
+              nextPets.map(async (pet) => {
+                const res = await fetch(
+                  `http://localhost:3004/medicalActs?petId=${pet.id}&ownerId=${userId}&_sort=actDate&_order=desc`
+                );
+                const data = res.ok ? await res.json() : [];
+                return [String(pet.id), mapHealth(data)];
+              })
+            );
+            setHealthByPet(Object.fromEntries(healthEntries));
+
+            const birthEntries = await Promise.all(
+              nextPets.map(async (pet) => {
+                if (pet.birthDate) {
+                  return [String(pet.id), pet.birthDate];
+                }
+                if (!pet.microchip) {
+                  return [String(pet.id), ""];
+                }
+                const res = await fetch(
+                  `http://localhost:3004/petRegistrations?microchip=${pet.microchip}&_sort=updatedAt&_order=desc`
+                );
+                const data = res.ok ? await res.json() : [];
+                return [String(pet.id), data?.[0]?.birthDate || ""];
+              })
+            );
+            setBirthByPet(Object.fromEntries(birthEntries));
           }
         } else {
           console.error('User not found. Available users:', usersData.map(u => ({id: u.id, type: typeof u.id})));
@@ -808,8 +862,9 @@ export default function PetHealthBook() {
                     currentPageHealth, 
                     setCurrentPageHealth,
                     printRef,
-                    eventsData,
-                    healthData
+                    eventsByPet[String(pet.id)] || [],
+                    healthByPet[String(pet.id)] || [],
+                    birthByPet[String(pet.id)] || pet.birthDate || ""
                   )}
                 </CustomTabPanel>
               ))}

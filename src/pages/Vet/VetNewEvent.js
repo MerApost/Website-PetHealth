@@ -287,7 +287,7 @@ export default function VetNewEvent() {
     });
   };
 
-  const removeLostPet = async () => {
+  const markLostPetFound = async () => {
     const microchip = String(findForm.petMicrochip || "").trim();
     let res = await fetch(
       `http://localhost:3004/lostPets?microchip=${microchip}`
@@ -303,7 +303,9 @@ export default function VetNewEvent() {
     await Promise.all(
       data.map((item) =>
         fetch(`http://localhost:3004/lostPets/${item.id}`, {
-          method: "DELETE",
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: "found", foundAt: new Date().toISOString() }),
         })
       )
     );
@@ -807,7 +809,7 @@ export default function VetNewEvent() {
       if (status === "final" && eventType === "Εύρεση") {
         try {
           await updatePetLostFlag(false, findForm.petMicrochip);
-          await removeLostPet();
+          await markLostPetFound();
         } catch (e) {
           console.error(e);
           alert("Η δήλωση αποθηκεύτηκε αλλά απέτυχε η ενημέρωση απωλειών.");

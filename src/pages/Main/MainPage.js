@@ -165,10 +165,13 @@ export default function MainPage(){
         }
         
         const lostData = await lostResponse.json();
+        const activeLost = Array.isArray(lostData)
+          ? lostData.filter((p) => p.status !== "found")
+          : [];
         const usersData = await usersResponse.json();
         
         // Ενίσχυσε τα δεδομένα
-        const enrichedData = enrichLostPetsData(lostData, usersData);
+        const enrichedData = enrichLostPetsData(activeLost, usersData);
         
         // Ταξινόμηση: τα πιο πρόσφατα πρώτα, max 3
         const recentPets = enrichedData
