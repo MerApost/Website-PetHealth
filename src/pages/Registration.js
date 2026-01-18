@@ -31,8 +31,6 @@ export default function Registration() {
     phone: "",
     afm: "",
 
-    petsCount: "",
-
     gender: "",
     experience: "",
     studiesLevel: "",
@@ -76,9 +74,7 @@ export default function Registration() {
       password: form.password
     };
 
-    if (role === "owner") {
-      newUser.petsCount = form.petsCount;
-    } else {
+    if (role !== "owner") {
       newUser.gender = form.gender;
       newUser.experience = form.experience;
       newUser.studiesLevel = form.studiesLevel;
@@ -165,14 +161,7 @@ export default function Registration() {
                   size="small"
                   fullWidth
                 />
-                <TextField
-                  label="Αριθμός Κατοικιδίων:"
-                  type="number"
-                  value={form.petsCount}
-                  onChange={setField("petsCount")}
-                  size="small"
-                  fullWidth
-                />
+                <TextField label="ΑΦΜ:" required value={form.afm} onChange={setField("afm")} size="small" fullWidth />
                 <TextField
                   label="Επαλήθευση Κωδικού:"
                   required
@@ -182,7 +171,7 @@ export default function Registration() {
                   size="small"
                   fullWidth
                 />
-                <TextField label="ΑΦΜ:" required value={form.afm} onChange={setField("afm")} size="small" fullWidth />
+                
               </>
             )}
 
