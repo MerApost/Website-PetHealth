@@ -380,7 +380,7 @@ export default function OwnerLogIn() {
               </Typography>
               <Button 
                 variant="contained" 
-                onClick={() => navigate(`/owner/${userId}/add-pet`)}
+                onClick={() => navigate(`./find_vet`)}
                 sx={{
                   backgroundColor: '#AD653A',
                   padding: '10px 24px',
