@@ -11,6 +11,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import BackButton from "../components/BackButton/BackButton";
 import "../components/BackButton/BackButton.css";
+import useScrollTop from "../components/useScrollTop";
 
 
 //δειχνει περιεχομενο αναλογα το tab που είναι ανοικτό
@@ -61,6 +62,7 @@ function ControlledAccordionList({ items, groupKey }) {
 }
 
 export default function Faq() {
+  useScrollTop();
   const [tab, setTab] = React.useState(0);
 
   const owners = [

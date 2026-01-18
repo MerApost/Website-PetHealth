@@ -291,6 +291,10 @@ export default function VetNewEvent() {
   }, [vetId]);
 
   React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeStep]);
+
+  React.useEffect(() => {
     if (!editId) return;
     const loadEvent = async () => {
       try {

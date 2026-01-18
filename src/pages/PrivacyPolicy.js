@@ -1,8 +1,10 @@
 import "./PrivacyPolicy.css";
 import BackButton from "../components/BackButton/BackButton";
 import "../components/BackButton/BackButton.css";
+import useScrollTop from "../components/useScrollTop";
 
 export default function PrivacyPolicy() {
+  useScrollTop();
   return (
     <div className="legal-page">
       <div className="legal-container">

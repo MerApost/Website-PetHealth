@@ -129,6 +129,10 @@ export default function FindVetArrangeMeeting() {
   }, [location.pathname]);
 
   React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeStep]);
+
+  React.useEffect(() => {
     const fetchVetData = async () => {
       if (!vetid) {
         setError('Δεν βρέθηκε ID κτηνίατρου στο URL');

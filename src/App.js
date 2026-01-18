@@ -48,8 +48,18 @@ import VetSchedule from "./pages/Vet/VetSchedule";
 import VetAppointmentsManage from "./pages/Vet/VetAppointmentsManage";
 import VetAppointmentDetails from "./pages/Vet/VetAppointmentDetails";
 
-import { useState } from "react";
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("loggedIn") === "true");
@@ -59,6 +69,7 @@ export default function App() {
       <Navigationbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} role={role} setRole={setRole}/>
       <Toolbar />
       <div style={{ flex: 1 }}>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Navigate to="/main_page" replace />} />
           <Route path="/main_page" element={<MainPage />} />
