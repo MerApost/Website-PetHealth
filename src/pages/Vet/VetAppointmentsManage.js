@@ -1,5 +1,6 @@
 import "./VetAppointmentsManage.css";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -22,6 +23,7 @@ const getStatusKey = (status) => {
 };
 
 export default function VetAppointmentsManage() {
+  const navigate = useNavigate();
   const vetId = (localStorage.getItem("userId") || "").trim();
   const [tab, setTab] = React.useState("pending");
   const [appointments, setAppointments] = React.useState([]);
@@ -173,7 +175,11 @@ export default function VetAppointmentsManage() {
                             Απόρριψη
                           </Button>
                         </div>
-                        <Button variant="outlined" className="vam-btn more">
+                        <Button
+                          variant="outlined"
+                          className="vam-btn more"
+                          onClick={() => navigate(`/vet/appointments/${a.id}`)}
+                        >
                           Περισσότερα
                         </Button>
                       </>
@@ -187,13 +193,21 @@ export default function VetAppointmentsManage() {
                         >
                           Απόρριψη
                         </Button>
-                        <Button variant="outlined" className="vam-btn more">
+                        <Button
+                          variant="outlined"
+                          className="vam-btn more"
+                          onClick={() => navigate(`/vet/appointments/${a.id}`)}
+                        >
                           Περισσότερα
                         </Button>
                       </>
                     )}
                     {tab === "rejected" && (
-                      <Button variant="outlined" className="vam-btn more">
+                      <Button
+                        variant="outlined"
+                        className="vam-btn more"
+                        onClick={() => navigate(`/vet/appointments/${a.id}`)}
+                      >
                         Περισσότερα
                       </Button>
                     )}
