@@ -36,20 +36,7 @@
       "afm": "123412345",
       "petsCount": 3,
       "password": "12345678Aa!",
-      "pets": [
-        {
-          "id": 1,
-          "name": "Μπιχλίτσα",
-          "microchip": "147258369",
-          "type": "Σκύλος",
-          "gender": "Θηλυκό",
-          "age": "6",
-          "breed": "Shih Tzu",
-          "color": "Λευκό",
-          "photo": "",
-          "isLost": false
-        }
-      ]
+      "pets": []
     },
     {
       "id": "3",

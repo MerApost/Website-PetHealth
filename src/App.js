@@ -47,6 +47,7 @@ import VetMedicalActPreview from "./pages/Vet/VetMedicalActPreview";
 import VetSchedule from "./pages/Vet/VetSchedule";
 import VetAppointmentsManage from "./pages/Vet/VetAppointmentsManage";
 import VetAppointmentDetails from "./pages/Vet/VetAppointmentDetails";
+import VetLogIn from "./pages/Vet/VetLogIn";
 
 import { useState } from "react";
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -98,6 +99,7 @@ export default function App() {
           <Route path="/vet/pet-preview/:id" element={<VetPetRegisterPreview />} />
           <Route path="/vet/pet-edit/:id" element={<VetPetRegisterEdit />} />
 
+          <Route path="/vet_main/:id" element={<VetLogIn />} />
           <Route path="/vet/health-book/:ownerId/:petId" element={<VetHealthBook />} />
           <Route path="/vet/health-book/:ownerId/:petId/new-act" element={<VetMedicalActCreate />} />
           <Route path="/vet/health-book/:ownerId/:petId/new-event" element={<VetNewEvent />} />

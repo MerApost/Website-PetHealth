@@ -52,7 +52,7 @@ export default function Login({ setIsLoggedIn, setRole }) {
     }
 
     if (user.role === "owner") navigate(`/owner_main/${user.id}`);
-    else navigate("/vet");
+    else navigate(`/vet_main/${user.id}`);
 
   };
 
