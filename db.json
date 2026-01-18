@@ -22,6 +22,17 @@
           "color": "Λευκό",
           "photo": "https://images.unsplash.com/photo-1629740067905-bd3f515aa739?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
           "isLost": false
+        },
+        {
+          "id": 2,
+          "microchip": "333333333",
+          "name": "Μπιλι",
+          "type": "Σκύλος",
+          "breed": "Boxer",
+          "gender": "Αρσενικό",
+          "birthDate": "",
+          "age": 4,
+          "photo": "https://images.unsplash.com/photo-1637852423152-342403950d2f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         }
       ],
       "photo": "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -36,7 +47,19 @@
       "afm": "123412345",
       "petsCount": 3,
       "password": "12345678Aa!",
-      "pets": []
+      "pets": [
+        {
+          "id": 1,
+          "microchip": "333",
+          "name": "aka",
+          "type": "Χελώνα",
+          "breed": "Καμία επιλογή",
+          "gender": "Αρσενικό",
+          "birthDate": "",
+          "age": 4,
+          "photo": ""
+        }
+      ]
     },
     {
       "id": "3",
@@ -306,7 +329,44 @@
     }
   ],
   "foundReports": [],
-  "petRegistrations": [],
+  "petRegistrations": [
+    {
+      "id": "0f77",
+      "microchip": "333333333",
+      "name": "Μπιλι",
+      "species": "Σκύλος",
+      "breed": "Boxer",
+      "gender": "Αρσενικό",
+      "birthDate": "",
+      "age": "4",
+      "ownerAfm": "123456789",
+      "photo": "https://images.unsplash.com/photo-1637852423152-342403950d2f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "vetId": "3",
+      "status": "final",
+      "ownerId": "1",
+      "petId": 2,
+      "createdAt": "2026-01-18T14:17:04.629Z",
+      "updatedAt": "2026-01-18T14:17:04.629Z"
+    },
+    {
+      "id": "7693",
+      "microchip": "333",
+      "name": "aka",
+      "species": "Χελώνα",
+      "breed": "Καμία επιλογή",
+      "gender": "Αρσενικό",
+      "birthDate": "",
+      "age": "4",
+      "ownerAfm": "123412345",
+      "photo": "",
+      "vetId": "3",
+      "status": "final",
+      "ownerId": "2",
+      "petId": 1,
+      "createdAt": "2026-01-18T14:36:18.200Z",
+      "updatedAt": "2026-01-18T14:36:18.200Z"
+    }
+  ],
   "vetSchedules": [
     {
       "id": "d183",

@@ -11,11 +11,15 @@ import {
   Button,
   Box,
   CssBaseline,
+  MenuItem,
 } from "@mui/material";
 
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import BackButton from "../../components/BackButton/BackButton";
 import VetDashboard from "./VetDashboard";
+import Pet_Types from "../Lost_Pets/Data/Pet_Types";
+import { Pet_Breeds } from "../Lost_Pets/Data/Pet_Breeds";
+import { GenderOptions } from "../Lost_Pets/Data/GenderOptions";
 
 const initial = {
   microchip: "",
@@ -24,6 +28,8 @@ const initial = {
   breed: "",
   gender: "",
   birthDate: "",
+  age: "",
+  ownerAfm: "",
   photo: "",
 };
 
@@ -31,6 +37,8 @@ export default function VetPetRegister() {
   const navigate = useNavigate();
   const [form, setForm] = React.useState(initial);
   const [saving, setSaving] = React.useState(false);
+  const [errors, setErrors] = React.useState({ ownerAfm: "", microchip: "" });
+  const [message, setMessage] = React.useState("");
 
   const rawVetId = localStorage.getItem("userId");
   const vetId = (rawVetId || "").trim();
@@ -39,7 +47,14 @@ export default function VetPetRegister() {
     if (!vetId) navigate("/login");
   }, [vetId, navigate]);
 
-  const change = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
+  const change = (k) => (e) => {
+    const value = e.target.value;
+    setForm((p) => ({ ...p, [k]: value }));
+    if (k === "ownerAfm" || k === "microchip") {
+      setErrors((prev) => ({ ...prev, [k]: "" }));
+      setMessage("");
+    }
+  };
 
   const maxBirthDate = React.useMemo(() => {
     const d = new Date();
@@ -60,7 +75,8 @@ export default function VetPetRegister() {
       form.species.trim() &&
       form.breed.trim() &&
       form.gender.trim() &&
-      form.birthDate.trim()
+      String(form.age).trim() &&
+      form.ownerAfm.trim()
     );
   };
 
@@ -83,11 +99,73 @@ export default function VetPetRegister() {
 
     try {
       setSaving(true);
+      setMessage("");
+
+      let ownerId = "";
+      let petId = "";
+
+      if (status === "final") {
+        const usersRes = await fetch("http://localhost:3004/users");
+        const users = usersRes.ok ? await usersRes.json() : [];
+        const owner = Array.isArray(users)
+          ? users.find((u) => String(u.afm || "").trim() === form.ownerAfm.trim() && u.role === "owner")
+          : null;
+
+        if (!owner) {
+          setErrors((prev) => ({ ...prev, ownerAfm: "Δεν βρέθηκε ιδιοκτήτης με αυτό το ΑΦΜ." }));
+          setMessage("Δεν βρέθηκε ιδιοκτήτης με αυτό το ΑΦΜ.");
+          return;
+        }
+
+        const microchipTaken = Array.isArray(users)
+          ? users.some((u) =>
+              Array.isArray(u.pets) &&
+              u.pets.some((p) => String(p.microchip || "").trim() === form.microchip.trim())
+            )
+          : false;
+
+        if (microchipTaken) {
+          setErrors((prev) => ({ ...prev, microchip: "Υπάρχει ήδη κατοικίδιο με αυτό το microchip." }));
+          setMessage("Υπάρχει ήδη κατοικίδιο με αυτό το microchip.");
+          return;
+        }
+
+        const nextId =
+          Array.isArray(owner.pets) && owner.pets.length > 0
+            ? Math.max(...owner.pets.map((p) => Number(p.id) || 0)) + 1
+            : 1;
+
+        const newPet = {
+          id: nextId,
+          microchip: form.microchip.trim(),
+          name: form.name.trim(),
+          type: form.species.trim(),
+          breed: form.breed.trim(),
+          gender: form.gender.trim(),
+          birthDate: form.birthDate.trim(),
+          age: form.age ? Number(form.age) : "",
+          photo: form.photo.trim(),
+        };
+
+        const patchRes = await fetch(`http://localhost:3004/users/${owner.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            pets: Array.isArray(owner.pets) ? [...owner.pets, newPet] : [newPet],
+          }),
+        });
+        if (!patchRes.ok) throw new Error("PATCH failed");
+
+        ownerId = owner.id;
+        petId = newPet.id;
+      }
 
       const payload = {
         ...form,
         vetId,
         status,
+        ownerId,
+        petId,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
@@ -122,7 +200,7 @@ export default function VetPetRegister() {
         <Divider className="vetpet-divider" />
 
         <Grid container spacing={2} className="vetpet-grid">
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3}>
             <div className="vetpet-photo">
               <div className="vetpet-photo-box">
                 {form.photo && isLikelyUrl(form.photo) ? (
@@ -145,7 +223,7 @@ export default function VetPetRegister() {
             </div>
           </Grid>
 
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={9}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 <TextField
@@ -154,6 +232,8 @@ export default function VetPetRegister() {
                   fullWidth
                   value={form.microchip}
                   onChange={change("microchip")}
+                  error={Boolean(errors.microchip)}
+                  helperText={errors.microchip || ""}
                 />
               </Grid>
 
@@ -169,40 +249,8 @@ export default function VetPetRegister() {
 
               <Grid item xs={12} md={6}>
                 <TextField
-                  label="Είδος *"
-                  size="small"
-                  fullWidth
-                  value={form.species}
-                  onChange={change("species")}
-                  placeholder="Σκύλος/Γάτα..."
-                />
-              </Grid>
-
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Ράτσα *"
-                  size="small"
-                  fullWidth
-                  value={form.breed}
-                  onChange={change("breed")}
-                />
-              </Grid>
-
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Φύλο *"
-                  size="small"
-                  fullWidth
-                  value={form.gender}
-                  onChange={change("gender")}
-                  placeholder="Αρσενικό/Θηλυκό"
-                />
-              </Grid>
-
-              <Grid item xs={12} md={6}>
-                <TextField
                   type="date"
-                  label="Ημ/νία Γέννησης *"
+                  label="Ημ/νία Γέννησης"
                   size="small"
                   fullWidth
                   value={form.birthDate}
@@ -211,9 +259,91 @@ export default function VetPetRegister() {
                   inputProps={{ max: maxBirthDate }}
                 />
               </Grid>
+
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="Ηλικία (έτη) *"
+                  size="small"
+                  fullWidth
+                  type="number"
+                  value={form.age}
+                  onChange={change("age")}
+                  inputProps={{ min: 0, step: 1 }}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="ΑΦΜ Ιδιοκτήτη *"
+                  size="small"
+                  fullWidth
+                  value={form.ownerAfm}
+                  onChange={change("ownerAfm")}
+                  error={Boolean(errors.ownerAfm)}
+                  helperText={errors.ownerAfm || ""}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
+
+        <Grid container spacing={2} className="vetpet-grid">
+          <Grid item xs={12}>
+            <TextField
+              select
+              label="Είδος *"
+              size="small"
+              fullWidth
+              value={form.species}
+              onChange={change("species")}
+              className="vetpet-select"
+            >
+              {Pet_Types.map((type) => (
+                <MenuItem key={type.label} value={type.label}>
+                  {type.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              select
+              label="Ράτσα *"
+              size="small"
+              fullWidth
+              value={form.breed}
+              onChange={change("breed")}
+              className="vetpet-select"
+            >
+              {Pet_Breeds.map((breed) => (
+                <MenuItem key={breed.value || breed.label} value={breed.value || breed.label}>
+                  {breed.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              select
+              label="Φύλο *"
+              size="small"
+              fullWidth
+              value={form.gender}
+              onChange={change("gender")}
+              className="vetpet-select"
+            >
+              {GenderOptions.map((opt) => (
+                <MenuItem key={opt.value || opt.label} value={opt.value}>
+                  {opt.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+        </Grid>
+
+        {message && <div className="vetpet-message">{message}</div>}
 
         <Box className="vetpet-actions">
           <Button
