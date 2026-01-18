@@ -399,6 +399,44 @@
       "status": "final",
       "createdAt": "2026-01-18T07:58:49.888Z",
       "updatedAt": "2026-01-18T07:58:49.888Z"
+    },
+    {
+      "id": "7419",
+      "ownerId": "1",
+      "vetId": "3",
+      "petId": "1",
+      "date": "2026-01-28",
+      "time": "12:00",
+      "service": "Εμβολιασμός",
+      "notes": "",
+      "ownerInfo": {
+        "name": "Ελένη",
+        "surname": "Αποστολάκη",
+        "phone": "6912345678",
+        "email": "eleni@gmail.com"
+      },
+      "status": "final",
+      "createdAt": "2026-01-18T09:09:40.559Z",
+      "updatedAt": "2026-01-18T09:09:40.559Z"
+    },
+    {
+      "id": "4685",
+      "ownerId": "1",
+      "vetId": "3",
+      "petId": "1",
+      "date": "2026-03-13",
+      "time": "11:30",
+      "service": "Γενική Εξέταση",
+      "notes": "",
+      "ownerInfo": {
+        "name": "Ελένη",
+        "surname": "Αποστολάκη",
+        "phone": "6912345678",
+        "email": "eleni@gmail.com"
+      },
+      "status": "rejected",
+      "createdAt": "2026-01-18T09:10:22.234Z",
+      "updatedAt": "2026-01-18T09:10:35.139Z"
     }
   ],
   "medicalActs": [
