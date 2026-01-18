@@ -71,17 +71,6 @@ export default function VetProfileEdit() {
 
   const change = (key) => (e) => setForm((p) => ({ ...p, [key]: e.target.value }));
 
-  const onVetPhotoChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64 = String(reader.result || "");
-      setForm((p) => ({ ...p, photo: base64 }));
-    };
-    reader.readAsDataURL(file);
-  };
 
   const changeService = (key) => (e) => setNewService((p) => ({ ...p, [key]: e.target.value }));
 
@@ -190,7 +179,14 @@ export default function VetProfileEdit() {
             </div>
 
             <div className="file-input-wrap">
-              <input type="file" accept="image/*" onChange={onVetPhotoChange} />
+              <TextField
+                label="Φωτογραφία (URL)"
+                size="small"
+                fullWidth
+                value={form.photo}
+                onChange={change("photo")}
+                placeholder="https://images.unsplash.com/..."
+              />
             </div>
           </Grid>
         </Grid>

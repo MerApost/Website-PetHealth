@@ -46,17 +46,6 @@ export default function FoundReport() {
   const next = () => setStep((s) => Math.min(s + 1, 3));
   const prev = () => setStep((s) => Math.max(s - 1, 0));
 
-  const onPhotoChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64 = String(reader.result || "");
-      setForm((p) => ({ ...p, photo: base64 }));
-    };
-    reader.readAsDataURL(file);
-  };
 
   const validateStep = () => {
     if (step === 0) return form.species && form.gender;
@@ -182,7 +171,14 @@ export default function FoundReport() {
                     </div>
 
                     <div className="photo-upload-input">
-                      <input type="file" accept="image/*" onChange={onPhotoChange} />
+                      <TextField
+                        label="Φωτογραφία (URL)"
+                        size="small"
+                        fullWidth
+                        value={form.photo}
+                        onChange={change("photo")}
+                        placeholder="https://images.unsplash.com/..."
+                      />
                     </div>
                   </div>
                 </Grid>

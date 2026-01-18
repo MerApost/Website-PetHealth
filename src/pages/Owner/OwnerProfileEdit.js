@@ -57,28 +57,10 @@ export default function OwnerProfileEdit() {
     const onDeletePet = (id) => setPets((prev) => prev.filter((p) => p.id !== id));
 
     const onPetPhotoChange = (petId) => (e) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = () => {
-        const base64 = String(reader.result || "");
+        const value = e.target.value;
         setPets((prev) =>
-            prev.map((p) => (p.id === petId ? { ...p, photo: base64 } : p))
+            prev.map((p) => (p.id === petId ? { ...p, photo: value } : p))
         );
-        };
-        reader.readAsDataURL(file);
-    };
-
-    const onOwnerPhotoChange = (e) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = () => {
-            const base64 = String(reader.result || "");
-            setForm((prev) => ({ ...prev, photo: base64 }));
-            };
-        reader.readAsDataURL(file);
     };
 
     const onSave = async (e) => {
@@ -163,7 +145,14 @@ export default function OwnerProfileEdit() {
         </div>
 
         <div style={{ marginTop: 10 }}>
-            <input type="file" accept="image/*" onChange={onOwnerPhotoChange} />
+            <TextField
+              label="Φωτογραφία (URL)"
+              size="small"
+              fullWidth
+              value={form.photo}
+              onChange={change("photo")}
+              placeholder="https://images.unsplash.com/..."
+            />
         </div>
         </Grid>
         </Grid>
@@ -186,10 +175,13 @@ export default function OwnerProfileEdit() {
                 </IconButton>
 
                 <div style={{ marginBottom: 10 }}>
-                  <input
-                    type="file"
-                    accept="image/*"
+                  <TextField
+                    label="Φωτογραφία (URL)"
+                    size="small"
+                    fullWidth
+                    value={p.photo || ""}
                     onChange={onPetPhotoChange(p.id)}
+                    placeholder="https://images.unsplash.com/..."
                   />
                 </div>
 
