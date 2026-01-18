@@ -396,9 +396,10 @@
         "phone": "6912345678",
         "email": "eleni@gmail.com"
       },
-      "status": "final",
+      "status": "confirmed",
       "createdAt": "2026-01-18T07:58:49.888Z",
-      "updatedAt": "2026-01-18T07:58:49.888Z"
+      "updatedAt": "2026-01-18T09:41:08.293Z",
+      "urgent": "Όχι"
     },
     {
       "id": "7419",
@@ -415,9 +416,10 @@
         "phone": "6912345678",
         "email": "eleni@gmail.com"
       },
-      "status": "final",
+      "status": "confirmed",
       "createdAt": "2026-01-18T09:09:40.559Z",
-      "updatedAt": "2026-01-18T09:09:40.559Z"
+      "updatedAt": "2026-01-18T10:29:41.003Z",
+      "urgent": "Όχι"
     },
     {
       "id": "4685",
@@ -436,7 +438,8 @@
       },
       "status": "rejected",
       "createdAt": "2026-01-18T09:10:22.234Z",
-      "updatedAt": "2026-01-18T09:10:35.139Z"
+      "updatedAt": "2026-01-18T09:10:35.139Z",
+      "urgent": "Όχι"
     }
   ],
   "medicalActs": [

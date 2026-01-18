@@ -25,6 +25,7 @@ import OwnerLogIn from "./pages/Owner/OwnerLogIn";
 import FindVet from "./pages/Owner/FindVet";
 import Appointments from "./pages/Owner/Appointments";
 import OwnerAppointmentsReview from "./pages/Owner/OwnerAppointmentsReview";
+import OwnerAppointmentDetails from "./pages/Owner/OwnerAppointmentDetails";
 import LostReport from "./pages/Owner/LostReport";
 import OwnerFoundReport from "./pages/Owner/FoundReport";
 import HistoryReport from "./pages/Owner/HistoryReport";
@@ -44,6 +45,8 @@ import VetNewEvent from "./pages/Vet/VetNewEvent";
 import VetEventPreview from "./pages/Vet/VetEventPreview";
 import VetMedicalActPreview from "./pages/Vet/VetMedicalActPreview";
 import VetSchedule from "./pages/Vet/VetSchedule";
+import VetAppointmentsManage from "./pages/Vet/VetAppointmentsManage";
+import VetAppointmentDetails from "./pages/Vet/VetAppointmentDetails";
 
 import { useState } from "react";
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -80,6 +83,7 @@ export default function App() {
           <Route path="/owner_main/:id" element={<OwnerLogIn />} />
           <Route path="/owner_main/:id/find_vet" element={<FindVet />} />
           <Route path="/owner_main/:id/appointments" element={<Appointments />} />
+          <Route path="/owner_main/:id/appointments/:appointmentId" element={<OwnerAppointmentDetails />} />
           <Route path="/owner_main/:id/appointments/review/:appointmentId" element={<OwnerAppointmentsReview />} />
           <Route path="/owner_main/:id/lost_report" element={<LostReport />} />
           <Route path="/owner_main/:id/found_report" element={<OwnerFoundReport />} />
@@ -101,6 +105,8 @@ export default function App() {
           <Route path="/vet/health-book/act-preview/:actId" element={<VetMedicalActPreview />} />
           <Route path="/vet/microchip" element={<VetMicrochip />} />
           <Route path="/vet/schedule" element={<VetSchedule />} />
+          <Route path="/vet/arrange_appointment" element={<VetAppointmentsManage />} />
+          <Route path="/vet/appointments/:appointmentId" element={<VetAppointmentDetails />} />
 
         </Routes>
       </div>
