@@ -8,7 +8,7 @@ import Athens_areas from './Athens_areas';
 import VetSpecialties from './VetSpecialties';
 
 import { useLayoutEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   TextField,
@@ -30,6 +30,8 @@ import { el } from 'date-fns/locale';
 export default function OwnerMainPage(){
   const location = useLocation();
   const hasScrolled = useRef(false);
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("userId") || "";
   
   // ΧΡΗΣΗ useLayoutEffect - τρέχει ΠΡΙΝ από το render
   useLayoutEffect(() => {
@@ -146,7 +148,16 @@ export default function OwnerMainPage(){
           />
         </Box>
 
-        <Button className='search-button'>
+        <Button
+          className='search-button'
+          onClick={() => {
+            if (userId) {
+              navigate(`/owner_main/${userId}/find_vet`);
+            } else {
+              navigate("/login");
+            }
+          }}
+        >
           <SearchIcon className="search_icon" />
           Αναζήτηση
         </Button>

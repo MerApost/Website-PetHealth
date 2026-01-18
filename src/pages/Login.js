@@ -43,8 +43,16 @@ export default function Login({ setIsLoggedIn, setRole }) {
     setIsLoggedIn(true);
     setRole(user.role);
 
+    //για ραντεβου, να συνεχισει απο κει που ειχε μεινει στο βημα 3 μετα τη συνδεση/εγγραφη
+    const redirect = sessionStorage.getItem("postAuthRedirect");
+    if (redirect) {
+      sessionStorage.removeItem("postAuthRedirect");
+      navigate(redirect);
+      return;
+    }
+
     if (user.role === "owner") navigate(`/owner_main/${user.id}`);
-      else navigate("/vet");
+    else navigate("/vet");
 
   };
 

@@ -50,6 +50,7 @@ export default function FindVet(){
     const hasScrolled = useRef(false);
     const { id: userId } = useParams();
     const navigate = useNavigate();
+    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
 
     // State variables για την μπάρα αναζήτησης
     const [locationInput, setLocationInput] = useState('');
@@ -406,6 +407,7 @@ export default function FindVet(){
             <CssBaseline />
             
             {/* Sidebar Menu */}
+            {isLoggedIn && (
             <Drawer
                 sx={{
                     width: drawerWidth,
@@ -478,6 +480,7 @@ export default function FindVet(){
                 </ListItem>
             </List>
             </Drawer>
+            )}
             
             {/* Κύριο περιεχόμενο */}
             <Box

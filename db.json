@@ -336,19 +336,69 @@
         "monday": [
           {
             "id": 1768588361412,
-            "start": "21:00",
-            "end": "12:00"
+            "start": "08:00",
+            "end": "13:00"
+          },
+          {
+            "id": 1768721698146,
+            "start": "16:00",
+            "end": "20:00"
           }
         ],
-        "tuesday": [],
-        "wednesday": [],
-        "thursday": [],
-        "friday": [],
+        "tuesday": [
+          {
+            "id": 1768721553872,
+            "start": "08:00",
+            "end": "13:00"
+          }
+        ],
+        "wednesday": [
+          {
+            "id": 1768721596962,
+            "start": "08:00",
+            "end": "13:00"
+          }
+        ],
+        "thursday": [
+          {
+            "id": 1768721629245,
+            "start": "08:00",
+            "end": "13:00"
+          }
+        ],
+        "friday": [
+          {
+            "id": 1768721662259,
+            "start": "10:00",
+            "end": "13:00"
+          }
+        ],
         "saturday": [],
         "sunday": []
       },
-      "updatedAt": "2026-01-16T20:02:24.919Z",
+      "updatedAt": "2026-01-18T07:35:45.321Z",
       "createdAt": "2026-01-16T18:32:54.490Z"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "ec23",
+      "ownerId": "1",
+      "vetId": "3",
+      "petId": "1",
+      "date": "2026-03-10",
+      "time": "09:00",
+      "service": "Γενική Εξέταση",
+      "notes": "",
+      "ownerInfo": {
+        "name": "Ελένη",
+        "surname": "Αποστολάκη",
+        "phone": "6912345678",
+        "email": "eleni@gmail.com"
+      },
+      "status": "final",
+      "createdAt": "2026-01-18T07:58:49.888Z",
+      "updatedAt": "2026-01-18T07:58:49.888Z"
     }
   ],
   "medicalActs": [
