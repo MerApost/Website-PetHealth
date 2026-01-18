@@ -41,6 +41,7 @@ export default function VetMedicalActCreate() {
   const [form, setForm] = React.useState(initial);
   const [saving, setSaving] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [errors, setErrors] = React.useState({});
 
   const vetId = (localStorage.getItem("userId") || "").trim();
   const editId = searchParams.get("editId");
@@ -91,7 +92,13 @@ export default function VetMedicalActCreate() {
     return `${yyyy}-${mm}-${dd}`;
   }, []);
 
-  const change = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
+  const change = (k) => (e) => {
+    const value = e.target.value;
+    setForm((p) => ({ ...p, [k]: value }));
+    if (errors[k]) {
+      setErrors((prev) => ({ ...prev, [k]: "" }));
+    }
+  };
 
   const hasAtLeastOne = () =>
     Object.values(form).some((v) => String(v || "").trim() !== "");
@@ -106,6 +113,10 @@ export default function VetMedicalActCreate() {
       return;
     }
     if (status === "final" && !requiredOk()) {
+      const nextErrors = {};
+      if (!form.actType.trim()) nextErrors.actType = "Υποχρεωτικό πεδίο.";
+      if (!form.actDate.trim()) nextErrors.actDate = "Υποχρεωτικό πεδίο.";
+      setErrors(nextErrors);
       alert("Για οριστική υποβολή πρέπει να συμπληρωθούν τα υποχρεωτικά πεδία (*).");
       return;
     }
@@ -224,6 +235,8 @@ export default function VetMedicalActCreate() {
               onChange={change("actType")}
               className="ma-input"
               disabled={loading}
+              error={Boolean(errors.actType)}
+              helperText={errors.actType || ""}
             >
               <MenuItem value=""></MenuItem>
               <MenuItem value="Εμβολιασμός">Εμβολιασμός</MenuItem>
@@ -294,6 +307,8 @@ export default function VetMedicalActCreate() {
               InputLabelProps={{ shrink: true }}
               inputProps={{ max: maxBirthDate }}
               disabled={loading}
+              error={Boolean(errors.actDate)}
+              helperText={errors.actDate || ""}
             />
 
             <Box className="ma-textareaWrap">

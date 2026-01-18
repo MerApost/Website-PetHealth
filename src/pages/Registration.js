@@ -45,8 +45,26 @@ export default function Registration() {
   });
 
   const [acceptTerms, setAcceptTerms] = React.useState(false);
+  const [errors, setErrors] = React.useState({});
 
-  const setField = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
+  const sanitizeDigits = (value, maxLen) =>
+    String(value || "")
+      .replace(/\D/g, "")
+      .slice(0, maxLen);
+
+  const setField = (k) => (e) => {
+    const raw = e.target.value;
+    const value =
+      k === "phone"
+        ? sanitizeDigits(raw, 10)
+        : k === "afm"
+        ? sanitizeDigits(raw, 20)
+        : raw;
+    setForm((p) => ({ ...p, [k]: value }));
+    if (errors[k]) {
+      setErrors((prev) => ({ ...prev, [k]: "" }));
+    }
+  };
 
   const password = form.password;
 
@@ -63,6 +81,42 @@ export default function Registration() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    const requiredKeys = [
+      "name",
+      "surname",
+      "email",
+      "phone",
+      "afm",
+      "password",
+      "confirmPassword",
+    ];
+    if (isVet) {
+      requiredKeys.push("licenseNumber");
+    }
+
+    const nextErrors = {};
+    requiredKeys.forEach((k) => {
+      if (String(form[k] || "").trim() === "") {
+        nextErrors[k] = "Υποχρεωτικό πεδίο.";
+      }
+    });
+
+    const email = String(form.email || "").trim();
+    if (email && !email.includes("@")) {
+      nextErrors.email = "Βάλε σωστό e-mail (με @).";
+    }
+
+    const phone = String(form.phone || "").trim();
+    if (phone && phone.length > 10) {
+      nextErrors.phone = "Έως 10 ψηφία.";
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
+      return;
+    }
 
     const newUser = {
       role: role,
@@ -142,11 +196,49 @@ export default function Registration() {
 
         <form onSubmit={onSubmit} className="reg-form">
           <div className="reg-grid">
-            <TextField label="Όνομα:" required value={form.name} onChange={setField("name")} size="small" fullWidth />
-            <TextField label="Επίθετο:" required value={form.surname} onChange={setField("surname")} size="small" fullWidth />
+            <TextField
+              label="Όνομα:"
+              required
+              value={form.name}
+              onChange={setField("name")}
+              size="small"
+              fullWidth
+              error={Boolean(errors.name)}
+              helperText={errors.name || ""}
+            />
+            <TextField
+              label="Επίθετο:"
+              required
+              value={form.surname}
+              onChange={setField("surname")}
+              size="small"
+              fullWidth
+              error={Boolean(errors.surname)}
+              helperText={errors.surname || ""}
+            />
 
-            <TextField label="E-mail:" type="email" required value={form.email} onChange={setField("email")} size="small" fullWidth />
-            <TextField label="Τηλέφωνο:" required value={form.phone} onChange={setField("phone")} size="small" fullWidth />
+            <TextField
+              label="E-mail:"
+              type="email"
+              required
+              value={form.email}
+              onChange={setField("email")}
+              size="small"
+              fullWidth
+              error={Boolean(errors.email)}
+              helperText={errors.email || ""}
+            />
+            <TextField
+              label="Τηλέφωνο:"
+              required
+              value={form.phone}
+              onChange={setField("phone")}
+              size="small"
+              fullWidth
+              error={Boolean(errors.phone)}
+              helperText={errors.phone || ""}
+              inputProps={{ inputMode: "numeric", maxLength: 10 }}
+            />
 
             {/* ιδιοκτιτης */}
 
@@ -160,8 +252,20 @@ export default function Registration() {
                   onChange={setField("password")}
                   size="small"
                   fullWidth
+                  error={Boolean(errors.password)}
+                  helperText={errors.password || ""}
                 />
-                <TextField label="ΑΦΜ:" required value={form.afm} onChange={setField("afm")} size="small" fullWidth />
+                <TextField
+                  label="ΑΦΜ:"
+                  required
+                  value={form.afm}
+                  onChange={setField("afm")}
+                  size="small"
+                  fullWidth
+                  error={Boolean(errors.afm)}
+                  helperText={errors.afm || ""}
+                  inputProps={{ inputMode: "numeric" }}
+                />
                 <TextField
                   label="Επαλήθευση Κωδικού:"
                   required
@@ -170,6 +274,8 @@ export default function Registration() {
                   onChange={setField("confirmPassword")}
                   size="small"
                   fullWidth
+                  error={Boolean(errors.confirmPassword)}
+                  helperText={errors.confirmPassword || ""}
                 />
                 
               </>
@@ -178,7 +284,17 @@ export default function Registration() {
             {/* κτηνιατροσ */}
             {isVet && (
               <>
-                <TextField label="ΑΦΜ:" required value={form.afm} onChange={setField("afm")} size="small" fullWidth />
+                <TextField
+                  label="ΑΦΜ:"
+                  required
+                  value={form.afm}
+                  onChange={setField("afm")}
+                  size="small"
+                  fullWidth
+                  error={Boolean(errors.afm)}
+                  helperText={errors.afm || ""}
+                  inputProps={{ inputMode: "numeric" }}
+                />
                 <TextField label="Φύλο:" value={form.gender} onChange={setField("gender")} size="small" fullWidth />
 
                 <TextField label="Έτη εμπειρίας:" type="number" value={form.experience} onChange={setField("experience")} size="small" fullWidth />
@@ -207,6 +323,8 @@ export default function Registration() {
                   onChange={setField("licenseNumber")}
                   size="small"
                   fullWidth
+                  error={Boolean(errors.licenseNumber)}
+                  helperText={errors.licenseNumber || ""}
                 />
                 <TextField
                   label="Επάγγελμα:"
@@ -224,6 +342,8 @@ export default function Registration() {
                   onChange={setField("password")}
                   size="small"
                   fullWidth
+                  error={Boolean(errors.password)}
+                  helperText={errors.password || ""}
                 />
                 <Box />
 
@@ -235,6 +355,8 @@ export default function Registration() {
                   onChange={setField("confirmPassword")}
                   size="small"
                   fullWidth
+                  error={Boolean(errors.confirmPassword)}
+                  helperText={errors.confirmPassword || ""}
                 />
                 <Box />
               </>

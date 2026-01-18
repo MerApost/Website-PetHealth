@@ -37,7 +37,7 @@ export default function VetPetRegister() {
   const navigate = useNavigate();
   const [form, setForm] = React.useState(initial);
   const [saving, setSaving] = React.useState(false);
-  const [errors, setErrors] = React.useState({ ownerAfm: "", microchip: "" });
+  const [errors, setErrors] = React.useState({});
   const [message, setMessage] = React.useState("");
 
   const rawVetId = localStorage.getItem("userId");
@@ -47,13 +47,20 @@ export default function VetPetRegister() {
     if (!vetId) navigate("/login");
   }, [vetId, navigate]);
 
+  const sanitizeDigits = (value, maxLen) =>
+    String(value || "")
+      .replace(/\D/g, "")
+      .slice(0, maxLen);
+
   const change = (k) => (e) => {
-    const value = e.target.value;
+    const raw = e.target.value;
+    const value =
+      k === "ownerAfm" ? sanitizeDigits(raw, 20) : raw;
     setForm((p) => ({ ...p, [k]: value }));
-    if (k === "ownerAfm" || k === "microchip") {
+    if (errors[k]) {
       setErrors((prev) => ({ ...prev, [k]: "" }));
-      setMessage("");
     }
+    setMessage("");
   };
 
   const maxBirthDate = React.useMemo(() => {
@@ -93,7 +100,23 @@ export default function VetPetRegister() {
       return;
     }
     if (status === "final" && !requiredOk()) {
-      alert("Για οριστική υποβολή πρέπει να συμπληρωθούν όλα τα υποχρεωτικά πεδία (*).");
+      const requiredKeys = [
+        "microchip",
+        "name",
+        "species",
+        "breed",
+        "gender",
+        "age",
+        "ownerAfm",
+      ];
+      const nextErrors = {};
+      requiredKeys.forEach((k) => {
+        if (String(form[k] || "").trim() === "") {
+          nextErrors[k] = "Υποχρεωτικό πεδίο.";
+        }
+      });
+      setErrors(nextErrors);
+      setMessage("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
       return;
     }
 
@@ -244,6 +267,8 @@ export default function VetPetRegister() {
                   fullWidth
                   value={form.name}
                   onChange={change("name")}
+                  error={Boolean(errors.name)}
+                  helperText={errors.name || ""}
                 />
               </Grid>
 
@@ -269,6 +294,8 @@ export default function VetPetRegister() {
                   value={form.age}
                   onChange={change("age")}
                   inputProps={{ min: 0, step: 1 }}
+                  error={Boolean(errors.age)}
+                  helperText={errors.age || ""}
                 />
               </Grid>
 
@@ -281,6 +308,7 @@ export default function VetPetRegister() {
                   onChange={change("ownerAfm")}
                   error={Boolean(errors.ownerAfm)}
                   helperText={errors.ownerAfm || ""}
+                  inputProps={{ inputMode: "numeric" }}
                 />
               </Grid>
             </Grid>
@@ -297,6 +325,8 @@ export default function VetPetRegister() {
               value={form.species}
               onChange={change("species")}
               className="vetpet-select"
+              error={Boolean(errors.species)}
+              helperText={errors.species || ""}
             >
               {Pet_Types.map((type) => (
                 <MenuItem key={type.label} value={type.label}>
@@ -315,6 +345,8 @@ export default function VetPetRegister() {
               value={form.breed}
               onChange={change("breed")}
               className="vetpet-select"
+              error={Boolean(errors.breed)}
+              helperText={errors.breed || ""}
             >
               {Pet_Breeds.map((breed) => (
                 <MenuItem key={breed.value || breed.label} value={breed.value || breed.label}>
@@ -333,6 +365,8 @@ export default function VetPetRegister() {
               value={form.gender}
               onChange={change("gender")}
               className="vetpet-select"
+              error={Boolean(errors.gender)}
+              helperText={errors.gender || ""}
             >
               {GenderOptions.map((opt) => (
                 <MenuItem key={opt.value || opt.label} value={opt.value}>

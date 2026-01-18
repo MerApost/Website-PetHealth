@@ -16,6 +16,7 @@ export default function FindRequestForm({
   onChange,
   petWordCount,
   notesWordCount,
+  errors = {},
 }) {
   return (
     <Paper elevation={0} className="lr-card">
@@ -30,6 +31,8 @@ export default function FindRequestForm({
             label="Είδος: *"
             value={form.petType}
             onChange={(e) => onChange("petType", e.target.value)}
+            error={Boolean(errors.petType)}
+            helperText={errors.petType || ""}
           >
             {Pet_Types.map((p) => (
               <MenuItem key={p.label} value={p.label}>
@@ -43,6 +46,8 @@ export default function FindRequestForm({
             label="Ράτσα: *"
             value={form.petBreed}
             onChange={(e) => onChange("petBreed", e.target.value)}
+            error={Boolean(errors.petBreed)}
+            helperText={errors.petBreed || ""}
           >
             {Pet_Breeds.map((b) => (
               <MenuItem key={b.value || b.label} value={b.value}>
@@ -55,6 +60,8 @@ export default function FindRequestForm({
             label="Χρώμα: *"
             value={form.petColor}
             onChange={(e) => onChange("petColor", e.target.value)}
+            error={Boolean(errors.petColor)}
+            helperText={errors.petColor || ""}
           />
           <TextField
             size="small"
@@ -66,6 +73,8 @@ export default function FindRequestForm({
               const micro = extractMicrochip(value);
               if (micro) onChange("petMicrochip", micro);
             }}
+            error={Boolean(errors.petNameMicrochip || errors.petMicrochip)}
+            helperText={errors.petNameMicrochip || errors.petMicrochip || ""}
           />
           <TextField
             size="small"
@@ -74,6 +83,8 @@ export default function FindRequestForm({
             value={form.petPhoto}
             onChange={(e) => onChange("petPhoto", e.target.value)}
             placeholder="https://..."
+            error={Boolean(errors.petPhoto)}
+            helperText={errors.petPhoto || ""}
           />
           <Box className="lr-textarea">
             <TextField
@@ -83,6 +94,8 @@ export default function FindRequestForm({
               label="Περιγραφή Ζώου: *"
               value={form.petDescription}
               onChange={(e) => onChange("petDescription", e.target.value)}
+              error={Boolean(errors.petDescription)}
+              helperText={errors.petDescription || ""}
             />
             <div className="lr-counter">{petWordCount}/50 λέξεις</div>
           </Box>
@@ -97,6 +110,8 @@ export default function FindRequestForm({
             label="Τοποθεσία Εύρεσης: *"
             value={form.foundArea}
             onChange={(e) => onChange("foundArea", e.target.value)}
+            error={Boolean(errors.foundArea)}
+            helperText={errors.foundArea || ""}
           />
           <TextField
             size="small"
@@ -106,6 +121,8 @@ export default function FindRequestForm({
             value={form.foundDate}
             onChange={(e) => onChange("foundDate", e.target.value)}
             inputProps={{ max: new Date().toISOString().slice(0, 10) }}
+            error={Boolean(errors.foundDate)}
+            helperText={errors.foundDate || ""}
           />
         </Box>
       </div>
@@ -118,18 +135,25 @@ export default function FindRequestForm({
             label="Όνομα: *"
             value={form.contactFirstName}
             onChange={(e) => onChange("contactFirstName", e.target.value)}
+            error={Boolean(errors.contactFirstName)}
+            helperText={errors.contactFirstName || ""}
           />
           <TextField
             size="small"
             label="Τηλέφωνο: *"
             value={form.contactPhone}
             onChange={(e) => onChange("contactPhone", e.target.value)}
+            error={Boolean(errors.contactPhone)}
+            helperText={errors.contactPhone || ""}
+            inputProps={{ inputMode: "numeric", maxLength: 10 }}
           />
           <TextField
             size="small"
             label="Επώνυμο: *"
             value={form.contactLastName}
             onChange={(e) => onChange("contactLastName", e.target.value)}
+            error={Boolean(errors.contactLastName)}
+            helperText={errors.contactLastName || ""}
           />
           <TextField
             size="small"
@@ -137,6 +161,8 @@ export default function FindRequestForm({
             label="E-mail: *"
             value={form.contactEmail}
             onChange={(e) => onChange("contactEmail", e.target.value)}
+            error={Boolean(errors.contactEmail)}
+            helperText={errors.contactEmail || ""}
           />
           <Box className="lr-textarea">
             <TextField
@@ -146,6 +172,8 @@ export default function FindRequestForm({
               label="Επιπλέον Πληροφορίες: *"
               value={form.contactNotes}
               onChange={(e) => onChange("contactNotes", e.target.value)}
+              error={Boolean(errors.contactNotes)}
+              helperText={errors.contactNotes || ""}
             />
             <div className="lr-counter">{notesWordCount}/50 λέξεις</div>
           </Box>

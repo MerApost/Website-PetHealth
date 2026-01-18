@@ -40,19 +40,62 @@ export default function FoundReport() {
   const [step, setStep] = React.useState(0);
   const [form, setForm] = React.useState(initial);
   const [saving, setSaving] = React.useState(false);
+  const [errors, setErrors] = React.useState({});
 
-  const change = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
+  const sanitizePhone = (value) =>
+    String(value || "")
+      .replace(/\D/g, "")
+      .slice(0, 10);
+
+  const change = (k) => (e) => {
+    const raw = e.target.value;
+    const value = k === "phone" ? sanitizePhone(raw) : raw;
+    setForm((p) => ({ ...p, [k]: value }));
+    if (errors[k]) {
+      setErrors((prev) => ({ ...prev, [k]: "" }));
+    }
+  };
 
   const next = () => setStep((s) => Math.min(s + 1, 3));
   const prev = () => setStep((s) => Math.max(s - 1, 0));
 
 
-  const validateStep = () => {
-    if (step === 0) return form.species && form.gender;
-    if (step === 1) return form.foundDate && form.area;
-    if (step === 2) return form.reporterName && form.reporterSurname && form.phone;
-    return true;
+  const getStepErrors = (targetStep = step) => {
+    const nextErrors = {};
+    if (targetStep === 0) {
+      if (!form.species) nextErrors.species = "Υποχρεωτικό πεδίο.";
+      if (!form.gender) nextErrors.gender = "Υποχρεωτικό πεδίο.";
+    }
+    if (targetStep === 1) {
+      if (!form.foundDate) nextErrors.foundDate = "Υποχρεωτικό πεδίο.";
+      if (!form.area) nextErrors.area = "Υποχρεωτικό πεδίο.";
+    }
+    if (targetStep === 2) {
+      if (!form.reporterName) nextErrors.reporterName = "Υποχρεωτικό πεδίο.";
+      if (!form.reporterSurname) nextErrors.reporterSurname = "Υποχρεωτικό πεδίο.";
+      if (!form.phone) nextErrors.phone = "Υποχρεωτικό πεδίο.";
+    }
+
+    const email = String(form.email || "").trim();
+    if (email && !email.includes("@")) {
+      nextErrors.email = "Βάλε σωστό e-mail (με @).";
+    }
+
+    const phone = String(form.phone || "").trim();
+    if (phone && phone.length > 10) {
+      nextErrors.phone = "Έως 10 ψηφία.";
+    }
+
+    return nextErrors;
   };
+
+  const validateStep = () => {
+    const nextErrors = getStepErrors();
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const isStepValid = () => Object.keys(getStepErrors()).length === 0;
 
   const onSubmit = async () => {
     try {
@@ -116,6 +159,8 @@ export default function FoundReport() {
                     value={form.species}
                     onChange={change("species")}
                     placeholder="Σκύλος/Γάτα..."
+                    error={Boolean(errors.species)}
+                    helperText={errors.species || ""}
                   />
                 </Grid>
 
@@ -137,6 +182,8 @@ export default function FoundReport() {
                     value={form.gender}
                     onChange={change("gender")}
                     placeholder="Αρσενικό/Θηλυκό"
+                    error={Boolean(errors.gender)}
+                    helperText={errors.gender || ""}
                   />
                 </Grid>
 
@@ -197,6 +244,8 @@ export default function FoundReport() {
                     value={form.foundDate}
                     onChange={change("foundDate")}
                     InputLabelProps={{ shrink: true }}
+                    error={Boolean(errors.foundDate)}
+                    helperText={errors.foundDate || ""}
                   />
                 </Grid>
 
@@ -219,6 +268,8 @@ export default function FoundReport() {
                     fullWidth
                     value={form.area}
                     onChange={change("area")}
+                    error={Boolean(errors.area)}
+                    helperText={errors.area || ""}
                   />
                 </Grid>
 
@@ -256,6 +307,8 @@ export default function FoundReport() {
                     fullWidth
                     value={form.reporterName}
                     onChange={change("reporterName")}
+                    error={Boolean(errors.reporterName)}
+                    helperText={errors.reporterName || ""}
                   />
                 </Grid>
 
@@ -266,6 +319,8 @@ export default function FoundReport() {
                     fullWidth
                     value={form.reporterSurname}
                     onChange={change("reporterSurname")}
+                    error={Boolean(errors.reporterSurname)}
+                    helperText={errors.reporterSurname || ""}
                   />
                 </Grid>
 
@@ -276,6 +331,8 @@ export default function FoundReport() {
                     fullWidth
                     value={form.email}
                     onChange={change("email")}
+                    error={Boolean(errors.email)}
+                    helperText={errors.email || ""}
                   />
                 </Grid>
 
@@ -286,6 +343,9 @@ export default function FoundReport() {
                     fullWidth
                     value={form.phone}
                     onChange={change("phone")}
+                    error={Boolean(errors.phone)}
+                    helperText={errors.phone || ""}
+                    inputProps={{ inputMode: "numeric", maxLength: 10 }}
                   />
                 </Grid>
               </Grid>
@@ -315,8 +375,10 @@ export default function FoundReport() {
                   <Button
                     variant="contained"
                     className="btn-green"
-                    onClick={next}
-                    disabled={saving || !validateStep()}
+                    onClick={() => {
+                      if (validateStep()) next();
+                    }}
+                    disabled={saving || !isStepValid()}
                   >
                     Επόμενο
                   </Button>
@@ -324,8 +386,10 @@ export default function FoundReport() {
                   <Button
                     variant="contained"
                     className="btn-green"
-                    onClick={onSubmit}
-                    disabled={saving || !validateStep()}
+                    onClick={() => {
+                      if (validateStep()) onSubmit();
+                    }}
+                    disabled={saving || !isStepValid()}
                   >
                     Οριστική Υποβολή
                   </Button>

@@ -37,6 +37,7 @@ export default function LostReport(){
     const [saving, setSaving] = useState(false);
     const [submittedFinal, setSubmittedFinal] = useState(false);
     const [createdAt, setCreatedAt] = useState("");
+    const [errors, setErrors] = useState({});
     const [form, setForm] = useState({
       ownerFirstName: "",
       ownerLastName: "",
@@ -58,6 +59,19 @@ export default function LostReport(){
 
     const updateForm = (key, value) =>
       setForm((prev) => ({ ...prev, [key]: value }));
+
+    const sanitizePhone = (value) =>
+      String(value || "")
+        .replace(/\D/g, "")
+        .slice(0, 10);
+
+    const handleChange = (key, value) => {
+      const nextValue = key === "ownerPhone" ? sanitizePhone(value) : value;
+      updateForm(key, nextValue);
+      if (errors[key]) {
+        setErrors((prev) => ({ ...prev, [key]: "" }));
+      }
+    };
 
     const countWords = (text) => {
       const s = String(text || "").trim();
@@ -146,18 +160,29 @@ export default function LostReport(){
         "lossDescription",
       ];
 
-      const hasEmpty = requiredKeys.some(
-        (k) => String(form[k] || "").trim() === ""
-      );
-      if (hasEmpty) {
-        alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
-        return false;
+      const nextErrors = {};
+      requiredKeys.forEach((k) => {
+        if (String(form[k] || "").trim() === "") {
+          nextErrors[k] = "Υποχρεωτικό πεδίο.";
+        }
+      });
+
+      const email = String(form.ownerEmail || "").trim();
+      if (email && !email.includes("@")) {
+        nextErrors.ownerEmail = "Βάλε σωστό e-mail (με @).";
       }
+
+      const phone = String(form.ownerPhone || "").trim();
+      if (phone && phone.length > 10) {
+        nextErrors.ownerPhone = "Έως 10 ψηφία.";
+      }
+
       if (countWords(form.lossDescription) > 50) {
-        alert("Η περιγραφή πρέπει να είναι έως 50 λέξεις.");
-        return false;
+        nextErrors.lossDescription = "Έως 50 λέξεις.";
       }
-      return true;
+
+      setErrors(nextErrors);
+      return Object.keys(nextErrors).length === 0;
     };
 
     const loadOwner = async () => {
@@ -232,6 +257,15 @@ export default function LostReport(){
         petColor: pet.color || prev.petColor,
         petGender: pet.gender || prev.petGender,
         petPhoto: pet.photo || prev.petPhoto,
+      }));
+      setErrors((prev) => ({
+        ...prev,
+        petName: "",
+        petType: "",
+        petMicrochip: "",
+        petBreed: "",
+        petAge: "",
+        petGender: "",
       }));
     };
 
@@ -427,32 +461,41 @@ export default function LostReport(){
                               size="small"
                               label="Όνομα: *"
                               value={form.ownerFirstName}
-                              onChange={(e) => updateForm("ownerFirstName", e.target.value)}
+                              onChange={(e) => handleChange("ownerFirstName", e.target.value)}
+                              error={Boolean(errors.ownerFirstName)}
+                              helperText={errors.ownerFirstName || ""}
                             />
                             <TextField
                               size="small"
                               label="Διεύθυνση Κατοικίας:"
                               value={form.ownerAddress}
-                              onChange={(e) => updateForm("ownerAddress", e.target.value)}
+                              onChange={(e) => handleChange("ownerAddress", e.target.value)}
                             />
                             <TextField
                               size="small"
                               label="Επώνυμο: *"
                               value={form.ownerLastName}
-                              onChange={(e) => updateForm("ownerLastName", e.target.value)}
+                              onChange={(e) => handleChange("ownerLastName", e.target.value)}
+                              error={Boolean(errors.ownerLastName)}
+                              helperText={errors.ownerLastName || ""}
                             />
                             <TextField
                               size="small"
                               type="email"
                               label="E-mail: *"
                               value={form.ownerEmail}
-                              onChange={(e) => updateForm("ownerEmail", e.target.value)}
+                              onChange={(e) => handleChange("ownerEmail", e.target.value)}
+                              error={Boolean(errors.ownerEmail)}
+                              helperText={errors.ownerEmail || ""}
                             />
                             <TextField
                               size="small"
                               label="Τηλέφωνο: *"
                               value={form.ownerPhone}
-                              onChange={(e) => updateForm("ownerPhone", e.target.value)}
+                              onChange={(e) => handleChange("ownerPhone", e.target.value)}
+                              error={Boolean(errors.ownerPhone)}
+                              helperText={errors.ownerPhone || ""}
+                              inputProps={{ inputMode: "numeric", maxLength: 10 }}
                             />
                           </Box>
                         </div>
@@ -466,6 +509,8 @@ export default function LostReport(){
                               label="Όνομα Κατοικιδίου: *"
                               value={selectedPetId}
                               onChange={(e) => handlePetSelect(e.target.value)}
+                              error={Boolean(errors.petName)}
+                              helperText={errors.petName || ""}
                             >
                               {pets.length === 0 && (
                                 <MenuItem value="">—</MenuItem>
@@ -481,7 +526,9 @@ export default function LostReport(){
                               size="small"
                               label="Ράτσα: *"
                               value={form.petBreed}
-                              onChange={(e) => updateForm("petBreed", e.target.value)}
+                              onChange={(e) => handleChange("petBreed", e.target.value)}
+                              error={Boolean(errors.petBreed)}
+                              helperText={errors.petBreed || ""}
                             >
                               {Pet_Breeds.map((b) => (
                                 <MenuItem key={b.value || b.label} value={b.value}>
@@ -494,7 +541,9 @@ export default function LostReport(){
                               size="small"
                               label="Είδος: *"
                               value={form.petType}
-                              onChange={(e) => updateForm("petType", e.target.value)}
+                              onChange={(e) => handleChange("petType", e.target.value)}
+                              error={Boolean(errors.petType)}
+                              helperText={errors.petType || ""}
                             >
                               {Pet_Types.map((p) => (
                                 <MenuItem key={p.label} value={p.label}>
@@ -506,33 +555,39 @@ export default function LostReport(){
                               size="small"
                               label="Ηλικία (έτη): *"
                               value={form.petAge}
-                              onChange={(e) => updateForm("petAge", e.target.value)}
+                              onChange={(e) => handleChange("petAge", e.target.value)}
+                              error={Boolean(errors.petAge)}
+                              helperText={errors.petAge || ""}
                             />
                             <TextField
                               size="small"
                               label="Αριθμός Microchip: *"
                               value={form.petMicrochip}
-                              onChange={(e) => updateForm("petMicrochip", e.target.value)}
+                              onChange={(e) => handleChange("petMicrochip", e.target.value)}
+                              error={Boolean(errors.petMicrochip)}
+                              helperText={errors.petMicrochip || ""}
                             />
                             <TextField
                               size="small"
                               label="Χρώμα:"
                               value={form.petColor}
-                              onChange={(e) => updateForm("petColor", e.target.value)}
+                              onChange={(e) => handleChange("petColor", e.target.value)}
                             />
                             <TextField
                               size="small"
                               type="url"
                               label="Φωτογραφία κατοικιδίου (URL):"
                               value={form.petPhoto}
-                              onChange={(e) => updateForm("petPhoto", e.target.value)}
+                              onChange={(e) => handleChange("petPhoto", e.target.value)}
                             />
                             <TextField
                               select
                               size="small"
                               label="Φύλο: *"
                               value={form.petGender}
-                              onChange={(e) => updateForm("petGender", e.target.value)}
+                              onChange={(e) => handleChange("petGender", e.target.value)}
+                              error={Boolean(errors.petGender)}
+                              helperText={errors.petGender || ""}
                             >
                               {GenderOptions.map((g) => (
                                 <MenuItem key={g.value || g.label} value={g.value}>
@@ -552,14 +607,18 @@ export default function LostReport(){
                               label="Ημερομηνία Απώλειας: *"
                               InputLabelProps={{ shrink: true }}
                               value={form.lossDate}
-                              onChange={(e) => updateForm("lossDate", e.target.value)}
+                              onChange={(e) => handleChange("lossDate", e.target.value)}
                               inputProps={{ max: new Date().toISOString().slice(0, 10) }}
+                              error={Boolean(errors.lossDate)}
+                              helperText={errors.lossDate || ""}
                             />
                             <TextField
                               size="small"
                               label="Περιοχή Απώλειας: *"
                               value={form.lossArea}
-                              onChange={(e) => updateForm("lossArea", e.target.value)}
+                              onChange={(e) => handleChange("lossArea", e.target.value)}
+                              error={Boolean(errors.lossArea)}
+                              helperText={errors.lossArea || ""}
                             />
                             <Box className="lr-textarea">
                               <TextField
@@ -568,7 +627,9 @@ export default function LostReport(){
                                 fullWidth
                                 label="Περιγραφή Περιστατικού: *"
                                 value={form.lossDescription}
-                                onChange={(e) => updateForm("lossDescription", e.target.value)}
+                                onChange={(e) => handleChange("lossDescription", e.target.value)}
+                                error={Boolean(errors.lossDescription)}
+                                helperText={errors.lossDescription || ""}
                               />
                               <div className="lr-counter">{countWords(form.lossDescription)}/50 λέξεις</div>
                             </Box>

@@ -35,6 +35,7 @@ export default function FoundReport(){
     const [saving, setSaving] = useState(false);
     const [submittedFinal, setSubmittedFinal] = useState(false);
     const [createdAt, setCreatedAt] = useState("");
+    const [errors, setErrors] = useState({});
     const [form, setForm] = useState({
       contactFirstName: "",
       contactLastName: "",
@@ -54,6 +55,19 @@ export default function FoundReport(){
 
     const updateForm = (key, value) =>
       setForm((prev) => ({ ...prev, [key]: value }));
+
+    const sanitizePhone = (value) =>
+      String(value || "")
+        .replace(/\D/g, "")
+        .slice(0, 10);
+
+    const handleChange = (key, value) => {
+      const nextValue = key === "contactPhone" ? sanitizePhone(value) : value;
+      updateForm(key, nextValue);
+      if (errors[key]) {
+        setErrors((prev) => ({ ...prev, [key]: "" }));
+      }
+    };
 
     const countWords = (text) => {
       const s = String(text || "").trim();
@@ -125,22 +139,32 @@ export default function FoundReport(){
         "contactNotes",
       ];
 
-      const hasEmpty = requiredKeys.some(
-        (k) => String(form[k] || "").trim() === ""
-      );
-      if (hasEmpty) {
-        alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
-        return false;
+      const nextErrors = {};
+      requiredKeys.forEach((k) => {
+        if (String(form[k] || "").trim() === "") {
+          nextErrors[k] = "Υποχρεωτικό πεδίο.";
+        }
+      });
+
+      const email = String(form.contactEmail || "").trim();
+      if (email && !email.includes("@")) {
+        nextErrors.contactEmail = "Βάλε σωστό e-mail (με @).";
       }
+
+      const phone = String(form.contactPhone || "").trim();
+      if (phone && phone.length > 10) {
+        nextErrors.contactPhone = "Έως 10 ψηφία.";
+      }
+
       if (countWords(form.petDescription) > 50) {
-        alert("Η περιγραφή ζώου πρέπει να είναι έως 50 λέξεις.");
-        return false;
+        nextErrors.petDescription = "Έως 50 λέξεις.";
       }
       if (countWords(form.contactNotes) > 50) {
-        alert("Οι επιπλέον πληροφορίες πρέπει να είναι έως 50 λέξεις.");
-        return false;
+        nextErrors.contactNotes = "Έως 50 λέξεις.";
       }
-      return true;
+
+      setErrors(nextErrors);
+      return Object.keys(nextErrors).length === 0;
     };
 
     useEffect(() => {
@@ -377,7 +401,9 @@ export default function FoundReport(){
                               size="small"
                               label="Είδος: *"
                               value={form.petType}
-                              onChange={(e) => updateForm("petType", e.target.value)}
+                              onChange={(e) => handleChange("petType", e.target.value)}
+                              error={Boolean(errors.petType)}
+                              helperText={errors.petType || ""}
                             >
                               {Pet_Types.map((p) => (
                                 <MenuItem key={p.label} value={p.label}>
@@ -390,7 +416,7 @@ export default function FoundReport(){
                               size="small"
                               label="Ράτσα:"
                               value={form.petBreed}
-                              onChange={(e) => updateForm("petBreed", e.target.value)}
+                              onChange={(e) => handleChange("petBreed", e.target.value)}
                             >
                               {Pet_Breeds.map((b) => (
                                 <MenuItem key={b.value || b.label} value={b.value}>
@@ -402,7 +428,7 @@ export default function FoundReport(){
                               size="small"
                               label="Χρώμα:"
                               value={form.petColor}
-                              onChange={(e) => updateForm("petColor", e.target.value)}
+                              onChange={(e) => handleChange("petColor", e.target.value)}
                             />
                             <TextField
                               size="small"
@@ -410,21 +436,23 @@ export default function FoundReport(){
                               value={form.petNameMicrochip}
                               onChange={(e) => {
                                 const value = e.target.value;
-                                updateForm("petNameMicrochip", value);
+                                handleChange("petNameMicrochip", value);
                                 const micro = extractMicrochip(value);
                                 if (micro) {
-                                  updateForm("petMicrochip", micro);
+                                  handleChange("petMicrochip", micro);
                                 } else if (value.trim()) {
-                                  updateForm("petMicrochip", value.trim());
+                                  handleChange("petMicrochip", value.trim());
                                 }
                               }}
+                              error={Boolean(errors.petNameMicrochip || errors.petMicrochip)}
+                              helperText={errors.petNameMicrochip || errors.petMicrochip || ""}
                             />
                             <TextField
                               size="small"
                               type="url"
                               label="Αρχείο με φωτογραφία του κατοικιδίου (URL):"
                               value={form.petPhoto}
-                              onChange={(e) => updateForm("petPhoto", e.target.value)}
+                              onChange={(e) => handleChange("petPhoto", e.target.value)}
                             />
                             <Box className="lr-textarea">
                               <TextField
@@ -433,7 +461,9 @@ export default function FoundReport(){
                                 fullWidth
                                 label="Περιγραφή Ζώου:"
                                 value={form.petDescription}
-                                onChange={(e) => updateForm("petDescription", e.target.value)}
+                                onChange={(e) => handleChange("petDescription", e.target.value)}
+                                error={Boolean(errors.petDescription)}
+                                helperText={errors.petDescription || ""}
                               />
                               <div className="lr-counter">{countWords(form.petDescription)}/50 λέξεις</div>
                             </Box>
@@ -447,7 +477,9 @@ export default function FoundReport(){
                               size="small"
                               label="Τοποθεσία Εύρεσης: *"
                               value={form.foundArea}
-                              onChange={(e) => updateForm("foundArea", e.target.value)}
+                              onChange={(e) => handleChange("foundArea", e.target.value)}
+                              error={Boolean(errors.foundArea)}
+                              helperText={errors.foundArea || ""}
                             />
                             <TextField
                               size="small"
@@ -455,8 +487,10 @@ export default function FoundReport(){
                               label="Ημερομηνία Εύρεσης: *"
                               InputLabelProps={{ shrink: true }}
                               value={form.foundDate}
-                              onChange={(e) => updateForm("foundDate", e.target.value)}
+                              onChange={(e) => handleChange("foundDate", e.target.value)}
                               inputProps={{ max: new Date().toISOString().slice(0, 10) }}
+                              error={Boolean(errors.foundDate)}
+                              helperText={errors.foundDate || ""}
                             />
                           </Box>
                         </div>
@@ -468,26 +502,35 @@ export default function FoundReport(){
                               size="small"
                               label="Όνομα: *"
                               value={form.contactFirstName}
-                              onChange={(e) => updateForm("contactFirstName", e.target.value)}
+                              onChange={(e) => handleChange("contactFirstName", e.target.value)}
+                              error={Boolean(errors.contactFirstName)}
+                              helperText={errors.contactFirstName || ""}
                             />
                             <TextField
                               size="small"
                               label="Τηλέφωνο: *"
                               value={form.contactPhone}
-                              onChange={(e) => updateForm("contactPhone", e.target.value)}
+                              onChange={(e) => handleChange("contactPhone", e.target.value)}
+                              error={Boolean(errors.contactPhone)}
+                              helperText={errors.contactPhone || ""}
+                              inputProps={{ inputMode: "numeric", maxLength: 10 }}
                             />
                             <TextField
                               size="small"
                               label="Επώνυμο: *"
                               value={form.contactLastName}
-                              onChange={(e) => updateForm("contactLastName", e.target.value)}
+                              onChange={(e) => handleChange("contactLastName", e.target.value)}
+                              error={Boolean(errors.contactLastName)}
+                              helperText={errors.contactLastName || ""}
                             />
                             <TextField
                               size="small"
                               type="email"
                               label="E-mail: *"
                               value={form.contactEmail}
-                              onChange={(e) => updateForm("contactEmail", e.target.value)}
+                              onChange={(e) => handleChange("contactEmail", e.target.value)}
+                              error={Boolean(errors.contactEmail)}
+                              helperText={errors.contactEmail || ""}
                             />
                             <Box className="lr-textarea">
                               <TextField
@@ -496,7 +539,9 @@ export default function FoundReport(){
                                 fullWidth
                                 label="Επιπλέον Πληροφορίες: *"
                                 value={form.contactNotes}
-                                onChange={(e) => updateForm("contactNotes", e.target.value)}
+                                onChange={(e) => handleChange("contactNotes", e.target.value)}
+                                error={Boolean(errors.contactNotes)}
+                                helperText={errors.contactNotes || ""}
                               />
                               <div className="lr-counter">{countWords(form.contactNotes)}/50 λέξεις</div>
                             </Box>

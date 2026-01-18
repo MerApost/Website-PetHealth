@@ -73,6 +73,12 @@ export default function VetNewEvent() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [saving, setSaving] = React.useState(false);
   const [checking, setChecking] = React.useState(false);
+  const [lossErrors, setLossErrors] = React.useState({});
+  const [findErrors, setFindErrors] = React.useState({});
+  const [adoptionErrors, setAdoptionErrors] = React.useState({});
+  const [fosterErrors, setFosterErrors] = React.useState({});
+  const [transferErrors, setTransferErrors] = React.useState({});
+  const [eventErrors, setEventErrors] = React.useState({});
   const [createdAt, setCreatedAt] = React.useState("");
   const editId = searchParams.get("editId");
   const [lossForm, setLossForm] = React.useState({
@@ -165,16 +171,50 @@ export default function VetNewEvent() {
     petGender: "",
   });
 
-  const updateLossForm = (key, value) =>
-    setLossForm((prev) => ({ ...prev, [key]: value }));
-  const updateFindForm = (key, value) =>
-    setFindForm((prev) => ({ ...prev, [key]: value }));
-  const updateAdoptionForm = (key, value) =>
-    setAdoptionForm((prev) => ({ ...prev, [key]: value }));
-  const updateFosterForm = (key, value) =>
-    setFosterForm((prev) => ({ ...prev, [key]: value }));
-  const updateTransferForm = (key, value) =>
-    setTransferForm((prev) => ({ ...prev, [key]: value }));
+  const sanitizePhone = (value) =>
+    String(value || "")
+      .replace(/\D/g, "")
+      .slice(0, 10);
+
+  const updateLossForm = (key, value) => {
+    const nextValue =
+      key === "ownerPhone" || key === "vetPhone"
+        ? sanitizePhone(value)
+        : value;
+    setLossForm((prev) => ({ ...prev, [key]: nextValue }));
+    if (lossErrors[key]) {
+      setLossErrors((prev) => ({ ...prev, [key]: "" }));
+    }
+  };
+  const updateFindForm = (key, value) => {
+    const nextValue = key === "contactPhone" ? sanitizePhone(value) : value;
+    setFindForm((prev) => ({ ...prev, [key]: nextValue }));
+    if (findErrors[key]) {
+      setFindErrors((prev) => ({ ...prev, [key]: "" }));
+    }
+  };
+  const updateAdoptionForm = (key, value) => {
+    const nextValue = key === "adopterPhone" ? sanitizePhone(value) : value;
+    setAdoptionForm((prev) => ({ ...prev, [key]: nextValue }));
+    clearFormError(setAdoptionErrors, key);
+  };
+  const updateFosterForm = (key, value) => {
+    const nextValue = key === "fosterPhone" ? sanitizePhone(value) : value;
+    setFosterForm((prev) => ({ ...prev, [key]: nextValue }));
+    clearFormError(setFosterErrors, key);
+  };
+  const updateTransferForm = (key, value) => {
+    const nextValue =
+      key === "currentPhone" || key === "newPhone"
+        ? sanitizePhone(value)
+        : value;
+    setTransferForm((prev) => ({ ...prev, [key]: nextValue }));
+    clearFormError(setTransferErrors, key);
+  };
+
+  const clearFormError = (setter, key) => {
+    setter((prev) => (prev[key] ? { ...prev, [key]: "" } : prev));
+  };
 
   const countWords = (text) => {
     const s = String(text || "").trim();
@@ -434,18 +474,34 @@ export default function VetNewEvent() {
       "vetPhone",
     ];
 
-    const hasEmpty = requiredKeys.some(
-      (k) => String(lossForm[k] || "").trim() === ""
-    );
-    if (hasEmpty) {
-      alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
-      return false;
+    const nextErrors = {};
+    requiredKeys.forEach((k) => {
+      if (String(lossForm[k] || "").trim() === "") {
+        nextErrors[k] = "Υποχρεωτικό πεδίο.";
+      }
+    });
+
+    const email = String(lossForm.ownerEmail || "").trim();
+    if (email && !email.includes("@")) {
+      nextErrors.ownerEmail = "Βάλε σωστό e-mail (με @).";
     }
+
+    const ownerPhone = String(lossForm.ownerPhone || "").trim();
+    if (ownerPhone && ownerPhone.length > 10) {
+      nextErrors.ownerPhone = "Έως 10 ψηφία.";
+    }
+
+    const vetPhone = String(lossForm.vetPhone || "").trim();
+    if (vetPhone && vetPhone.length > 10) {
+      nextErrors.vetPhone = "Έως 10 ψηφία.";
+    }
+
     if (countWords(lossForm.lossDescription) > 50) {
-      alert("Η περιγραφή πρέπει να είναι έως 50 λέξεις.");
-      return false;
+      nextErrors.lossDescription = "Έως 50 λέξεις.";
     }
-    return true;
+
+    setLossErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
   };
 
   const validateFosterForm = () => {
@@ -466,26 +522,35 @@ export default function VetNewEvent() {
       "petGender",
     ];
 
-    const hasEmpty = requiredKeys.some(
-      (k) => String(fosterForm[k] || "").trim() === ""
-    );
-    if (hasEmpty) {
-      alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
-      return false;
+    const nextErrors = {};
+    requiredKeys.forEach((k) => {
+      if (String(fosterForm[k] || "").trim() === "") {
+        nextErrors[k] = "Υποχρεωτικό πεδίο.";
+      }
+    });
+
+    const email = String(fosterForm.fosterEmail || "").trim();
+    if (email && !email.includes("@")) {
+      nextErrors.fosterEmail = "Βάλε σωστό e-mail (με @).";
     }
+
+    const phone = String(fosterForm.fosterPhone || "").trim();
+    if (phone && phone.length > 10) {
+      nextErrors.fosterPhone = "Έως 10 ψηφία.";
+    }
+
     if (countWords(fosterForm.homeInfo) > 50) {
-      alert("Οι πληροφορίες για το σπίτι πρέπει να είναι έως 50 λέξεις.");
-      return false;
+      nextErrors.homeInfo = "Έως 50 λέξεις.";
     }
     if (countWords(fosterForm.lifestyleInfo) > 50) {
-      alert("Οι πληροφορίες για τον τρόπο ζωής πρέπει να είναι έως 50 λέξεις.");
-      return false;
+      nextErrors.lifestyleInfo = "Έως 50 λέξεις.";
     }
     if (countWords(fosterForm.experienceInfo) > 50) {
-      alert("Οι πληροφορίες για την εμπειρία πρέπει να είναι έως 50 λέξεις.");
-      return false;
+      nextErrors.experienceInfo = "Έως 50 λέξεις.";
     }
-    return true;
+
+    setFosterErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
   };
 
   const validateFindForm = () => {
@@ -505,22 +570,32 @@ export default function VetNewEvent() {
       "contactNotes",
     ];
 
-    const hasEmpty = requiredKeys.some(
-      (k) => String(findForm[k] || "").trim() === ""
-    );
-    if (hasEmpty) {
-      alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
-      return false;
+    const nextErrors = {};
+    requiredKeys.forEach((k) => {
+      if (String(findForm[k] || "").trim() === "") {
+        nextErrors[k] = "Υποχρεωτικό πεδίο.";
+      }
+    });
+
+    const email = String(findForm.contactEmail || "").trim();
+    if (email && !email.includes("@")) {
+      nextErrors.contactEmail = "Βάλε σωστό e-mail (με @).";
     }
+
+    const phone = String(findForm.contactPhone || "").trim();
+    if (phone && phone.length > 10) {
+      nextErrors.contactPhone = "Έως 10 ψηφία.";
+    }
+
     if (countWords(findForm.petDescription) > 50) {
-      alert("Η περιγραφή ζώου πρέπει να είναι έως 50 λέξεις.");
-      return false;
+      nextErrors.petDescription = "Έως 50 λέξεις.";
     }
     if (countWords(findForm.contactNotes) > 50) {
-      alert("Οι επιπλέον πληροφορίες πρέπει να είναι έως 50 λέξεις.");
-      return false;
+      nextErrors.contactNotes = "Έως 50 λέξεις.";
     }
-    return true;
+
+    setFindErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
   };
 
   const validateAdoptionForm = () => {
@@ -541,26 +616,35 @@ export default function VetNewEvent() {
       "petGender",
     ];
 
-    const hasEmpty = requiredKeys.some(
-      (k) => String(adoptionForm[k] || "").trim() === ""
-    );
-    if (hasEmpty) {
-      alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
-      return false;
+    const nextErrors = {};
+    requiredKeys.forEach((k) => {
+      if (String(adoptionForm[k] || "").trim() === "") {
+        nextErrors[k] = "Υποχρεωτικό πεδίο.";
+      }
+    });
+
+    const email = String(adoptionForm.adopterEmail || "").trim();
+    if (email && !email.includes("@")) {
+      nextErrors.adopterEmail = "Βάλε σωστό e-mail (με @).";
     }
+
+    const phone = String(adoptionForm.adopterPhone || "").trim();
+    if (phone && phone.length > 10) {
+      nextErrors.adopterPhone = "Έως 10 ψηφία.";
+    }
+
     if (countWords(adoptionForm.homeInfo) > 50) {
-      alert("Οι πληροφορίες για το σπίτι πρέπει να είναι έως 50 λέξεις.");
-      return false;
+      nextErrors.homeInfo = "Έως 50 λέξεις.";
     }
     if (countWords(adoptionForm.lifestyleInfo) > 50) {
-      alert("Οι πληροφορίες για τον τρόπο ζωής πρέπει να είναι έως 50 λέξεις.");
-      return false;
+      nextErrors.lifestyleInfo = "Έως 50 λέξεις.";
     }
     if (countWords(adoptionForm.experienceInfo) > 50) {
-      alert("Οι πληροφορίες για την εμπειρία πρέπει να είναι έως 50 λέξεις.");
-      return false;
+      nextErrors.experienceInfo = "Έως 50 λέξεις.";
     }
-    return true;
+
+    setAdoptionErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
   };
 
   const validateTransferForm = () => {
@@ -583,14 +667,33 @@ export default function VetNewEvent() {
       "petGender",
     ];
 
-    const hasEmpty = requiredKeys.some(
-      (k) => String(transferForm[k] || "").trim() === ""
-    );
-    if (hasEmpty) {
-      alert("Συμπλήρωσε όλα τα υποχρεωτικά πεδία.");
-      return false;
+    const nextErrors = {};
+    requiredKeys.forEach((k) => {
+      if (String(transferForm[k] || "").trim() === "") {
+        nextErrors[k] = "Υποχρεωτικό πεδίο.";
+      }
+    });
+
+    const currentEmail = String(transferForm.currentEmail || "").trim();
+    if (currentEmail && !currentEmail.includes("@")) {
+      nextErrors.currentEmail = "Βάλε σωστό e-mail (με @).";
     }
-    return true;
+    const newEmail = String(transferForm.newEmail || "").trim();
+    if (newEmail && !newEmail.includes("@")) {
+      nextErrors.newEmail = "Βάλε σωστό e-mail (με @).";
+    }
+
+    const currentPhone = String(transferForm.currentPhone || "").trim();
+    if (currentPhone && currentPhone.length > 10) {
+      nextErrors.currentPhone = "Έως 10 ψηφία.";
+    }
+    const newPhone = String(transferForm.newPhone || "").trim();
+    if (newPhone && newPhone.length > 10) {
+      nextErrors.newPhone = "Έως 10 ψηφία.";
+    }
+
+    setTransferErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
   };
 
   const checkOwnerPet = async (microchipValue) => {
@@ -626,6 +729,10 @@ export default function VetNewEvent() {
 
   const save = async (status = "final") => {
     if (!eventType || !eventDate) {
+      const nextErrors = {};
+      if (!eventType) nextErrors.eventType = "Υποχρεωτικό πεδίο.";
+      if (!eventDate) nextErrors.eventDate = "Υποχρεωτικό πεδίο.";
+      setEventErrors(nextErrors);
       alert("Συμπλήρωσε συμβάν και ημερομηνία.");
       return;
     }
@@ -756,7 +863,12 @@ export default function VetNewEvent() {
                 <Typography className="ve-panel-title">Επέλεξε συμβάν:</Typography>
                 <RadioGroup
                   value={eventType}
-                  onChange={(e) => setEventType(e.target.value)}
+                  onChange={(e) => {
+                    setEventType(e.target.value);
+                    if (eventErrors.eventType) {
+                      setEventErrors((prev) => ({ ...prev, eventType: "" }));
+                    }
+                  }}
                   className="ve-radio"
                 >
                   <FormControlLabel value="Απώλεια" control={<Radio />} label="Απώλεια" />
@@ -774,9 +886,19 @@ export default function VetNewEvent() {
                   size="small"
                   fullWidth
                   value={eventDate}
-                  onChange={(e) => setEventDate(e.target.value)}
+                  onChange={(e) => {
+                    setEventDate(e.target.value);
+                    if (eventErrors.eventDate) {
+                      setEventErrors((prev) => ({ ...prev, eventDate: "" }));
+                    }
+                  }}
                   className="ve-date"
+                  error={Boolean(eventErrors.eventDate)}
+                  helperText={eventErrors.eventDate || ""}
                 />
+                {eventErrors.eventType && (
+                  <div className="ve-error">{eventErrors.eventType}</div>
+                )}
               </div>
             </Box>
           </Paper>
@@ -788,6 +910,7 @@ export default function VetNewEvent() {
             onChange={updateLossForm}
             wordCount={countWords(lossForm.lossDescription)}
             disableVet
+            errors={lossErrors}
           />
         )}
 
@@ -801,6 +924,7 @@ export default function VetNewEvent() {
             onChange={updateFindForm}
             petWordCount={countWords(findForm.petDescription)}
             notesWordCount={countWords(findForm.contactNotes)}
+            errors={findErrors}
           />
         )}
 
@@ -815,6 +939,7 @@ export default function VetNewEvent() {
             homeWordCount={countWords(adoptionForm.homeInfo)}
             lifestyleWordCount={countWords(adoptionForm.lifestyleInfo)}
             experienceWordCount={countWords(adoptionForm.experienceInfo)}
+            errors={adoptionErrors}
           />
         )}
 
@@ -829,6 +954,7 @@ export default function VetNewEvent() {
             homeWordCount={countWords(fosterForm.homeInfo)}
             lifestyleWordCount={countWords(fosterForm.lifestyleInfo)}
             experienceWordCount={countWords(fosterForm.experienceInfo)}
+            errors={fosterErrors}
           />
         )}
 
@@ -840,6 +966,7 @@ export default function VetNewEvent() {
           <TransferRequestForm
             form={transferForm}
             onChange={updateTransferForm}
+            errors={transferErrors}
           />
         )}
 
