@@ -82,6 +82,7 @@ export default function FindVetArrangeMeeting() {
   const [submittedFinal, setSubmittedFinal] = React.useState(false);
   const [schedule, setSchedule] = React.useState({ weekly: {}, customSlots: [] });
   const [timeOptions, setTimeOptions] = React.useState([]);
+  const [vetAppointments, setVetAppointments] = React.useState([]);
 
   const [ownerInfo, setOwnerInfo] = React.useState({
     name: "",
@@ -295,7 +296,45 @@ export default function FindVetArrangeMeeting() {
       }
     });
 
-    return Array.from(new Set(times));
+    const unique = Array.from(new Set(times));
+    return unique.filter((time) => !isTimeBlocked(time));
+  };
+
+  const parseDurationMinutes = (value) => {
+    if (!value) return 30;
+    const s = String(value).toLowerCase();
+    const nums = s.match(/\d+(\.\d+)?/g);
+    if (!nums) return 30;
+    const values = nums.map((n) => parseFloat(n)).filter((n) => !Number.isNaN(n));
+    const maxVal = values.length ? Math.max(...values) : 30;
+    if (s.includes("ωρ")) return Math.round(maxVal * 60);
+    return Math.round(maxVal);
+  };
+
+  const getServiceDuration = (serviceName) => {
+    if (!serviceName) return 30;
+    const found = vetData?.services?.find((s) => s.name === serviceName);
+    return parseDurationMinutes(found?.duration);
+  };
+
+  const toMinutes = (time) => {
+    const [h, m] = String(time || "").split(":").map((v) => parseInt(v, 10));
+    if (Number.isNaN(h) || Number.isNaN(m)) return 0;
+    return h * 60 + m;
+  };
+
+  const isActiveAppointment = (appt) =>
+    appt && !["rejected", "cancelled", "completed"].includes(appt.status);
+
+  const isTimeBlocked = (candidateTime) => {
+    if (!candidateTime) return false;
+    const candidateMinutes = toMinutes(candidateTime);
+    return vetAppointments.some((a) => {
+      if (!isActiveAppointment(a)) return false;
+      const start = toMinutes(a.time);
+      const duration = getServiceDuration(a.service);
+      return candidateMinutes >= start && candidateMinutes < start + duration;
+    });
   };
 
   React.useEffect(() => {
@@ -308,7 +347,27 @@ export default function FindVetArrangeMeeting() {
     if (!options.includes(form.time)) {
       setForm((prev) => ({ ...prev, time: "" }));
     }
-  }, [form.date, schedule]);
+  }, [form.date, schedule, vetAppointments, vetData]);
+
+  React.useEffect(() => {
+    const loadAppointments = async () => {
+      if (!vetid || !form.date) {
+        setVetAppointments([]);
+        return;
+      }
+      try {
+        const res = await fetch(
+          `http://localhost:3004/appointments?vetId=${vetid}&date=${form.date}`
+        );
+        const data = res.ok ? await res.json() : [];
+        setVetAppointments(Array.isArray(data) ? data : []);
+      } catch (e) {
+        console.error(e);
+        setVetAppointments([]);
+      }
+    };
+    loadAppointments();
+  }, [vetid, form.date]);
 
   const updateForm = (key, value) =>
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -364,6 +423,19 @@ export default function FindVetArrangeMeeting() {
     if (!validateStep1() || !validateStep2() || !validateStep3()) return;
     try {
       setSaving(true);
+      const duration = getServiceDuration(form.service);
+      const startMinutes = toMinutes(form.time);
+      const endMinutes = startMinutes + duration;
+      const conflict = vetAppointments.some((a) => {
+        if (!isActiveAppointment(a)) return false;
+        const apptStart = toMinutes(a.time);
+        const apptEnd = apptStart + getServiceDuration(a.service);
+        return startMinutes < apptEnd && endMinutes > apptStart;
+      });
+      if (conflict) {
+        alert("Υπάρχει ήδη ραντεβού σε αυτή τη χρονική περίοδο.");
+        return;
+      }
       const payload = {
         ownerId: userId,
         vetId: vetid,

@@ -47,6 +47,7 @@ import VetMedicalActPreview from "./pages/Vet/VetMedicalActPreview";
 import VetSchedule from "./pages/Vet/VetSchedule";
 import VetAppointmentsManage from "./pages/Vet/VetAppointmentsManage";
 import VetAppointmentDetails from "./pages/Vet/VetAppointmentDetails";
+import VetReviews from "./pages/Vet/VetReviews";
 
 import { useEffect, useState } from "react";
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
@@ -120,6 +121,7 @@ export default function App() {
           <Route path="/vet_main/:vetId/schedule" element={<VetSchedule />} />
           <Route path="/vet_main/:vetId/arrange_appointment" element={<VetAppointmentsManage />} />
           <Route path="/vet_main/:vetId/appointments/:appointmentId" element={<VetAppointmentDetails />} />
+          <Route path="/vet_main/:vetId/reviews" element={<VetReviews />} />
 
         </Routes>
       </div>
@@ -128,64 +130,3 @@ export default function App() {
     </div>
   );
 }
-
-
-// import './App.css';
-// import dog_main_page from "./pics/dog_main_page.png";
-// import Navigationbar from './components/Navigation_bar';
-// import { Routes, Route } from 'react-router-dom';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <Navigationbar />
-
-//       <Routes>
-//         <Route
-//           path="/main_page"
-//           element={
-//             <header className="App-header">
-//               <img src={dog_main_page} className="Dog" alt="Main Page" />
-//               <p className='app-description'>
-//                 Εθνική Πλατφόρμα Κατοικιδίων
-//               </p>
-//             </header>
-//           }
-//         />
-
-//         <Route
-//           path="/login"
-//           element={<div>σελίδα login</div>}
-//         />
-//       </Routes>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
-
-
-// // function App() {
-// //   return (
-// //     <div className="App">
-// //       <header className="App-header">
-// //         <img src={logo} className="App-logo" alt="logo" />
-// //         <p>
-// //           Edit <code>src/App.js</code> and save to reload.
-// //         </p>
-// //         <a
-// //           className="App-link"
-// //           href="https://reactjs.org"
-// //           target="_blank"
-// //           rel="noopener noreferrer"
-// //         >
-// //           Learn React
-// //         </a>
-// //       </header>
-// //     </div>
-// //   );
-// // }
-
-// // export default App;

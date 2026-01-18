@@ -421,9 +421,15 @@
           }
         ],
         "saturday": [],
-        "sunday": []
+        "sunday": [
+          {
+            "id": 1768751956659,
+            "start": "16:00",
+            "end": "18:00"
+          }
+        ]
       },
-      "updatedAt": "2026-01-18T07:35:45.321Z",
+      "updatedAt": "2026-01-18T15:59:34.236Z",
       "createdAt": "2026-01-16T18:32:54.490Z"
     }
   ],
@@ -487,6 +493,26 @@
       "createdAt": "2026-01-18T09:10:22.234Z",
       "updatedAt": "2026-01-18T09:10:35.139Z",
       "urgent": "Όχι"
+    },
+    {
+      "id": "d9c6",
+      "ownerId": "1",
+      "vetId": "3",
+      "petId": "1",
+      "date": "2026-01-18",
+      "time": "16:00",
+      "service": "Εμβολιασμός",
+      "notes": "",
+      "urgent": "Ναι",
+      "ownerInfo": {
+        "name": "Ελένη",
+        "surname": "Αποστολάκη",
+        "phone": "6912345678",
+        "email": "eleni@gmail.com"
+      },
+      "status": "completed",
+      "createdAt": "2026-01-18T16:00:27.149Z",
+      "updatedAt": "2026-01-18T16:23:51.905Z"
     }
   ],
   "medicalActs": [
@@ -675,6 +701,22 @@
       "status": "final",
       "createdAt": "2026-01-17T17:13:55.528Z",
       "updatedAt": "2026-01-17T17:13:55.528Z"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "96d5",
+      "appointmentId": "d9c6",
+      "vetId": "3",
+      "ownerId": "1",
+      "ownerName": "Ελένη Αποστολάκη",
+      "rating": 4,
+      "comment": "μια χαρα!",
+      "recommend": "yes",
+      "service": "Εμβολιασμός",
+      "date": "2026-01-18",
+      "time": "16:00",
+      "createdAt": "2026-01-18T17:02:20.775Z"
     }
   ]
 }

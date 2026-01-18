@@ -98,7 +98,10 @@ export default function VetDashboard({ active }) {
         </ListItem>
 
         <ListItem disablePadding>
-          <ListItemButton disabled>
+          <ListItemButton
+            onClick={() => go("/reviews")}
+            sx={{ backgroundColor: active === "reviews" ? "#D7D3CB" : "transparent" }}
+          >
             <ListItemIcon>
               <HistoryIcon sx={{ color: "black" }} />
             </ListItemIcon>

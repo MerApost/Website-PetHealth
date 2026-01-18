@@ -42,7 +42,49 @@ export default function VetAppointmentsManage() {
         ]);
         const apptData = apptRes.ok ? await apptRes.json() : [];
         const usersData = usersRes.ok ? await usersRes.json() : [];
-        setAppointments(Array.isArray(apptData) ? apptData : []);
+        const now = new Date();
+        const parseDurationMinutes = (value) => {
+          if (!value) return 30;
+          const s = String(value).toLowerCase();
+          const nums = s.match(/\d+(\.\d+)?/g);
+          if (!nums) return 30;
+          const values = nums.map((n) => parseFloat(n)).filter((n) => !Number.isNaN(n));
+          const maxVal = values.length ? Math.max(...values) : 30;
+          if (s.includes("ωρ")) return Math.round(maxVal * 60);
+          return Math.round(maxVal);
+        };
+        const getServiceDuration = (serviceName) => {
+          if (!serviceName) return 30;
+          const vet = usersData.find((u) => String(u.id) === String(vetId));
+          const service = vet?.services?.find((s) => s.name === serviceName);
+          return parseDurationMinutes(service?.duration);
+        };
+        const updated = await Promise.all(
+          (Array.isArray(apptData) ? apptData : []).map(async (a) => {
+            if (!a?.date || !a?.time) return a;
+            if (["rejected", "cancelled", "completed"].includes(a.status)) return a;
+            const start = new Date(`${a.date}T${a.time}:00`);
+            if (Number.isNaN(start.getTime())) return a;
+            const duration = getServiceDuration(a.service);
+            const end = new Date(start.getTime() + duration * 60000);
+            if (now > end) {
+              try {
+                const res = await fetch(`http://localhost:3004/appointments/${a.id}`, {
+                  method: "PATCH",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ status: "completed", updatedAt: new Date().toISOString() }),
+                });
+                if (res.ok) {
+                  return { ...a, status: "completed" };
+                }
+              } catch (e) {
+                console.error(e);
+              }
+            }
+            return a;
+          })
+        );
+        setAppointments(updated);
         setOwners(Array.isArray(usersData) ? usersData : []);
       } catch (e) {
         console.error(e);

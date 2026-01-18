@@ -1,0 +1,68 @@
+.oar-wrap {
+  width: min(920px, 96%);
+  margin: 0 auto 18px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.oar-card,
+.oar-vet-card {
+  background: #ffffff;
+  border: 1px solid #8e8e8e;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.oar-title {
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  margin-bottom: 6px !important;
+}
+
+.oar-subtitle {
+  font-size: 12px !important;
+  color: #555;
+  margin-bottom: 12px !important;
+}
+
+.oar-label {
+  font-weight: 700;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.oar-rating {
+  margin-bottom: 12px;
+}
+
+.oar-field {
+  margin-bottom: 12px;
+}
+
+.oar-radio .MuiFormControlLabel-label {
+  font-size: 12px;
+}
+
+.oar-submit {
+  background: #8fb3e5 !important;
+  color: #0f2a4a !important;
+  text-transform: none !important;
+  border-radius: 10px !important;
+  padding: 6px 16px !important;
+  font-size: 13px !important;
+}
+
+.oar-vet-title {
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  margin-bottom: 10px !important;
+}
+
+
+@media (max-width: 860px) {
+  .oar-wrap {
+    grid-template-columns: 1fr;
+  }
+}

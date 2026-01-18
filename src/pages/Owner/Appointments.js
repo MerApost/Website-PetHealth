@@ -78,10 +78,36 @@ export default function Appointments(){
           ]);
           const apptData = apptRes.ok ? await apptRes.json() : [];
           const usersData = usersRes.ok ? await usersRes.json() : [];
+          const now = new Date();
+          const updated = await Promise.all(
+            (Array.isArray(apptData) ? apptData : []).map(async (a) => {
+              if (!a?.date || !a?.time) return a;
+              if (["rejected", "cancelled", "completed"].includes(a.status)) return a;
+              const start = new Date(`${a.date}T${a.time}:00`);
+              if (Number.isNaN(start.getTime())) return a;
+              const duration = getServiceDuration(a.vetId, a.service, usersData);
+              const end = new Date(start.getTime() + duration * 60000);
+              if (now > end) {
+                try {
+                  const res = await fetch(`http://localhost:3004/appointments/${a.id}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ status: "completed", updatedAt: new Date().toISOString() }),
+                  });
+                  if (res.ok) {
+                    return { ...a, status: "completed" };
+                  }
+                } catch (e) {
+                  console.error(e);
+                }
+              }
+              return a;
+            })
+          );
           const owner = usersData.find((u) => String(u.id) === String(userId));
           setOwnerPets(Array.isArray(owner?.pets) ? owner.pets : []);
           setVets(usersData.filter((u) => u.role === "vet"));
-          setAppointments(Array.isArray(apptData) ? apptData : []);
+          setAppointments(updated);
         } catch (e) {
           console.error(e);
           setAppointments([]);
@@ -94,9 +120,28 @@ export default function Appointments(){
 
     const statusMeta = (status) => {
       if (status === "confirmed") return { label: "Επιβεβαιωμένο", cls: "appt-status confirmed", icon: <EventAvailableIcon /> };
-      if (status === "completed") return { label: "Πραγματοποιήθηκε", cls: "appt-status done", icon: <TaskAltIcon /> };
+      if (status === "completed") return { label: "Πραγματοποιημένο", cls: "appt-status done", icon: <TaskAltIcon /> };
       if (status === "rejected" || status === "cancelled") return { label: "Ακυρωμένο", cls: "appt-status cancelled", icon: <EventBusyIcon /> };
       return { label: "Εκκρεμές", cls: "appt-status pending", icon: <PendingActionsIcon /> };
+    };
+
+    //για να κραταμε την ωρα ραντεβου κ να μην φαινεται διαθεσιμη
+    const parseDurationMinutes = (value) => {
+      if (!value) return 30;
+      const s = String(value).toLowerCase();
+      const nums = s.match(/\d+(\.\d+)?/g);
+      if (!nums) return 30;
+      const values = nums.map((n) => parseFloat(n)).filter((n) => !Number.isNaN(n));
+      const maxVal = values.length ? Math.max(...values) : 30;
+      if (s.includes("ωρ")) return Math.round(maxVal * 60);
+      return Math.round(maxVal);
+    };
+
+    const getServiceDuration = (vetId, serviceName, usersData) => {
+      if (!vetId || !serviceName) return 30;
+      const vet = usersData.find((u) => String(u.id) === String(vetId));
+      const service = vet?.services?.find((s) => s.name === serviceName);
+      return parseDurationMinutes(service?.duration);
     };
 
     const getVetName = (vetId) =>

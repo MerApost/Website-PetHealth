@@ -1,0 +1,113 @@
+.vr-page {
+  background: #d7d3cb;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.vr-card {
+  width: min(760px, 94%);
+  background: #ffffff;
+  border: 1px solid #8e8e8e;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.vr-title {
+  text-align: center;
+  font-weight: 700 !important;
+  font-size: 18px !important;
+}
+
+.vr-score-block {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.vr-score-value {
+  font-weight: 800;
+  font-size: 34px;
+}
+
+.vr-score-count {
+  font-size: 12px;
+  color: #666;
+}
+
+.vr-tabs {
+  margin-top: 10px;
+  border-bottom: 1px solid #d3c8bf;
+}
+
+.vr-item {
+  border: 1px solid #c7bdb5;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: 12px;
+  background: #ffffff;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+}
+
+.vr-item-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vr-item-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vr-avatar-placeholder {
+  font-size: 12px;
+  color: #777;
+}
+
+.vr-item-body {
+  display: grid;
+  gap: 2px;
+}
+
+.vr-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.vr-item-name {
+  font-weight: 700;
+}
+
+.vr-item-date {
+  color: #666;
+}
+
+.vr-item-comment {
+  font-size: 12px;
+  color: #333;
+  margin-top: -2px;
+}
+
+
+.vr-empty {
+  text-align: center;
+  color: #666;
+  padding: 14px 0;
+}
