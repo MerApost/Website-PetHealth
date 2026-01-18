@@ -51,6 +51,8 @@ export default function FindVet(){
     const { id: userId } = useParams();
     const navigate = useNavigate();
     const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+    const role = localStorage.getItem("role");
+    const isOwnerLoggedIn = isLoggedIn && role === "owner";
 
     // State variables για την μπάρα αναζήτησης
     const [locationInput, setLocationInput] = useState('');
@@ -322,14 +324,24 @@ export default function FindVet(){
         setFilteredVets(allVets);
     }, [allVets]);
 
+    const ownerBase = isOwnerLoggedIn && userId ? `/owner_main/${userId}` : null;
+
     // Συνάρτηση για μεταφορά σε σελίδα κτηνίατρου
     const handleViewVetProfile = useCallback((vetId) => {
-        navigate(`/owner_main/${userId}/find_vet/${vetId}`);
-    }, [navigate, userId]);
+        if (!ownerBase) {
+            navigate("/login");
+            return;
+        }
+        navigate(`${ownerBase}/find_vet/${vetId}`);
+    }, [navigate, ownerBase]);
 
     const handleArrangeMeeting = useCallback((vetId) => {
-        navigate(`/owner_main/${userId}/find_vet/${vetId}/arrange_meeting`);
-    }, [navigate, userId]);
+        if (!ownerBase) {
+            navigate("/login");
+            return;
+        }
+        navigate(`${ownerBase}/find_vet/${vetId}/arrange_meeting`);
+    }, [navigate, ownerBase]);
 
     // ΧΡΗΣΗ useLayoutEffect - τρέχει ΠΡΙΝ από το render
     useLayoutEffect(() => {
@@ -407,7 +419,7 @@ export default function FindVet(){
             <CssBaseline />
             
             {/* Sidebar Menu */}
-            {isLoggedIn && (
+            {isOwnerLoggedIn && (
             <Drawer
                 sx={{
                     width: drawerWidth,
