@@ -2,6 +2,7 @@ import './App.css';
 import Toolbar from "@mui/material/Toolbar";
 import Navigationbar from "./components/Navigation_bar/Navigation_bar";
 import Footer from "./components/Footer/Footer";
+import BreadcrumbsBar from "./components/BreadcrumbsBar/BreadcrumbsBar";
 
 import MainPage from "./pages/Main/MainPage";
 import OwnerMainPage from "./pages/Owner/OwnerMainPage";
@@ -69,6 +70,7 @@ export default function App() {
     <div className="App" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Navigationbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} role={role} setRole={setRole}/>
       <Toolbar />
+      <BreadcrumbsBar />
       <div style={{ flex: 1 }}>
         <ScrollToTop />
         <Routes>
