@@ -21,7 +21,7 @@
           "breed": "Shih Tzu",
           "color": "Λευκό",
           "photo": "https://images.unsplash.com/photo-1629740067905-bd3f515aa739?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-          "isLost": false
+          "isLost": true
         },
         {
           "id": 2,
@@ -153,7 +153,7 @@
           "breed": "Domestic Longhair",
           "color": "Γκρι-Μαύρο",
           "photo": "https://images.unsplash.com/photo-1644675531117-b92c5cc76257?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-          "isLost": false
+          "isLost": true
         },
         {
           "id": 3,
@@ -295,7 +295,8 @@
       "lostDate": "29/12/2025",
       "location": "Εξάρχεια",
       "additionalInfo": "Η Φιόνα έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
-      "status": "lost"
+      "status": "found",
+      "foundAt": "2026-01-20T16:26:53.792Z"
     },
     {
       "id": "3",
@@ -346,9 +347,41 @@
       "location": "Καισαριανή",
       "additionalInfo": "Ο Μπακς μπάνι έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
       "status": "lost"
+    },
+    {
+      "id": "8872",
+      "ownerId": "1",
+      "petId": 1,
+      "microchip": "147258369",
+      "lostDate": "20/01/2026",
+      "location": "Ζωγράφου",
+      "additionalInfo": "Είχαμε πάει βόλτα στο πάρκο και έχασε το δρόμο.",
+      "status": "lost"
     }
   ],
-  "foundReports": [],
+  "foundReports": [
+    {
+      "id": "87f4",
+      "petName": "Φιόνα",
+      "species": "Γάτα",
+      "breed": "",
+      "gender": "Θυληκό",
+      "color": "Γκρι",
+      "age": "",
+      "photo": "",
+      "foundDate": "2026-01-16",
+      "foundTime": "",
+      "area": "Ζωγράφου",
+      "address": "",
+      "notes": "",
+      "reporterName": "Ελένη",
+      "reporterSurname": "Παπαθανασίου",
+      "email": "elenip@gmail.com",
+      "phone": "6955555555",
+      "createdAt": "2026-01-20T16:26:53.744Z",
+      "status": "submitted"
+    }
+  ],
   "petRegistrations": [
     {
       "id": "0f77",
@@ -385,6 +418,24 @@
       "petId": 1,
       "createdAt": "2026-01-18T14:36:18.200Z",
       "updatedAt": "2026-01-18T14:36:18.200Z"
+    },
+    {
+      "id": "ab81",
+      "microchip": "1234567890",
+      "name": "Μπομπ",
+      "species": "Σκύλος",
+      "breed": "Akita",
+      "gender": "Αρσενικό",
+      "birthDate": "2026-01-01",
+      "age": "0",
+      "ownerAfm": "123456789",
+      "photo": "",
+      "vetId": "3",
+      "status": "final",
+      "ownerId": "",
+      "petId": "",
+      "createdAt": "2026-01-20T16:36:54.237Z",
+      "updatedAt": "2026-01-20T16:37:00.075Z"
     }
   ],
   "vetSchedules": [
@@ -397,6 +448,12 @@
           "date": "2026-01-01",
           "repeat": "yearly",
           "note": "πρωτοχρονιά"
+        },
+        {
+          "id": 1768926967005,
+          "date": "2025-12-25",
+          "repeat": "yearly",
+          "note": "Χριστούγεννα"
         }
       ],
       "weekly": {
@@ -438,18 +495,17 @@
             "id": 1768721662259,
             "start": "10:00",
             "end": "13:00"
+          },
+          {
+            "id": 1768926926435,
+            "start": "15:00",
+            "end": "19:30"
           }
         ],
         "saturday": [],
-        "sunday": [
-          {
-            "id": 1768751956659,
-            "start": "16:00",
-            "end": "18:00"
-          }
-        ]
+        "sunday": []
       },
-      "updatedAt": "2026-01-18T15:59:34.236Z",
+      "updatedAt": "2026-01-20T16:36:10.981Z",
       "createdAt": "2026-01-16T18:32:54.490Z"
     }
   ],
@@ -469,9 +525,9 @@
         "phone": "6912345678",
         "email": "eleni@gmail.com"
       },
-      "status": "confirmed",
+      "status": "rejected",
       "createdAt": "2026-01-18T07:58:49.888Z",
-      "updatedAt": "2026-01-18T09:41:08.293Z",
+      "updatedAt": "2026-01-20T16:30:21.788Z",
       "urgent": "Όχι"
     },
     {
@@ -550,9 +606,49 @@
         "phone": "6912345678",
         "email": "eleni@gmail.com"
       },
-      "status": "completed",
+      "status": "rejected",
       "createdAt": "2026-01-18T18:39:29.906Z",
-      "updatedAt": "2026-01-20T13:47:54.633Z"
+      "updatedAt": "2026-01-20T16:35:15.915Z"
+    },
+    {
+      "id": "df19",
+      "ownerId": "1",
+      "vetId": "3",
+      "petId": "1",
+      "date": "2026-01-28",
+      "time": "09:00",
+      "service": "Γενική Εξέταση",
+      "notes": "",
+      "urgent": "Ναι",
+      "ownerInfo": {
+        "name": "Ελένη",
+        "surname": "Αποστολάκη",
+        "phone": "6912345678",
+        "email": "eleni@gmail.com"
+      },
+      "status": "confirmed",
+      "createdAt": "2026-01-20T16:29:05.462Z",
+      "updatedAt": "2026-01-20T16:35:05.067Z"
+    },
+    {
+      "id": "595f",
+      "ownerId": "1",
+      "vetId": "3",
+      "petId": "1",
+      "date": "2026-01-28",
+      "time": "10:30",
+      "service": "Γενική Εξέταση",
+      "notes": "",
+      "urgent": "Ναι",
+      "ownerInfo": {
+        "name": "Ελένη",
+        "surname": "Αποστολάκη",
+        "phone": "6912345678",
+        "email": "eleni@gmail.com"
+      },
+      "status": "final",
+      "createdAt": "2026-01-20T16:30:11.300Z",
+      "updatedAt": "2026-01-20T16:30:11.300Z"
     }
   ],
   "medicalActs": [
@@ -572,6 +668,23 @@
       "instructions": "",
       "updatedAt": "2026-01-16T15:20:00.952Z",
       "createdAt": "2026-01-16T15:20:00.952Z"
+    },
+    {
+      "id": "2522",
+      "petId": "2",
+      "ownerId": "1",
+      "vetId": "3",
+      "status": "final",
+      "actType": "Εμβολιασμός",
+      "vaccine": "εμβόλιο",
+      "surgeryDesc": "",
+      "medication": "",
+      "frequency": "",
+      "dosage": 2,
+      "actDate": "2026-01-20",
+      "instructions": "",
+      "updatedAt": "2026-01-20T16:34:43.128Z",
+      "createdAt": "2026-01-20T16:34:38.631Z"
     }
   ],
   "lifeEvents": [
@@ -689,34 +802,6 @@
       "updatedAt": "2026-01-16T17:29:48.615Z"
     },
     {
-      "id": "fbee",
-      "ownerId": "1",
-      "petId": "1",
-      "type": "Απώλεια",
-      "date": "2026-01-09",
-      "details": {
-        "ownerFirstName": "Ελένη",
-        "ownerLastName": "Αποστολάκη",
-        "ownerPhone": "6912345678",
-        "ownerAddress": "",
-        "ownerEmail": "eleni@gmail.com",
-        "petName": "Μπιχλίτσα",
-        "petType": "Σκύλος",
-        "petMicrochip": "147258369",
-        "petPhoto": "https://images.unsplash.com/photo-1629740067905-bd3f515aa739?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "petBreed": "Shih Tzu",
-        "petAge": "6",
-        "petColor": "Λευκό",
-        "petGender": "Αρσενικό",
-        "lossDate": "2026-01-09",
-        "lossArea": "λ",
-        "lossDescription": "κκ"
-      },
-      "status": "draft",
-      "createdAt": "2026-01-17T14:47:45.857Z",
-      "updatedAt": "2026-01-17T14:47:45.857Z"
-    },
-    {
       "id": "95c5",
       "ownerId": "1",
       "petId": "",
@@ -741,6 +826,34 @@
       "status": "final",
       "createdAt": "2026-01-17T17:13:55.528Z",
       "updatedAt": "2026-01-17T17:13:55.528Z"
+    },
+    {
+      "id": "e7e8",
+      "ownerId": "1",
+      "petId": "1",
+      "type": "Απώλεια",
+      "date": "2026-01-20",
+      "details": {
+        "ownerFirstName": "Ελένη",
+        "ownerLastName": "Αποστολάκη",
+        "ownerPhone": "6912345678",
+        "ownerAddress": "",
+        "ownerEmail": "eleni@gmail.com",
+        "petName": "Μπιχλίτσα",
+        "petType": "Σκύλος",
+        "petMicrochip": "147258369",
+        "petPhoto": "https://images.unsplash.com/photo-1629740067905-bd3f515aa739?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "petBreed": "Shih Tzu",
+        "petAge": "6",
+        "petColor": "Λευκό",
+        "petGender": "Θυληκό",
+        "lossDate": "2026-01-20",
+        "lossArea": "Ζωγράφου",
+        "lossDescription": "Είχαμε πάει βόλτα στο πάρκο και έχασε το δρόμο."
+      },
+      "status": "final",
+      "createdAt": "2026-01-20T16:31:20.455Z",
+      "updatedAt": "2026-01-20T16:31:42.094Z"
     }
   ],
   "reviews": [
@@ -772,6 +885,21 @@
       "date": "2026-01-13",
       "time": "12:00",
       "createdAt": "2026-01-20T16:02:36.143Z"
+    },
+    {
+      "id": "ad1b",
+      "appointmentId": "d9c6",
+      "vetId": "3",
+      "ownerId": "1",
+      "ownerName": "Ελένη Αποστολάκη",
+      "ownerPhoto": "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "rating": 5,
+      "comment": "Πολύ καλή!!",
+      "recommend": "yes",
+      "service": "Εμβολιασμός",
+      "date": "2026-01-18",
+      "time": "16:00",
+      "createdAt": "2026-01-20T16:30:38.154Z"
     }
   ]
 }

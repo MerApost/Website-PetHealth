@@ -75,6 +75,8 @@ export default function FindVetArrangeMeeting() {
   const navigate = useNavigate();
   const role = (localStorage.getItem("role") || "").trim();
   const loggedInUserId = (localStorage.getItem("userId") || "").trim();
+  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+  const ownerId = userId || loggedInUserId;
 
   const [vetData, setVetData] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -220,9 +222,9 @@ export default function FindVetArrangeMeeting() {
 
   React.useEffect(() => {
     const loadOwner = async () => {
-      if (!userId) return;
+      if (!isLoggedIn || role !== "owner" || !ownerId) return;
       try {
-        const res = await fetch(`http://localhost:3004/users/${userId}`);
+        const res = await fetch(`http://localhost:3004/users/${ownerId}`);
         if (!res.ok) return;
         const data = await res.json();
         setOwnerInfo({
@@ -241,7 +243,7 @@ export default function FindVetArrangeMeeting() {
       }
     };
     loadOwner();
-  }, [userId, form.petId]);
+  }, [ownerId, form.petId, isLoggedIn, role]);
 
   const getDayKey = (dateString) => {
     const d = new Date(dateString);
@@ -374,8 +376,6 @@ export default function FindVetArrangeMeeting() {
   const updateForm = (key, value) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
-  const ownerId = userId || loggedInUserId;
   const showDrawer = isLoggedIn && role === "owner";
   const minDate = React.useMemo(() => {
     const d = new Date();
