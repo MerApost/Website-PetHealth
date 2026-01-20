@@ -13,12 +13,20 @@ import {
 import MemoryIcon from '@mui/icons-material/Memory';
 import SearchIcon from '@mui/icons-material/Search';
 
-import { useLayoutEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function VetMainPage(){
   const location = useLocation();
+  const navigate = useNavigate();
   const hasScrolled = useRef(false);
+  const [query, setQuery] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const vetId = (localStorage.getItem("userId") || "").trim();
+  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+  const role = (localStorage.getItem("role") || "").trim();
   
   // ΧΡΗΣΗ useLayoutEffect - τρέχει ΠΡΙΝ από το render
   useLayoutEffect(() => {
@@ -59,6 +67,60 @@ export default function VetMainPage(){
     };
   }, [location.pathname]); // Μόνο το pathname
 
+  const handleSearch = async () => {
+    const needle = query.trim();
+    if (!needle) {
+      setMessage("Πληκτρολόγησε κωδικό microchip.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setMessage("");
+
+      const usersRes = await fetch("http://localhost:3004/users");
+      const usersData = usersRes.ok ? await usersRes.json() : [];
+
+      let foundPet = null;
+      let foundOwner = null;
+
+      if (Array.isArray(usersData)) {
+        for (const u of usersData) {
+          if (!Array.isArray(u.pets)) continue;
+          const match = u.pets.find(
+            (p) => String(p.microchip || "").trim() === needle
+          );
+          if (match) {
+            foundPet = match;
+            foundOwner = u;
+            break;
+          }
+        }
+      }
+
+      if (!foundPet) {
+        setMessage("Δεν βρέθηκε κατοικίδιο με αυτό το microchip.");
+        return;
+      }
+
+      if (!isLoggedIn || role !== "vet" || !vetId) {
+        sessionStorage.setItem(
+          "postAuthVetHealthBook",
+          JSON.stringify({ ownerId: foundOwner.id, petId: foundPet.id })
+        );
+        navigate("/login");
+        return;
+      }
+
+      navigate(`/vet_main/${vetId}/health-book/${foundOwner.id}/${foundPet.id}`);
+    } catch (e) {
+      console.error(e);
+      setMessage("Σφάλμα φόρτωσης δεδομένων.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <header className="Owner-main-header">  
       <img src={vet_main_page} className="Owner" alt="Vet Main Page" />
@@ -67,6 +129,8 @@ export default function VetMainPage(){
         <Box className="input_group_vet">
           <MemoryIcon className="icons" />
           <TextField id="filled-basic" label="Εισαγωγή κωδικού Microchip" variant="filled" className="input_field_vet" 
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
           sx={{
             '& .MuiInputBase-root': {
               height: '56px', // Ύψος
@@ -75,11 +139,13 @@ export default function VetMainPage(){
           }}/>
         </Box>
 
-        <Button className='search-button'>
+        <Button className='search-button' onClick={handleSearch} disabled={loading}>
           <SearchIcon className="search_icon" />
           Αναζήτηση
         </Button>
       </Box>
+
+      {message && <div className="vet-main-message">{message}</div>}
 
       <Box className='quick-selection-container-vet'>
         {/* ΔΕΥΤΕΡΗ ΓΡΑΜΜΗ - 2 ΚΟΥΤΑΚΙΑ */}

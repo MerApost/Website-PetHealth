@@ -28,6 +28,14 @@
   color: #a56312 !important;
 }
 
+.vet-main-message{
+  text-align: center;
+  font-size: 13px;
+  color: #444;
+  margin: -30px auto 20px;
+  max-width: 600px;
+}
+
 
 /* ΝΕΑ CSS ΓΙΑ ΤΙΣ ΓΡΗΓΟΡΕΣ ΕΠΙΛΟΓΕΣ */
 .quick-selection-container-vet {

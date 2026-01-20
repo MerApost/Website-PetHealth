@@ -43,6 +43,24 @@ export default function Login({ setIsLoggedIn, setRole }) {
     setIsLoggedIn(true);
     setRole(user.role);
 
+    const vetHealthBook = sessionStorage.getItem("postAuthVetHealthBook");
+    if (vetHealthBook) {
+      sessionStorage.removeItem("postAuthVetHealthBook");
+      if (user.role === "vet") {
+        try {
+          const parsed = JSON.parse(vetHealthBook);
+          if (parsed?.ownerId && parsed?.petId) {
+            navigate(
+              `/vet_main/${user.id}/health-book/${parsed.ownerId}/${parsed.petId}`
+            );
+            return;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+
     //για ραντεβου, να συνεχισει απο κει που ειχε μεινει στο βημα 3 μετα τη συνδεση/εγγραφη
     const redirect = sessionStorage.getItem("postAuthRedirect");
     if (redirect) {

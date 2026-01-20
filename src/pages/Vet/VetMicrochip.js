@@ -18,6 +18,8 @@ import VetDashboard from "./VetDashboard";
 export default function VetMicrochip() {
   const navigate = useNavigate();
   const vetId = (localStorage.getItem("userId") || "").trim();
+  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+  const role = (localStorage.getItem("role") || "").trim();
   const [query, setQuery] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [message, setMessage] = React.useState("");
@@ -58,8 +60,12 @@ export default function VetMicrochip() {
         return;
       }
 
-      if (!vetId) {
-        setMessage("Απαιτείται σύνδεση κτηνιάτρου.");
+      if (!isLoggedIn || role !== "vet" || !vetId) {
+        sessionStorage.setItem(
+          "postAuthVetHealthBook",
+          JSON.stringify({ ownerId: foundOwner.id, petId: foundPet.id })
+        );
+        navigate("/login");
         return;
       }
       navigate(`/vet_main/${vetId}/health-book/${foundOwner.id}/${foundPet.id}`);
