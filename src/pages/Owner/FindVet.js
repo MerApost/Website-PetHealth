@@ -792,7 +792,7 @@ export default function FindVet(){
                                                                 {vet.rating?.toFixed(1) || '4.8'}
                                                             </Typography>
                                                             <Typography variant="caption" sx={{ ml: 0.5, color: '#6c757d' }}>
-                                                                ({vet.reviewsCount || 129})
+                                                                ({vet.reviewsCount || 0})
                                                             </Typography>
                                                         </Box>
                                                         

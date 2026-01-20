@@ -254,6 +254,23 @@
           "isLost": true
         }
       ]
+    },
+    {
+      "id": "ff5c",
+      "role": "vet",
+      "name": "Νίκος",
+      "surname": "Παπαθανασίου",
+      "email": "nickp@gmail.com",
+      "phone": "6955555555",
+      "afm": "123456123",
+      "password": "12345678Aa!",
+      "gender": "Αρσενικό",
+      "experience": "1",
+      "studiesLevel": "ΕΚΠΑ",
+      "clinicAddress": "Μοναστηράκι",
+      "specialty": "Γενικός Κτηνίατρος",
+      "licenseNumber": "6",
+      "profession": "Κτηνίατρος"
     }
   ],
   "lostPets": [
