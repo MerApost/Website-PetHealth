@@ -1,8 +1,8 @@
 import {
   TextField,
-  Autocomplete,
   Box,
   Button,
+  MenuItem,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -42,80 +42,56 @@ const PetSearchBar = ({
         ...sx
       }}
     >
-      {/* Είδος Κατοιδίου */}
+      {/* Είδος Κατοικιδίου */}
       <Box sx={{ minWidth: { xs: '100%', md: '250px' } }}>
-        <Autocomplete
-          disablePortal
-          id="pet-type-input"
-          options={petTypes}
-          getOptionLabel={(option) => typeof option === 'string' ? option : option.label || option}
-          isOptionEqualToValue={(option, value) => {
-            if (typeof option === 'string' && typeof value === 'string') {
-              return option === value;
-            }
-            if (option && value) {
-              const optionLabel = option.label || option;
-              const valueLabel = value.label || value;
-              return optionLabel === valueLabel;
-            }
-            return false;
+        <TextField
+          select
+          label={petTypeLabel}
+          variant="standard"
+          className="input_field"
+          fullWidth
+          value={petTypeFilter || ""}
+          onChange={(event) => {
+            const value = event.target.value;
+            onPetTypeChange(value || "");
           }}
-          sx={{ 
-            width: '100%',
-            '& .MuiInput-root': {
-              paddingLeft: '8px'
-            }
-          }}
-          value={petTypeFilter}
-          onChange={(event, newValue) => {
-            console.log('Pet type changed to:', newValue);
-            onPetTypeChange(newValue);
-          }}
-          renderInput={(params) => (
-            <TextField 
-              {...params} 
-              label={petTypeLabel}
-              variant="standard"
-              className="input_field"
-              fullWidth
-            />
-          )}
-        />
+        >
+          <MenuItem value="">Όλα</MenuItem>
+          {petTypes.map((option) => {
+            const label = typeof option === "string" ? option : option.label || option;
+            return (
+              <MenuItem key={label} value={label}>
+                {label}
+              </MenuItem>
+            );
+          })}
+        </TextField>
       </Box>
 
       {/* Τοποθεσία Εύρεσης */}
       <Box sx={{ minWidth: { xs: '100%', md: '250px' } }}>
-        <Autocomplete
-          disablePortal
-          id="location-input"
-          options={locationAreas}
-          getOptionLabel={(option) => option.label || option}
-          isOptionEqualToValue={(option, value) => {
-            const optionLabel = option?.label || option;
-            const valueLabel = value?.label || value;
-            return optionLabel === valueLabel;
+        <TextField
+          select
+          label={locationLabel}
+          variant="standard"
+          className="input_field"
+          fullWidth
+          value={locationFilter || ""}
+          onChange={(event) => {
+            const value = event.target.value;
+            onLocationChange(value || "");
           }}
-          sx={{ 
-            width: '100%',
-            '& .MuiInput-root': {
-              paddingLeft: '8px'
-            }
-          }}
-          value={locationFilter}
-          onChange={(event, newValue) => {
-            console.log('Location changed to:', newValue);
-            onLocationChange(newValue);
-          }}
-          renderInput={(params) => (
-            <TextField 
-              {...params} 
-              label={locationLabel}
-              variant="standard"
-              className="input_field"
-              fullWidth
-            />
-          )}
-        />
+        >
+          <MenuItem value="">Όλες</MenuItem>
+          {locationAreas.map((option) => {
+            const label = option.label || option;
+            return (
+              <MenuItem key={label} value={label}>
+                {label}
+              </MenuItem>
+            );
+          })}
+        </TextField>
       </Box>
 
       <Button 

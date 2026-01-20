@@ -116,15 +116,15 @@ const filteredReviews = React.useMemo(() => {
 }, [reviews, reviewFilter]);
 
   const avgRating = React.useMemo(() => {
-    if (!reviews.length) return Number(vetData?.rating) || 0;
+    if (!reviews.length) return 5;
     const total = reviews.reduce((sum, r) => sum + (Number(r.rating) || 0), 0);
     return total / reviews.length;
-  }, [reviews, vetData]);
+  }, [reviews]);
 
   // Συνάρτηση για μεταφορά σε σελίδα κτηνίατρου
   const handleArrangeMeeting = useCallback((vetId) => {
     if (!showDrawer) {
-      navigate("/login");
+      navigate(`/find_vet/${vetId}/arrange_meeting`);
       return;
     }
     navigate(`/owner_main/${ownerId}/find_vet/${vetId}/arrange_meeting`);

@@ -498,6 +498,11 @@ export default function VetNewEvent() {
       nextErrors.vetPhone = "Έως 10 ψηφία.";
     }
 
+    const today = new Date().toISOString().slice(0, 10);
+    if (lossForm.lossDate && lossForm.lossDate > today) {
+      nextErrors.lossDate = "Δεν επιτρέπεται μελλοντική ημερομηνία.";
+    }
+
     if (countWords(lossForm.lossDescription) > 50) {
       nextErrors.lossDescription = "Έως 50 λέξεις.";
     }
@@ -730,12 +735,11 @@ export default function VetNewEvent() {
   };
 
   const save = async (status = "final") => {
-    if (!eventType || !eventDate) {
+    if (!eventType) {
       const nextErrors = {};
       if (!eventType) nextErrors.eventType = "Υποχρεωτικό πεδίο.";
-      if (!eventDate) nextErrors.eventDate = "Υποχρεωτικό πεδίο.";
       setEventErrors(nextErrors);
-      alert("Συμπλήρωσε συμβάν και ημερομηνία.");
+      alert("Συμπλήρωσε συμβάν.");
       return;
     }
     if (eventType === "Απώλεια" && !validateLossForm()) return;
@@ -748,11 +752,12 @@ export default function VetNewEvent() {
       setSaving(true);
       const cleanEditId =
         editId && editId !== "undefined" && editId !== "null" ? editId : "";
+      const resolvedEventDate = eventDate || new Date().toISOString().slice(0, 10);
       const payload = {
         petId,
         ownerId,
         type: eventType,
-        date: eventDate,
+        date: resolvedEventDate,
         details:
           eventType === "Απώλεια"
             ? lossForm
@@ -882,22 +887,6 @@ export default function VetNewEvent() {
               </div>
 
               <div>
-                <Typography className="ve-panel-title">Επέλεξε Ημερομηνία:</Typography>
-                <TextField
-                  type="date"
-                  size="small"
-                  fullWidth
-                  value={eventDate}
-                  onChange={(e) => {
-                    setEventDate(e.target.value);
-                    if (eventErrors.eventDate) {
-                      setEventErrors((prev) => ({ ...prev, eventDate: "" }));
-                    }
-                  }}
-                  className="ve-date"
-                  error={Boolean(eventErrors.eventDate)}
-                  helperText={eventErrors.eventDate || ""}
-                />
                 {eventErrors.eventType && (
                   <div className="ve-error">{eventErrors.eventType}</div>
                 )}
@@ -1142,8 +1131,9 @@ export default function VetNewEvent() {
               className="ve-btn"
               onClick={() => {
                 if (activeStep === 0) {
-                  if (!eventType || !eventDate) {
-                    alert("Συμπλήρωσε συμβάν και ημερομηνία.");
+                  if (!eventType) {
+                    setEventErrors({ eventType: "Υποχρεωτικό πεδίο." });
+                    alert("Συμπλήρωσε συμβάν.");
                     return;
                   }
                   setActiveStep(1);

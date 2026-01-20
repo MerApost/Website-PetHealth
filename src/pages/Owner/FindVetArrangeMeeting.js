@@ -73,6 +73,8 @@ export default function FindVetArrangeMeeting() {
   const hasScrolled = useRef(false);
   const { id: userId, vetid } = useParams();
   const navigate = useNavigate();
+  const role = (localStorage.getItem("role") || "").trim();
+  const loggedInUserId = (localStorage.getItem("userId") || "").trim();
 
   const [vetData, setVetData] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -373,6 +375,15 @@ export default function FindVetArrangeMeeting() {
     setForm((prev) => ({ ...prev, [key]: value }));
 
   const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+  const ownerId = userId || loggedInUserId;
+  const showDrawer = isLoggedIn && role === "owner";
+  const minDate = React.useMemo(() => {
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  }, []);
 
   //για να συνεχίσει μετά την σύνδεση/εγγραφη απο εκει που ειχε μεινει στο βημα 3 με τα στοιχεια συμπληρωμενα
   const goToAuth = (target) => {
@@ -390,6 +401,10 @@ export default function FindVetArrangeMeeting() {
   const validateStep1 = () => {
     if (!form.date || !form.time) {
       alert("Συμπλήρωσε ημερομηνία και ώρα.");
+      return false;
+    }
+    if (form.date < minDate) {
+      alert("Δεν μπορείς να επιλέξεις προηγούμενη ημερομηνία.");
       return false;
     }
     return true;
@@ -437,7 +452,7 @@ export default function FindVetArrangeMeeting() {
         return;
       }
       const payload = {
-        ownerId: userId,
+        ownerId: ownerId,
         vetId: vetid,
         petId: form.petId,
         date: form.date,
@@ -475,7 +490,7 @@ export default function FindVetArrangeMeeting() {
     return (
       <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <CssBaseline />
-        {isLoggedIn && (
+        {showDrawer && (
           <Drawer
             sx={{
               width: drawerWidth,
@@ -492,7 +507,7 @@ export default function FindVetArrangeMeeting() {
           >
             <List>
               <ListItem disablePadding>
-                <ListItemButton onClick={() => navigate(`/owner_main/${userId}`)}>
+                <ListItemButton onClick={() => navigate(`/owner_main/${ownerId}`)}>
                   <ListItemIcon>
                     <PetsIcon sx={{ color: 'black' }} />
                   </ListItemIcon>
@@ -501,7 +516,7 @@ export default function FindVetArrangeMeeting() {
               </ListItem>
               <ListItem disablePadding>
                 <ListItemButton
-                  onClick={() => navigate(`/owner_main/${userId}/find_vet`)}
+                  onClick={() => navigate(`/owner_main/${ownerId}/find_vet`)}
                   sx={{ backgroundColor: '#D7D3CB' }}
                 >
                   <ListItemIcon>
@@ -589,7 +604,9 @@ export default function FindVetArrangeMeeting() {
           </Alert>
           <Button 
             variant="contained" 
-            onClick={() => navigate(`/owner_main/${userId}/find_vet`)}
+            onClick={() =>
+              navigate(showDrawer ? `/owner_main/${ownerId}/find_vet` : "/find_vet")
+            }
             sx={{ mt: 2 }}
           >
             Επιστροφή στη λίστα κτηνιάτρων
@@ -602,7 +619,7 @@ export default function FindVetArrangeMeeting() {
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
       <CssBaseline />
-      {isLoggedIn && (
+      {showDrawer && (
         <Drawer
           sx={{
             width: drawerWidth,
@@ -619,7 +636,7 @@ export default function FindVetArrangeMeeting() {
         >
           <List>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate(`/owner_main/${userId}`)}>
+              <ListItemButton onClick={() => navigate(`/owner_main/${ownerId}`)}>
                 <ListItemIcon>
                   <PetsIcon sx={{ color: 'black' }} />
                 </ListItemIcon>
@@ -628,7 +645,7 @@ export default function FindVetArrangeMeeting() {
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton
-                onClick={() => navigate(`/owner_main/${userId}/find_vet`)}
+                onClick={() => navigate(`/owner_main/${ownerId}/find_vet`)}
                 sx={{ backgroundColor: '#D7D3CB' }}
               >
                 <ListItemIcon>
@@ -639,7 +656,7 @@ export default function FindVetArrangeMeeting() {
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton
-                onClick={() => navigate(`/owner_main/${userId}/appointments`)}
+                onClick={() => navigate(`/owner_main/${ownerId}/appointments`)}
               >
                 <ListItemIcon>
                   <CalendarMonthIcon sx={{ color: 'black' }} />
@@ -649,7 +666,7 @@ export default function FindVetArrangeMeeting() {
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton
-                onClick={() => navigate(`/owner_main/${userId}/lost_report`)}
+                onClick={() => navigate(`/owner_main/${ownerId}/lost_report`)}
               >
                 <ListItemIcon>
                   <DescriptionIcon sx={{ color: 'black' }} />
@@ -659,7 +676,7 @@ export default function FindVetArrangeMeeting() {
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton
-                onClick={() => navigate(`/owner_main/${userId}/found_report`)}
+                onClick={() => navigate(`/owner_main/${ownerId}/found_report`)}
               >
                 <ListItemIcon>
                   <DescriptionIcon sx={{ color: 'black' }} />
@@ -669,7 +686,7 @@ export default function FindVetArrangeMeeting() {
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton
-                onClick={() => navigate(`/owner_main/${userId}/history_report`)}
+                onClick={() => navigate(`/owner_main/${ownerId}/history_report`)}
               >
                 <ListItemIcon>
                   <HistoryIcon sx={{ color: 'black' }} />
@@ -730,6 +747,7 @@ export default function FindVetArrangeMeeting() {
                         const value = e.target.value;
                         updateForm("date", value);
                       }}
+                      inputProps={{ min: minDate }}
                     />
                     <TextField
                       select
@@ -927,7 +945,9 @@ export default function FindVetArrangeMeeting() {
                     <Button
                       variant="contained"
                       className="fam-btn-blue"
-                      onClick={() => navigate(`/owner_main/${userId}`)}
+                      onClick={() =>
+                        navigate(showDrawer ? `/owner_main/${ownerId}` : "/find_vet")
+                      }
                     >
                       Αποστολή email
                     </Button>
@@ -942,7 +962,7 @@ export default function FindVetArrangeMeeting() {
                     className="fam-btn"
                     onClick={() => {
                       if (activeStep === 0) {
-                        navigate(`/owner_main/${userId}/find_vet`);
+                        navigate(showDrawer ? `/owner_main/${ownerId}/find_vet` : "/find_vet");
                       } else {
                         setActiveStep((s) => Math.max(s - 1, 0));
                       }
@@ -957,7 +977,7 @@ export default function FindVetArrangeMeeting() {
                       onClick={() => {
                         if (activeStep === 0 && !validateStep1()) return;
                         if (activeStep === 1 && !validateStep2()) return;
-                        if (activeStep === 2 && !validateStep3()) return;
+                        if (activeStep === 2 && isLoggedIn && !validateStep3()) return;
                         setActiveStep((s) => Math.min(s + 1, steps.length - 1));
                       }}
                     >

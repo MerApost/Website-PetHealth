@@ -97,6 +97,7 @@ export default function App() {
           <Route path="/owner_main/:id" element={<OwnerLogIn />} />
           <Route path="/find_vet" element={<FindVet />} />
           <Route path="/find_vet/:vetid" element={<FindVetViewProfileBio />} />
+          <Route path="/find_vet/:vetid/arrange_meeting" element={<FindVetArrangeMeeting />} />
           <Route path="/owner_main/:id/find_vet" element={<FindVet />} />
           <Route path="/owner_main/:id/appointments" element={<Appointments />} />
           <Route path="/owner_main/:id/appointments/:appointmentId" element={<OwnerAppointmentDetails />} />

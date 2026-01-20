@@ -177,6 +177,11 @@ export default function LostReport(){
         nextErrors.ownerPhone = "Έως 10 ψηφία.";
       }
 
+      const today = new Date().toISOString().slice(0, 10);
+      if (form.lossDate && form.lossDate > today) {
+        nextErrors.lossDate = "Δεν επιτρέπεται μελλοντική ημερομηνία.";
+      }
+
       if (countWords(form.lossDescription) > 50) {
         nextErrors.lossDescription = "Έως 50 λέξεις.";
       }

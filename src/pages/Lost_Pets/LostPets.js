@@ -37,8 +37,8 @@ export default function LostPets() {
     selectedBreeds: []
   });
   
-  const [petTypeFilter, setPetTypeFilter] = useState(null);
-  const [locationFilter, setLocationFilter] = useState(null);
+  const [petTypeFilter, setPetTypeFilter] = useState('');
+  const [locationFilter, setLocationFilter] = useState('');
   
   // Συνάρτηση για ταξινόμηση από το πιο πρόσφατα χαμένο
   const sortLostPets = useCallback((pets) => {
@@ -296,19 +296,11 @@ export default function LostPets() {
     const locationParam = searchParams.get('location');
     
     if (typeParam) {
-      const foundPetType = Pet_Types.find(pet => {
-        const petLabel = typeof pet === 'string' ? pet : pet.label;
-        return petLabel === typeParam;
-      });
-      setPetTypeFilter(foundPetType || typeParam);
+      setPetTypeFilter(typeParam);
     }
     
     if (locationParam) {
-      const foundLocation = Athens_areas.find(area => {
-        const areaLabel = typeof area === 'string' ? area : area.label;
-        return areaLabel === locationParam;
-      });
-      setLocationFilter(foundLocation || locationParam);
+      setLocationFilter(locationParam);
     }
   }, [searchParams]);
   

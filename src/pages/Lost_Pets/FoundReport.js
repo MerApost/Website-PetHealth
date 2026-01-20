@@ -10,9 +10,13 @@ import {
   TextField,
   Button,
   Box,
+  MenuItem,
 } from "@mui/material";
 
 import "./FoundReport.css";
+import Pet_Types from "./Data/Pet_Types";
+import { Pet_Breeds } from "./Data/Pet_Breeds";
+import { GenderOptions } from "./Data/GenderOptions";
 
 const initial = {
   petName: "",
@@ -88,6 +92,11 @@ export default function FoundReport() {
     const phone = String(form.phone || "").trim();
     if (phone && phone.length > 10) {
       nextErrors.phone = "Έως 10 ψηφία.";
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
+    if (form.foundDate && form.foundDate > today) {
+      nextErrors.foundDate = "Δεν επιτρέπεται μελλοντική ημερομηνία.";
     }
 
     return nextErrors;
@@ -182,43 +191,7 @@ export default function FoundReport() {
                   />
                 </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    label="Είδος*"
-                    size="small"
-                    fullWidth
-                    value={form.species}
-                    onChange={change("species")}
-                    placeholder="Σκύλος/Γάτα..."
-                    error={Boolean(errors.species)}
-                    helperText={errors.species || ""}
-                  />
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    label="Ράτσα"
-                    size="small"
-                    fullWidth
-                    value={form.breed}
-                    onChange={change("breed")}
-                  />
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    label="Φύλο*"
-                    size="small"
-                    fullWidth
-                    value={form.gender}
-                    onChange={change("gender")}
-                    placeholder="Αρσενικό/Θηλυκό"
-                    error={Boolean(errors.gender)}
-                    helperText={errors.gender || ""}
-                  />
-                </Grid>
-
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6 }>
                   <TextField
                     label="Χρώμα"
                     size="small"
@@ -228,7 +201,8 @@ export default function FoundReport() {
                   />
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+               
+                <Grid item sx={{ width: '150px' }}>
                   <TextField
                     label="Ηλικία"
                     size="small"
@@ -238,7 +212,62 @@ export default function FoundReport() {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+
+                <Grid item sx={{ width: '150px' }}>
+                  <TextField
+                    select
+                    label="Είδος*"
+                    size="small"
+                    fullWidth
+                    value={form.species}
+                    onChange={change("species")}
+                    error={Boolean(errors.species)}
+                    helperText={errors.species || ""}
+                  >
+                    {Pet_Types.map((p) => (
+                      <MenuItem key={p.label} value={p.label}>
+                        {p.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+
+                <Grid item sx={{ width: '150px' }}>
+                  <TextField
+                    select
+                    label="Ράτσα"
+                    size="small"
+                    fullWidth
+                    value={form.breed}
+                    onChange={change("breed")}
+                  >
+                    {Pet_Breeds.map((b) => (
+                      <MenuItem key={b.value || b.label} value={b.value || b.label}>
+                        {b.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+
+                <Grid item sx={{ width: '150px' }}>
+                  <TextField
+                    select
+                    label="Φύλο*"
+                    size="small"
+                    fullWidth
+                    value={form.gender}
+                    onChange={change("gender")}
+                    error={Boolean(errors.gender)}
+                    helperText={errors.gender || ""}
+                  >
+                    {GenderOptions.map((g) => (
+                      <MenuItem key={g.value || g.label} value={g.value}>
+                        {g.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                 <Grid item xs={12}>
                   <div className="photo-upload-row">
                     <div className="photo-preview">
                       {form.photo && form.photo.trim() !== "" ? (
@@ -260,7 +289,9 @@ export default function FoundReport() {
                     </div>
                   </div>
                 </Grid>
+
               </Grid>
+              
             )}
 
             {/* Εύρεση */}
@@ -275,6 +306,7 @@ export default function FoundReport() {
                     value={form.foundDate}
                     onChange={change("foundDate")}
                     InputLabelProps={{ shrink: true }}
+                    inputProps={{ max: new Date().toISOString().slice(0, 10) }}
                     error={Boolean(errors.foundDate)}
                     helperText={errors.foundDate || ""}
                   />

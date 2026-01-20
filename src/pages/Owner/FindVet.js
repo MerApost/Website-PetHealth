@@ -104,12 +104,21 @@ export default function FindVet(){
             }
             
             const users = await response.json();
+            const reviewsRes = await fetch('http://localhost:3004/reviews');
+            const reviewsData = reviewsRes.ok ? await reviewsRes.json() : [];
             
             // Φιλτράρουμε μόνο τους κτηνιάτρους (role: "vet")
             const vets = users.filter(user => user.role === "vet");
             
             // Εμπλουτίζουμε τα δεδομένα αν χρειάζεται
-            const enrichedVets = vets.map(vet => ({
+            const enrichedVets = vets.map(vet => {
+                const vetReviews = Array.isArray(reviewsData)
+                    ? reviewsData.filter((r) => String(r.vetId) === String(vet.id))
+                    : [];
+                const ratingAverage = vetReviews.length
+                    ? vetReviews.reduce((sum, r) => sum + (Number(r.rating) || 0), 0) / vetReviews.length
+                    : 5;
+                return {
                 id: vet.id,
                 name: `${vet.name} ${vet.surname}`,
                 photo: vet.photo,
@@ -120,15 +129,16 @@ export default function FindVet(){
                 services: vet.services,
                 phone: vet.phone || '+30 6935448967',
                 email: vet.email || 'vet.clinic@gmail.com',
-                rating: vet.rating || 4.8,
-                reviewsCount: vet.reviewsCount || 129,
+                rating: ratingAverage,
+                reviewsCount: vetReviews.length,
                 languages: vet.languages || ["Ελληνικά"],
                 paymentMethods: vet.paymentMethods || ["Πληρωμή στο γραφείο"],
                 availability: vet.availability || ["Καθημερινά"],
                 species: vet.species || ["Σκύλος", "Γάτα"],
                 gender: vet.gender || "Θήλυ",
                 priceRange: vet.priceRange || "Μέτριο"
-            }));
+            };
+            });
             
             setAllVets(enrichedVets);
             setFilteredVets(enrichedVets);
@@ -337,7 +347,7 @@ export default function FindVet(){
 
     const handleArrangeMeeting = useCallback((vetId) => {
         if (!ownerBase) {
-            navigate("/login");
+            navigate(`/find_vet/${vetId}/arrange_meeting`);
             return;
         }
         navigate(`${ownerBase}/find_vet/${vetId}/arrange_meeting`);
