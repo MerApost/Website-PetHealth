@@ -23,7 +23,7 @@ import {
   Button
 } from '@mui/material';
 
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import { useLayoutEffect, useRef, useState, useEffect, useCallback } from 'react';
 
 export default function MainPage(){
@@ -282,6 +282,14 @@ export default function MainPage(){
         Η πιο ολοκληρωμένη πλατφόρμα για τη διαχείριση της υγείας των κατοικιδίων σας,
         την ευρεση ειδικευμένων κτηνιάτρων και την επανένωση με χαμένα ζώα.
       </span>
+      <Box className="found-pet-alert">
+        <span className="found-pet-alert-text">
+          Βρήκες χαμένο κατοικίδιο;
+        </span>
+        <RouterLink to="/found_report" className="found-pet-alert-action">
+          Δήλωσέ το!
+        </RouterLink>
+      </Box>
 
       <span style={{ display: 'block', marginTop: '40px', fontSize: '24px'}}>
         Αναζήτηση Απολεσθέντων Κατοικιδίων

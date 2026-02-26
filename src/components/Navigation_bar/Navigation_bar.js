@@ -29,9 +29,9 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
 
   return (
     <AppBar position="fixed" sx={{ bgcolor: "rgba(0,0,0,0.92)", backdropFilter: "blur(10px)" }}>
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        {/* Logo */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between", position: "relative" }}>
+        {/* Left: Logo */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, zIndex: 1 }}>
           <IconButton
             component={RouterLink}
             to="/main_page"
@@ -49,6 +49,58 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
               sx={{ height: 50, width: 70, objectFit: "cover" }}
             />
           </IconButton>
+        </Box>
+
+        {/* Center: Main navigation links */}
+        <Box
+          sx={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            alignItems: "center",
+            gap: 1.5,
+          }}
+        >
+          <Button
+            component={RouterLink}
+            to="/main_page"
+            sx={{
+              color: "white",
+              textDecoration: location.pathname === "/main_page" ? "underline" : "none",
+              textUnderlineOffset: "3px"
+            }}
+          >
+            ΑΡΧΙΚΗ
+          </Button>
+          <Button
+            component={RouterLink}
+            to={ownerBase}
+            sx={{
+              color: "white",
+              minWidth: "auto",
+              padding: "6px 0 6px 16px",
+              textTransform: "none",
+              textDecoration: isOwnerPage ? "underline" : "none",
+              textUnderlineOffset: "3px"
+            }}
+          >
+            ΙΔΙΟΚΤΗΤΗΣ
+          </Button>
+          <Button
+            component={RouterLink}
+            to={vetBase}
+            sx={{
+              color: "white",
+              minWidth: "auto",
+              padding: "6px 0 6px 16px",
+              textTransform: "none",
+              textDecoration: isVetPage ? "underline" : "none",
+              textUnderlineOffset: "3px"
+            }}
+          >
+            ΚΤΗΝΙΑΤΡΟΣ
+          </Button>
           <Button
             component={RouterLink}
             to="/lost_pets"
@@ -61,7 +113,7 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
               textUnderlineOffset: "3px",
             }}
           >
-            Απολεσθέντα
+            ΑΠΟΛΕΣΘΕΝΤΑ
           </Button>
           <Button
             component={RouterLink}
@@ -75,55 +127,12 @@ export default function Navigationbar({ isLoggedIn, setIsLoggedIn }) {
               textUnderlineOffset: "3px",
             }}
           >
-            Βρες Κτηνίατρο
+            ΒΡΕΣ ΚΤΗΝΙΑΤΡΟ
           </Button>
         </Box>
 
-        {/* Links / Menus */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Button
-            component={RouterLink}
-            to="/main_page"
-            sx={{ 
-              color: "white", 
-              textDecoration: location.pathname === "/main_page" ? "underline" : "none",
-              textUnderlineOffset: "3px"
-            }}
-          >
-            ΑΡΧΙΚΗ    
-          </Button>
-
-          <Button
-            component={RouterLink}
-            to={ownerBase}
-            sx={{ 
-              color: "white",
-              minWidth: "auto",
-              padding: "6px 0 6px 16px",
-              textTransform: "none",
-              textDecoration: isOwnerPage ? "underline" : "none",
-              textUnderlineOffset: "3px"
-            }}
-          >
-            ΙΔΙΟΚΤΗΤΗΣ
-          </Button>
-
-          <Button
-            component={RouterLink}
-            to={vetBase}
-            sx={{ 
-              color: "white",
-              minWidth: "auto",
-              padding: "6px 0 6px 16px",
-              textTransform: "none",
-              textDecoration: isVetPage ? "underline" : "none",
-              textUnderlineOffset: "3px"
-            }}
-          >
-            ΚΤΗΝΙΑΤΡΟΣ
-          </Button>
-
-          {/* Right buttons */}
+        {/* Right: auth/profile buttons */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, zIndex: 1 }}>
           <Box sx={{ display: "flex", gap: 1, ml: 2 }}>
              {!isLoggedIn ? (
             <>

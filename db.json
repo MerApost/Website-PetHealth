@@ -33,6 +33,17 @@
           "birthDate": "",
           "age": 4,
           "photo": "https://images.unsplash.com/photo-1637852423152-342403950d2f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        },
+        {
+          "id": 3,
+          "microchip": "88888888",
+          "name": "Λιτσα",
+          "type": "Κουνέλι",
+          "breed": "Boxer",
+          "gender": "Θυληκό",
+          "birthDate": "",
+          "age": 1,
+          "photo": ""
         }
       ],
       "photo": "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -292,11 +303,11 @@
       "ownerId": "4",
       "petId": 2,
       "microchip": "144258267",
-      "lostDate": "29/12/2025",
-      "location": "Εξάρχεια",
-      "additionalInfo": "Η Φιόνα έχασε τον δρόμο για το σπίτι του μετά την καθιερωμένη του βόλτα στο πάρκο. Αν τον δείτε παρακαλώ επικοινωνίστε. Η ζωή του μπορεί βρίσκεται σε κίνδυνο!",
+      "lostDate": "25/01/2026",
+      "location": "Ζωγράφου",
+      "additionalInfo": "την έχασα στο παρκο",
       "status": "found",
-      "foundAt": "2026-01-20T16:26:53.792Z"
+      "foundAt": "2026-01-26T11:05:19.148Z"
     },
     {
       "id": "3",
@@ -353,10 +364,11 @@
       "ownerId": "1",
       "petId": 1,
       "microchip": "147258369",
-      "lostDate": "20/01/2026",
-      "location": "Ζωγράφου",
-      "additionalInfo": "Είχαμε πάει βόλτα στο πάρκο και έχασε το δρόμο.",
-      "status": "lost"
+      "lostDate": "25/01/2026",
+      "location": "111",
+      "additionalInfo": "στο παρκο",
+      "status": "found",
+      "foundAt": "2026-02-16T20:38:17.011Z"
     }
   ],
   "foundReports": [
@@ -379,6 +391,69 @@
       "email": "elenip@gmail.com",
       "phone": "6955555555",
       "createdAt": "2026-01-20T16:26:53.744Z",
+      "status": "submitted"
+    },
+    {
+      "id": "de23",
+      "petName": "",
+      "species": "Σκύλος",
+      "breed": "",
+      "gender": "Θυληκό",
+      "color": "",
+      "age": "",
+      "photo": "",
+      "foundDate": "2026-01-26",
+      "foundTime": "",
+      "area": "ζωγράφου",
+      "address": "",
+      "notes": "",
+      "reporterName": "Μερόπη",
+      "reporterSurname": "Αποστολάκη",
+      "email": "meropi.apostolaki@gmail.com",
+      "phone": "6947225435",
+      "createdAt": "2026-01-26T10:47:43.819Z",
+      "status": "submitted"
+    },
+    {
+      "id": "d46b",
+      "petName": "",
+      "species": "Γάτα",
+      "breed": "",
+      "gender": "Θυληκό",
+      "color": "",
+      "age": "",
+      "photo": "",
+      "foundDate": "2026-01-26",
+      "foundTime": "",
+      "area": "Ζωγράφου",
+      "address": "",
+      "notes": "",
+      "reporterName": "Μερόπη",
+      "reporterSurname": "Αποστολάκη",
+      "email": "meropi.apostolaki@gmail.com",
+      "phone": "6947225435",
+      "createdAt": "2026-01-26T11:05:19.125Z",
+      "status": "submitted"
+    },
+    {
+      "id": "196e",
+      "petName": "",
+      "species": "Σκύλος",
+      "breed": "",
+      "gender": "Θυληκό",
+      "color": "",
+      "age": "",
+      "photo": "",
+      "foundDate": "2026-02-16",
+      "foundTime": "",
+      "area": "α",
+      "address": "",
+      "notes": "",
+      "reporterName": "Meropi",
+      "reporterSurname": "Apostolaki",
+      "email": "",
+      "phone": "6947225435",
+      "createdAt": "2026-02-16T20:38:16.962Z",
       "status": "submitted"
     }
   ],
@@ -436,6 +511,24 @@
       "petId": "",
       "createdAt": "2026-01-20T16:36:54.237Z",
       "updatedAt": "2026-01-20T16:37:00.075Z"
+    },
+    {
+      "id": "b24e",
+      "microchip": "88888888",
+      "name": "Λιτσα",
+      "species": "Κουνέλι",
+      "breed": "Boxer",
+      "gender": "Θυληκό",
+      "birthDate": "",
+      "age": "1",
+      "ownerAfm": "123456789",
+      "photo": "",
+      "vetId": "3",
+      "status": "final",
+      "ownerId": "1",
+      "petId": 3,
+      "createdAt": "2026-01-26T11:16:52.191Z",
+      "updatedAt": "2026-01-26T11:16:52.191Z"
     }
   ],
   "vetSchedules": [
@@ -502,10 +595,16 @@
             "end": "19:30"
           }
         ],
-        "saturday": [],
+        "saturday": [
+          {
+            "id": 1769426287878,
+            "start": "03:19",
+            "end": "19:18"
+          }
+        ],
         "sunday": []
       },
-      "updatedAt": "2026-01-20T16:36:10.981Z",
+      "updatedAt": "2026-01-26T11:18:47.410Z",
       "createdAt": "2026-01-16T18:32:54.490Z"
     }
   ],
@@ -545,9 +644,9 @@
         "phone": "6912345678",
         "email": "eleni@gmail.com"
       },
-      "status": "confirmed",
+      "status": "completed",
       "createdAt": "2026-01-18T09:09:40.559Z",
-      "updatedAt": "2026-01-18T10:29:41.003Z",
+      "updatedAt": "2026-02-26T16:01:32.848Z",
       "urgent": "Όχι"
     },
     {
@@ -626,9 +725,9 @@
         "phone": "6912345678",
         "email": "eleni@gmail.com"
       },
-      "status": "confirmed",
+      "status": "completed",
       "createdAt": "2026-01-20T16:29:05.462Z",
-      "updatedAt": "2026-01-20T16:35:05.067Z"
+      "updatedAt": "2026-02-26T16:01:32.848Z"
     },
     {
       "id": "595f",
@@ -646,9 +745,29 @@
         "phone": "6912345678",
         "email": "eleni@gmail.com"
       },
-      "status": "final",
+      "status": "completed",
       "createdAt": "2026-01-20T16:30:11.300Z",
-      "updatedAt": "2026-01-20T16:30:11.300Z"
+      "updatedAt": "2026-02-26T16:01:32.849Z"
+    },
+    {
+      "id": "6acc",
+      "ownerId": "1",
+      "vetId": "3",
+      "petId": "1",
+      "date": "2026-01-29",
+      "time": "09:30",
+      "service": "Γενική Εξέταση",
+      "notes": "",
+      "urgent": "Όχι",
+      "ownerInfo": {
+        "name": "Ελένη",
+        "surname": "Αποστολάκη",
+        "phone": "6912345678",
+        "email": "eleni@gmail.com"
+      },
+      "status": "completed",
+      "createdAt": "2026-01-26T11:09:01.886Z",
+      "updatedAt": "2026-02-26T16:01:32.847Z"
     }
   ],
   "medicalActs": [
@@ -854,6 +973,65 @@
       "status": "final",
       "createdAt": "2026-01-20T16:31:20.455Z",
       "updatedAt": "2026-01-20T16:31:42.094Z"
+    },
+    {
+      "id": "3b1a",
+      "petId": "2",
+      "ownerId": "4",
+      "type": "Απώλεια",
+      "date": "2026-01-26",
+      "details": {
+        "ownerFirstName": "Ελένη",
+        "ownerLastName": "Κατσακιώρη",
+        "ownerPhone": "6912345678",
+        "ownerAddress": "",
+        "ownerEmail": "elenikatsa@gmail.com",
+        "petName": "Φιόνα",
+        "petType": "Γάτα",
+        "petMicrochip": "144258267",
+        "petPhoto": "https://images.unsplash.com/photo-1644675531117-b92c5cc76257?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "petBreed": "Domestic Longhair",
+        "petAge": "3",
+        "petColor": "Γκρι-Μαύρο",
+        "petGender": "Θυληκό",
+        "lossDate": "2026-01-25",
+        "lossArea": "Ζωγράφου",
+        "lossDescription": "την έχασα στο παρκο",
+        "vetFirstName": "Αναστασία",
+        "vetLastName": "Μυλωνάκη",
+        "vetPhone": "6935448967"
+      },
+      "status": "final",
+      "createdAt": "2026-01-26T10:20:26.925Z",
+      "updatedAt": "2026-01-26T10:20:26.925Z"
+    },
+    {
+      "id": "1bfa",
+      "ownerId": "1",
+      "petId": "1",
+      "type": "Απώλεια",
+      "date": "2026-01-25",
+      "details": {
+        "ownerFirstName": "Ελένη",
+        "ownerLastName": "Αποστολάκη",
+        "ownerPhone": "6912345678",
+        "ownerAddress": "",
+        "ownerEmail": "eleni@gmail.com",
+        "petName": "Μπιχλίτσα",
+        "petType": "Σκύλος",
+        "petMicrochip": "147258369",
+        "petPhoto": "https://images.unsplash.com/photo-1629740067905-bd3f515aa739?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "petBreed": "Shih Tzu",
+        "petAge": "6",
+        "petColor": "Λευκό",
+        "petGender": "Θηλυκό",
+        "lossDate": "2026-01-25",
+        "lossArea": "111",
+        "lossDescription": "στο παρκο"
+      },
+      "status": "final",
+      "createdAt": "2026-01-26T11:12:12.258Z",
+      "updatedAt": "2026-01-26T11:12:28.541Z"
     }
   ],
   "reviews": [

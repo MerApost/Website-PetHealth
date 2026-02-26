@@ -3,7 +3,7 @@
   font-weight: bold; /* Bold */
   max-width: 800px;
   margin: 0; /* Αφαίρεση auto για να μείνει αριστερά */
-  margin-top: 30px;
+  margin-top: -12px;
   line-height: 1.6;
   color: black;
   text-shadow: 2px 2px 4px rgb(0, 0, 0, 0.3);
@@ -48,6 +48,49 @@
 
 .input_field .MuiInputLabel-root.Mui-focused {
   color: #a56312 !important;
+}
+
+.found-pet-alert {
+  width: fit-content;
+  max-width: 620px;
+  margin: 10px 0 0 5px;
+  padding: 0;
+  border-left: none;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+.found-pet-alert-text {
+  color: #3f332a;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.found-pet-alert-action {
+  display: inline;
+  padding: 0;
+  background-color: transparent;
+  color: #a14f24;
+  border: none;
+  border-radius: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  font-size: 19px;
+  font-weight: 800;
+  margin-left: 4px;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.found-pet-alert-action:hover {
+  color: #843f1a;
 }
 
 .quick-details{
@@ -235,6 +278,11 @@
 }
 
 @media (max-width: 900px) { 
+  .found-pet-alert {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .selections {
     width: 90%;
     max-width: 400px;

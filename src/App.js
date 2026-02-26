@@ -94,6 +94,7 @@ export default function App() {
           <Route path="/delete-account" element={<DeleteAccount />} />
           <Route path="/lost_pets/:id" element={<ViewLostPet/>} />
           <Route path="/lost_pets/:id/found_report" element={<FoundReport/>} />
+          <Route path="/found_report" element={<FoundReport/>} />
           <Route path="/owner_main/:id" element={<OwnerLogIn />} />
           <Route path="/find_vet" element={<FindVet />} />
           <Route path="/find_vet/:vetid" element={<FindVetViewProfileBio />} />
