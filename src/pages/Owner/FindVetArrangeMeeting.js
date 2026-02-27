@@ -87,6 +87,8 @@ export default function FindVetArrangeMeeting() {
   const [schedule, setSchedule] = React.useState({ weekly: {}, customSlots: [] });
   const [timeOptions, setTimeOptions] = React.useState([]);
   const [vetAppointments, setVetAppointments] = React.useState([]);
+  const [scheduleLoaded, setScheduleLoaded] = React.useState(false);
+  const [appointmentsLoaded, setAppointmentsLoaded] = React.useState(false);
 
   const [ownerInfo, setOwnerInfo] = React.useState({
     name: "",
@@ -99,7 +101,7 @@ export default function FindVetArrangeMeeting() {
     date: "",
     time: "",
     service: "",
-    petId: "",
+    petId: "unregistered",
     notes: "",
     urgent: "",
   });
@@ -215,6 +217,8 @@ export default function FindVetArrangeMeeting() {
         });
       } catch (e) {
         console.error(e);
+      } finally {
+        setScheduleLoaded(true);
       }
     };
     loadSchedule();
@@ -235,8 +239,8 @@ export default function FindVetArrangeMeeting() {
         });
         const ownerPets = Array.isArray(data?.pets) ? data.pets : [];
         setPets(ownerPets);
-        if (!form.petId && ownerPets.length > 0) {
-          setForm((prev) => ({ ...prev, petId: String(ownerPets[0].id) }));
+        if (!form.petId) {
+          setForm((prev) => ({ ...prev, petId: "unregistered" }));
         }
       } catch (e) {
         console.error(e);
@@ -348,17 +352,24 @@ export default function FindVetArrangeMeeting() {
     }
     const options = buildTimeOptions(form.date);
     setTimeOptions(options);
-    if (!options.includes(form.time)) {
+    if (
+      scheduleLoaded &&
+      appointmentsLoaded &&
+      form.time &&
+      !options.includes(form.time)
+    ) {
       setForm((prev) => ({ ...prev, time: "" }));
     }
-  }, [form.date, schedule, vetAppointments, vetData]);
+  }, [form.date, form.time, schedule, vetAppointments, vetData, scheduleLoaded, appointmentsLoaded]);
 
   React.useEffect(() => {
     const loadAppointments = async () => {
       if (!vetid || !form.date) {
         setVetAppointments([]);
+        setAppointmentsLoaded(false);
         return;
       }
+      setAppointmentsLoaded(false);
       try {
         const res = await fetch(
           `http://localhost:3004/appointments?vetId=${vetid}&date=${form.date}`
@@ -368,6 +379,8 @@ export default function FindVetArrangeMeeting() {
       } catch (e) {
         console.error(e);
         setVetAppointments([]);
+      } finally {
+        setAppointmentsLoaded(true);
       }
     };
     loadAppointments();
@@ -454,7 +467,7 @@ export default function FindVetArrangeMeeting() {
       const payload = {
         ownerId: ownerId,
         vetId: vetid,
-        petId: form.petId,
+        petId: form.petId === "unregistered" ? "" : form.petId,
         date: form.date,
         time: form.time,
         service: form.service,
@@ -873,6 +886,7 @@ export default function FindVetArrangeMeeting() {
                         value={form.petId}
                         onChange={(e) => updateForm("petId", e.target.value)}
                       >
+                        <MenuItem value="unregistered">Μη καταχωρημένο</MenuItem>
                         {pets.map((pet) => (
                           <MenuItem key={pet.id} value={String(pet.id)}>
                             {pet.name}
@@ -911,7 +925,11 @@ export default function FindVetArrangeMeeting() {
                     <div>
                       <b>Κατοικίδιο</b>
                       <span>:</span>
-                      <span>{pets.find((p) => String(p.id) === String(form.petId))?.name || "—"}</span>
+                      <span>
+                        {form.petId === "unregistered"
+                          ? "Μη καταχωρημένο"
+                          : pets.find((p) => String(p.id) === String(form.petId))?.name || "—"}
+                      </span>
                     </div>
                     <div><b>Ημέρα</b><span>:</span><span>{form.date || "—"}</span></div>
                     <div><b>Ώρα</b><span>:</span><span>{form.time || "—"}</span></div>
