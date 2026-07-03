@@ -2,90 +2,140 @@
 
 A full-featured frontend web application built with **React** and **JSON Server** for managing pet health records, veterinary appointments, and lost & found pet reports.
 
-The project was developed as a university assignment for the **Human-Computer Interaction (ΥΣ08)** course at the **Department of Informatics and Telecommunications, National and Kapodistrian University of Athens (NKUA)**.
-
-The application implements the frontend interface of a digital platform for the **registration and monitoring of pet health records**, with separate user flows for pet owners, veterinarians, and public visitors.
-
-## Demo Video
+Developed as a university **Human-Computer Interaction (ΥΣ08)** project at the **Department of Informatics & Telecommunications, National and Kapodistrian University of Athens (NKUA)**.
 
 You can view the application in the demo video below:
-Check here: https://youtu.be/DGQiSj9kfL4?si=Y4WaIGrp-1zsYlJl
 
-## Overview
+[Watch the demo video on YouTube](Check here: https://youtu.be/DGQiSj9kfL4?si=Y4WaIGrp-1zsYlJl)
 
-**PawHealth Portal** is a civic digital platform designed to connect pet owners and veterinarians through a user-friendly interface.
+---
 
-The platform allows users to manage pet health data, view and print health records, schedule veterinary appointments, submit lost or found pet reports, and access role-based services depending on the type of user.
+## 📌 Overview
 
-The application supports three main user roles:
+**PawHealth Portal** is a digital platform designed to connect pet owners, veterinarians, and citizens through a user-friendly interface for pet health monitoring and pet-related services.
 
-- **Pet Owners** — manage pets, health records, lost/found reports, and appointments
-- **Veterinarians** — register pets, log medical procedures, manage availability, and handle appointment requests
-- **Guests / Citizens** — browse lost pet reports and submit found-pet notifications without logging in
+The platform enables users to manage pet health data, view and print pet health records, schedule veterinary appointments, and submit lost or found pet reports.
 
-This is a **frontend-only academic prototype**. Data persistence is simulated using **JSON Server** and a local `db.json` file.
+The application supports three main user roles, each with a personalized experience:
 
+- 🐶 **Pet Owners** — manage their pets' health records, report lost/found animals, search for veterinarians, and book appointments
+- 🩺 **Veterinarians** — register pets, record medical procedures, manage availability, and handle appointment requests
+- 👤 **Guests / Citizens** — browse lost pets, submit found-pet reports, search for veterinarians, book appointments without an account, and register on the platform
+  
+This is a **frontend-only academic prototype**. The backend is simulated using **JSON Server** for demonstration purposes.
 
-## Key Features
+---
+
+## ✨ Key Features
 
 ### For Pet Owners
 
-Pet owners can access personalized services related to their pets and veterinary appointments.
-
-Implemented features include:
-
 - View a personalized pet owner dashboard
-- View and edit owner profile information
-- View pet health passport / health book
-- Print pet health record information
+- View and edit profile information
+- View and print the health passport / health book of registered pets
 - Submit a lost pet report
 - Save lost pet reports as draft before final submission
 - Submit a found pet report
-- View history of submitted lost/found reports
-- Search for veterinarians using criteria such as location, availability, specialty, education, and experience
+- Browse the history of submitted reports
+- Search for veterinarians by area, availability, specialty, education, and experience
 - View veterinarian profiles and details
 - Book appointments for pet registration or medical procedures
 - View appointment status: pending, confirmed, or cancelled
 - Cancel pending or confirmed appointments
-- View appointment history
-- Submit ratings and reviews for veterinarians
+- View appointment history and appointment details
+- Rate and review veterinarians after visits
 
 ### For Veterinarians
 
-Veterinarians can manage their professional profile, availability, appointments, and pet medical records.
-
-Implemented features include:
-
 - View a personalized veterinarian dashboard
-- Create and edit a professional profile
-- Manage information such as VAT number, name, gender, education, experience, and clinic address
-- Register a pet using microchip information
+- Create and manage a professional profile
+- Add professional information such as VAT number, full name, gender, education, experience, and clinic address
+- Register a new pet using microchip information
 - Add pet identity details such as species, gender, name, and date of birth
 - Save pet registration forms as draft before final submission
 - View pet registration history
 - Record medical procedures such as vaccinations, sterilization, surgeries, and other medical acts
 - Register pet life events such as loss, found, transfer, adoption, and fostering
-- View and print pet medical history
+- View and print the pet's medical history
 - Create and manage availability slots
-- Manage appointment requests from pet owners
+- Manage appointment requests
 - Confirm or reject appointment requests
 - Receive cancellation updates from pet owners
 - View ratings and reviews submitted by owners
 
 ### For Guests / Citizens
 
-Public visitors can use part of the platform without authentication.
+Public visitors can use several platform services without creating an account.
 
 Implemented features include:
 
-- Browse lost pet listings
-- View lost pet details
-- Submit a found-pet report
+- Browse lost pet listings without an account
+- View details about lost pets
+- Submit a found-pet report linked to a lost-pet listing
 - Provide finder details, location, date, and photo information
+- Search for veterinarians without an account
+- View veterinarian profiles and basic professional information
+- Book an appointment with a veterinarian without logging in
+- Create a new account / register on the platform
+- Log in to access personalized owner or veterinarian services
 - Access general informational pages such as FAQ, Terms of Use, and Privacy Policy
 
+---
+
+## 🎨 UI/UX Focus
 
 The project was designed with emphasis on **Human-Computer Interaction** principles and usability.
+
+Main UI/UX goals:
+
+- Clear separation between pet owner and veterinarian workflows
+- Simple and understandable navigation
+- Personalized information based on the logged-in user
+- Accessible public browsing for lost pets
+- Easy-to-use forms for lost and found pet reports
+- Clear appointment status handling
+- Consistent layout across pages
+- Reusable interface components
+- Helpful navigation elements such as breadcrumbs, navigation bar, footer, and back buttons
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React |
+| Project Setup | Create React App |
+| Language | JavaScript |
+| Routing | React Router |
+| UI Components | Material UI, Bootstrap |
+| Styling | CSS |
+| Mock Backend | JSON Server |
+| Data Storage | `db.json` |
+| Package Manager | npm |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js ≥ 14
+- npm
+
+### Run the app
+
+Start the mock backend (**JSON Server**) and the React app in two separate terminals:
+
+```bash
+# Terminal 1 – mock API
+npx json-server --watch db.json --port 3004
+
+# Terminal 2 – React app
+npm start
+
+Open [http://localhost:3000](http://localhost:3004) in your browser.
+
 
 
 ## Tech Stack
