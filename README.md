@@ -148,20 +148,6 @@ http://localhost:3004
 
 ---
 
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Frontend | React |
-| Language | JavaScript |
-| Routing | React Router |
-| UI Components | Material UI, Bootstrap |
-| Styling | CSS |
-| Mock Backend | JSON Server |
-| Data Storage | `db.json` |
-| Package Manager | npm |
-
 ## Project Structure
 
 ```text
