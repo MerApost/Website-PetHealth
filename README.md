@@ -12,7 +12,7 @@ You can view the application in the demo video below:
 
 ## 📌 Overview
 
-**PawHealth Portal** is a digital platform designed to connect pet owners, veterinarians, and citizens through a user-friendly interface for pet health monitoring and pet-related services.
+**PetHealth Portal** is a digital platform designed to connect pet owners, veterinarians, and citizens through a user-friendly interface for pet health monitoring and pet-related services.
 
 The platform enables users to manage pet health data, view and print pet health records, schedule veterinary appointments, and submit lost or found pet reports.
 
@@ -133,9 +133,20 @@ npx json-server --watch db.json --port 3004
 
 # Terminal 2 – React app
 npm start
+```
+Open the application in your browser:
 
-Open [http://localhost:3000](http://localhost:3004) in your browser.
+```text
+http://localhost:3000
+```
 
+The mock API will be available at:
+
+```text
+http://localhost:3004
+```
+
+---
 
 
 ## Tech Stack
@@ -184,3 +195,16 @@ PawHealth-Portal/
 ├── package-lock.json
 ├── SUBMISSION_README.txt        # Academic submission notes and demo credentials
 └── README.md                   # Project documentation
+```
+## 🎓 Academic Context
+
+This project was built for the **Human-Computer Interaction (ΥΣ08)** course at the **Department of Informatics & Telecommunications, National and Kapodistrian University of Athens**, as part of a three-phase assignment:
+
+- **A1** — Requirements analysis & user personas
+- **A2** — Illustrated scenario / storyboard / wireframes
+- **A3** — Full frontend implementation of the application
+
+The A3 assignment focused on implementing the frontend interface of a new digital service for the **registration and monitoring of pet health records**.
+
+**Note:** This is a frontend-only implementation. The backend is simulated using **JSON Server** for demonstration purposes.
+
